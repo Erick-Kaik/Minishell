@@ -3,133 +3,144 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/20 20:02:10 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/07 21:30:22 by ekaik-ne         ###   ########.fr       */
+/*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
+/*   Updated: 2023/03/13 16:34:26 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_read_comand(char *str, t_var **var, t_history **history)
+void ft_starting_variables(char **envp)
 {
-
-	ft_add_history(str, history);
-	if (ft_strnstr(str, "cd", ft_strlen(str)) != NULL)
-		ft_cd(ft_strnstr(str, "cd", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "echo", ft_strlen(str)) != NULL) // ->
-		ft_echo(ft_strnstr(str, "echo", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "pwd", ft_strlen(str)) != NULL) // ->
-		ft_pwd(ft_strnstr(str, "pwd", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "env", ft_strlen(str)) != NULL) // ->
-		ft_env(ft_strnstr(str, "env", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "exit", ft_strlen(str)) != NULL) // printa exit e cria o file e dps  fecha
-		ft_exit();
-	else if (ft_strnstr(str, "$?", ft_strlen(str)) != NULL)
-		ft_vl_last_comand(var, 1);
-	else if (ft_strnstr(str, "export", ft_strlen(str)) != NULL)
-		ft_export(ft_strnstr(str, "export", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "unset", ft_strlen(str)) != NULL)
-		ft_unset(ft_strnstr(str, "unset", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "history", ft_strlen(str)) != NULL) // ->
-		ft_history(ft_strnstr(str, "history", ft_strlen(str)), *history, var);
+    ft_set_envp_t_var(envp);
 }
 
-char *ft_jump_spaces(char const *str, char *comand)
+void ft_set_envp_t_var(char **envp)
 {
-	int		x;
-	int		y;
-	char	*txt;
-	char	*path;
+    int index;
+    char **aux;
 
-	y = 0;
-	x = ft_strlen(comand);
-	txt = ft_strnstr(str, comand, ft_strlen(str));
-	while ((txt[x] == ' ' || txt[x] == '	') && txt[x] != '\0')
-		x++;
-	path = malloc(sizeof(char *) * (ft_strlen(txt) - x - 1));
-	if (path == NULL)
-		return (NULL);
-	while (txt[x] != '\n' && txt[x] != '\0')
-		path[y++] = txt[x++];
-	path[y] = '\0';
-	return (path);
-}
-
-char *ft_get_var(char *str)
-{
-	int		x;
-	int		y;
-	char	*temp;
-	char	*var;
-
-	x = 0;
-	y = 0;
-	var = NULL;
-	temp = ft_strnstr(str, "$", ft_strlen(str));
-	if (temp != NULL)
-	{
-		while (temp[x + 1] != 32 && temp[x + 1] != 9
-			&& temp[x + 1] != '\0' && temp[x + 1] != '\n')
-			x++;
-		var = malloc(sizeof(char *) * x);
-		x = 1;
-		while (temp[x] != 32 && temp[x] != 11
-			&& temp[x] != '\0' && temp[x] != '\n')
-			var[y++] = temp[x++];
-		var[y] = '\0';
-	}
-	return (var);
+    index = 0;
+    while (envp[index++] != NULL)
+    {
+        aux = ft_split(envp[index], '=');
+        if (aux == NULL)
+            break;
+        if (g_data.var == NULL)
+            g_data.var = ft_new_lst_var(aux[0], aux[1]);
+        else
+            ft_add_lst_var(&g_data.var, ft_new_lst_var(aux[0], aux[1]));
+        free(aux);
+    }
 }
 
 void ft_get_folder(void)
 {
-	char str[PATH_MAX];
+    char str[PATH_MAX];
 	char **folder;
-	int x;
+    char *temp;
+    int x;
 
 	x = 0;
 	folder = NULL;
-	if (getcwd(str, sizeof(str)) != NULL)
-	{
-		if (ft_strlen(str) > 1)
+    temp = ft_strjoin(getenv("USER"), ":~/");
+    if (getcwd(str, sizeof(str)) != NULL)
+    {
+        if (ft_strlen(str) > 1)
 		{
 			folder = ft_split(str, '/');
 			while (folder[x] != NULL)
 				x++;
-			ft_printf("%s:~/%s $->", getenv("USER"), folder[x - 1]);
+            temp = ft_strjoin_mod(temp, folder[x - 1]);
 		}
-		else
-			ft_printf("%s:~/$->", getenv("USER"));
-	}
-	else
-		ft_printf("%s:~/$->", getenv("USER"));
-	if (folder != NULL)
-		free(folder);
+    }
+    temp = ft_strjoin_mod(temp, "$->");
+    ft_putstr_fd(temp, 0);
+    free(temp);
 }
 
-void ft_exit()
+void ft_check_line(char *line)
 {
-	t_var *var;
-	t_history *history;
-
-	var = ft_create_and_send_var(0, NULL);
-	history = ft_create_and_send_history(0);
-	
-	ft_clear_var(&var, ft_del_var);
-	ft_clear_history(&history, ft_del_history);
-	ft_printf("exit\n");
-	exit(1);
+    int index;
+    char **broke_line;
+    
+    index = 0;
+    g_data.fd = 0;
+    g_data.print = NULL;
+    getcwd(g_data.path_comand, sizeof(g_data.path_comand));
+    broke_line = ft_broke_line(line);
+    while (broke_line[index] != NULL) // somente printar se for erro, o print tem q ser a ultima coisa
+    {
+        if (ft_its_a_redirector(broke_line[index]) == 1)
+            ft_redirector(broke_line, &index);
+        else if (ft_its_a_builtins(broke_line[index]) == 1) // se for uma builtins alem de retornar 1, ja preenche a struct,
+            ft_builtins(broke_line, &index);
+       /*  else if (ft_execute_ft_system(broke_line[index], &index) == 1) //se rodar retorna 1, caso contraio cai no else de erro
+            (void)line; */ //ft_correct_index função paras corrigir corrigir o index
+        else
+            ft_print_error(broke_line, &index);
+    }   
 }
 
-void	ft_add_value_last_com(t_var **var, char *value)
+char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas ou simples) tem q tratar tudo q esta dentro
+{                               // como um indice do tempo, oq estiver fora pode ser no split msm
+    char *aux;
+    char **temp;
+
+    aux = ft_strtrim(line, " ");
+/*     if (ft_)
+        aux = 
+    else if ()
+        aux = 
+    else
+        temp = ft_split(aux, ' '); */
+    //Ou fazer um ft_count para a qtd de strings q terão, dps ir preenchendo via loop, e coloca a regra das aspas, ja no meio, alem de tratar os $
+    temp = ft_split(aux, ' ');
+    free(aux);
+    return (temp);
+}
+
+void ft_builtins(char **line, int *index)
 {
-	t_var *aux;
+    char *aux;
 
-	aux = *var;
-	while (ft_strlen(aux->name) != 2 && (aux->name[0] != '$' && aux->name[1] != '?'))
-		aux = aux->next;
-	aux->content = value;
+    aux = line[*index];
+    if (ft_strlen(aux) == 2 && ft_strnstr(aux, "cd", 2) != NULL)
+        ft_cd(line, index);
+    else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "env", 3) != NULL)
+        ft_env(line, index);
+//    else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "pwd", 3) != NULL)
+//         ft_pwd(line, index);
+/*     else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "echo", 4) != NULL)
+        ft_echo(line, index);
+    else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "exit", 4) != NULL)
+        ft_exit(line, index);
+    else if (ft_strlen(aux) == 5 && ft_strnstr(line, "unset", 5) != NULL)
+        ft_unset(line, index);
+    else if (ft_strlen(aux) == 6 && ft_strnstr(line, "export", 6) != NULL)
+        ft_export(line, index); */
 }
 
+/* int ft_its_a_builtins(char *line)
+{
+    ft_assign_to_struct();
+} */
+
+/*     int x;
+    char *line_t;
+    char *first_word;
+
+    x = 0;
+    first_word = NULL;
+    line_t = ft_strtrim(line, " ");
+    while (line_t[x] != '\0')
+    {
+        if (line_t[x] == ' ' || line_t[x] == '  '
+            || line_t[x] == '>' || line_t[x] == '<') 
+            break;
+        x++;
+    }
+    first_word = malloc(sizeof(char *) * x);
+    ft_memmove(first_word, line_t, x); */

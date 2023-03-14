@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/16 13:11:02 by ekaik-ne          #+#    #+#              #
-#    Updated: 2023/03/06 20:56:29 by ekaik-ne         ###   ########.fr        #
+#    Created: 2023/03/09 10:26:47 by ekaik-ne          #+#    #+#              #
+#    Updated: 2023/03/13 16:11:13 by ekaik-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ GCC =  $(CC) $(CFLAGS)
 
 LIBFT = libft/libft.a
 NAME = minishell
-SRC = main.c utils.c echo.c cd.c pwd.c env.c redirection.c unset.c export.c list_var.c list_history.c history.c signal.c
+SRC = main.c utils.c list_var.c checkers.c redirector.c cd.c env.c
 OBJ = ${SRC:.c=.o}
 
 .PHONY = all bonus clean fclean re
@@ -24,7 +24,7 @@ OBJ = ${SRC:.c=.o}
 all: $(NAME)
 
 ${NAME}: $(OBJ)
-	$(GCC) $(OBJ) $(LIBFT) -o $(NAME)
+	$(GCC) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 
 ${OBJ}: | $(LIBFT)
 

@@ -3,27 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 18:46:06 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/02/09 17:33:59 by ekaik-ne         ###   ########.fr       */
+/*   Created: 2023/03/13 11:17:04 by ekaik-ne          #+#    #+#             */
+/*   Updated: 2023/03/13 16:14:36 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_cd(char *str, t_var **var)
+void ft_cd(char **line, int *index)
 {
-	char	*path;
-	char	*s_value;
-	int		value;
+    int value;
+    char *path;
 
-	path = ft_jump_spaces(str, "cd");
-	value = chdir(path);
-	s_value = ft_itoa(value);
-	ft_add_value_last_com(var, s_value);
-	if (value != 0)
-		ft_printf("No such file or director\n");
-	free(path);
-	free(s_value);
+    value = 0;
+    path = ft_get_path_cd(line, index);
+    if (path != NULL)
+    {
+        if (ft_strlen(path) == 1 && path[0] == '~')
+            value = chdir(getenv("HOME"));
+        else
+            value = chdir(path);
+    }
+    if (value == -1)
+        ft_printf("bash: %s: '%s': No such file or directory\n",
+            line[*index], line[*index + 1]);
+    if (path != NULL)
+        free(path);
+    while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
+        *index += 1;    
+}
+
+char *ft_get_path_cd(char **line, int *index)
+{
+    char *path;
+
+    path = NULL;
+    if (line[*index + 1] == NULL || ft_its_a_redirector(line[*index + 1]) == 1)
+    {
+        path = malloc(sizeof(char) * 1);
+        path[0] = '~';
+        path[1] = '\0';
+    }
+    else if (line[*index + 1] != NULL && ft_its_a_redirector(line[*index + 1]) == 0)
+    {
+        if (line[*index + 2] != NULL && ft_its_a_redirector(line[*index + 2]) == 0)
+        {
+            path = NULL;
+            ft_printf("bash: %s: too many arguments\n", line[*index]);
+        }
+        else
+            path = ft_strjoin(path, line[*index + 1]);
+    }
+    return (path);    
 }

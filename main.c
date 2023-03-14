@@ -3,38 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/16 12:50:15 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/07 15:59:20 by ekaik-ne         ###   ########.fr       */
+/*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
+/*   Updated: 2023/03/13 16:29:14 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char**envp)
-{
-	char		*comand;
-	t_var		*var;
-	t_history	*history;
+t_data	g_data;
 
-	argc = 1;
-	argv = NULL;
-	var = ft_create_and_send_var(1, envp);
-	history = ft_create_and_send_history(1);
-	signal(SIGINT, ft_sig_new_prompt);
-	signal(SIGQUIT, ft_sig_close);
-	while (1)
-	{
-		ft_get_folder();
-		comand = get_next_line(0);
-		if (comand != NULL)
-		{
-			ft_read_comand(comand, &var, &history);
-			free (comand);
-		}
-		else if (comand == NULL)
-			ft_sig_close(SIGQUIT);
-	}
-	return (0);
+int main (int argc, char **argv, char **envp)
+{
+    char    *line;
+
+    (void)argc;
+    (void)argv;
+    ft_starting_variables(envp);
+    while (1)
+    {
+        ft_get_folder();
+        line = readline(" ");
+        //if (line == NULL)
+            //Função de fechar
+        ft_check_line(line);
+        if (g_data.print != NULL)
+        {
+            ft_putstr_fd(g_data.print, g_data.fd);
+            free(g_data.print);
+        }
+        free(line);
+    }
+    
+
+    return (0);
 }
