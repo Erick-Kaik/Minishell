@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirector.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:58:33 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/13 22:00:18 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:10:58 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void ft_redirector(char **line, int *index)
             ft_overwriting(line, index);
         else if (line[*index][0] == '<')
             ft_input(line, index);
+/*      else if (line[*index][0] == '|')
+            ft_pipe(); */
     }
 }
 

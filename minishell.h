@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/13 16:11:01 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:31:32 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,14 @@
 # include <readline/history.h>
 # include <linux/limits.h>
 
-typedef struct s_redirection
-{
-    int     redirection;
-    int     fd;
-    char    *name;
-
-}   t_redirection;
-
-
 typedef struct s_echo
 {
     int     echo;
-    char    *flag;
+    int     order; //vou criar a ordem de print via index
+    int     flag;
     char    *text;
-    t_redirection red;
+    char    *print;
+    int     fd;
     
 }   t_echo;
 
@@ -52,15 +45,17 @@ typedef struct s_export
 
 typedef struct s_env
 {
-    int env;
-    t_redirection red;
+    int     env;
+    char    *print;
+    int     fd;
 
 }   t_env;
 
 typedef struct s_pdw
 {
-    int pdw;
-    t_redirection red;
+    int     pdw;
+    char    *print;
+    int     fd;
 
 }   t_pwd;
 
@@ -86,21 +81,27 @@ typedef struct s_var
 
 }	t_var;
 
+typedef struct s_error
+{
+    int     error;
+    char    *print;
+
+}   t_error;
+
+
 typedef struct s_data
 {
-    t_echo          *echo;
-    t_cd            *cd;
-    t_export        *export;
-    t_env           *env;
-    t_pwd           *pwd;
-    t_unset         *unset;
-    t_exit          *exit;
-    t_redirection   *redirection;
+    t_echo          echo;
+    t_cd            cd;
+    t_export        export;
+    t_env           env;
+    t_pwd           pwd;
+    t_unset         unset;
+    t_exit          exit;
     t_var           *var;
+    t_error         error;
     pid_t           pid;
     int             fd;
-    int             check_exit;
-    char            *print;
     char            path_comand[PATH_MAX];
     
 }   t_data;
@@ -137,5 +138,10 @@ void ft_cd(char **line, int *index);
 char *ft_get_path_cd(char **line, int *index);
 
 void ft_env(char **line, int *index);
+void ft_get_print_env(void);
+
+void ft_pwd(char **line, int *index);
+
+void ft_echo(char **line, int *index);
 
 #endif

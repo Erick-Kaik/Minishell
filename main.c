@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/13 16:29:14 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:52:31 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,8 @@ int main (int argc, char **argv, char **envp)
         //if (line == NULL)
             //Função de fechar
         ft_check_line(line);
-        if (g_data.print != NULL)
-        {
-            ft_putstr_fd(g_data.print, g_data.fd);
-            free(g_data.print);
-        }
+        //criar ft para printar coisas tipo echo e limpar as structs
         free(line);
     }
-    
-
     return (0);
 }

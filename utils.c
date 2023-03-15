@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/13 16:34:26 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:39:51 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void ft_check_line(char *line)
     
     index = 0;
     g_data.fd = 0;
-    g_data.print = NULL;
     getcwd(g_data.path_comand, sizeof(g_data.path_comand));
+    add_history(line);
     broke_line = ft_broke_line(line);
     while (broke_line[index] != NULL) // somente printar se for erro, o print tem q ser a ultima coisa
     {
-        if (ft_its_a_redirector(broke_line[index]) == 1)
+        if (ft_its_a_redirector(broke_line[index]) >= 1)
             ft_redirector(broke_line, &index);
         else if (ft_its_a_builtins(broke_line[index]) == 1) // se for uma builtins alem de retornar 1, ja preenche a struct,
             ft_builtins(broke_line, &index);
@@ -111,11 +111,11 @@ void ft_builtins(char **line, int *index)
         ft_cd(line, index);
     else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "env", 3) != NULL)
         ft_env(line, index);
-//    else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "pwd", 3) != NULL)
-//         ft_pwd(line, index);
-/*     else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "echo", 4) != NULL)
+   else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "pwd", 3) != NULL)
+        ft_pwd(line, index);
+     else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "echo", 4) != NULL)
         ft_echo(line, index);
-    else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "exit", 4) != NULL)
+/*    else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "exit", 4) != NULL)
         ft_exit(line, index);
     else if (ft_strlen(aux) == 5 && ft_strnstr(line, "unset", 5) != NULL)
         ft_unset(line, index);
