@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/15 17:31:32 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:43:05 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@
 typedef struct s_echo
 {
     int     echo;
-    int     order; //vou criar a ordem de print via index
     int     flag;
-    char    *text;
     char    *print;
     int     fd;
     
@@ -139,9 +137,20 @@ char *ft_get_path_cd(char **line, int *index);
 
 void ft_env(char **line, int *index);
 void ft_get_print_env(void);
+void ft_clear_env(void);
 
 void ft_pwd(char **line, int *index);
+void ft_clear_pwd(void); 
 
 void ft_echo(char **line, int *index);
+void ft_get_str_echo(char **line, int *index);
+void ft_clear_echo(void);
+
+void ft_clear_struct(void);
+
+void ft_exit(char **line);
+
+void ft_export(char **line, int *index);
+
 
 #endif

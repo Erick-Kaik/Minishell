@@ -6,11 +6,22 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/15 17:39:51 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/16 14:13:19 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void ft_clear_struct(void)
+{
+    g_data.fd = 0;
+    if (g_data.env.env > 0)
+        ft_clear_env();
+    if (g_data.pwd.pdw > 0)
+        ft_clear_pwd(); 
+    if (g_data.echo.echo > 0)
+        ft_clear_echo();
+}
 
 void ft_starting_variables(char **envp)
 {
@@ -67,7 +78,6 @@ void ft_check_line(char *line)
     char **broke_line;
     
     index = 0;
-    g_data.fd = 0;
     getcwd(g_data.path_comand, sizeof(g_data.path_comand));
     add_history(line);
     broke_line = ft_broke_line(line);
@@ -115,12 +125,12 @@ void ft_builtins(char **line, int *index)
         ft_pwd(line, index);
      else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "echo", 4) != NULL)
         ft_echo(line, index);
-/*    else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "exit", 4) != NULL)
-        ft_exit(line, index);
-    else if (ft_strlen(aux) == 5 && ft_strnstr(line, "unset", 5) != NULL)
+    else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "exit", 4) != NULL)
+        ft_exit(line);
+   else if (ft_strlen(aux) == 5 && ft_strnstr(aux, "unset", 5) != NULL)
         ft_unset(line, index);
-    else if (ft_strlen(aux) == 6 && ft_strnstr(line, "export", 6) != NULL)
-        ft_export(line, index); */
+    else if (ft_strlen(aux) == 6 && ft_strnstr(aux, "export", 6) != NULL)
+        ft_export(line, index);
 }
 
 /* int ft_its_a_builtins(char *line)

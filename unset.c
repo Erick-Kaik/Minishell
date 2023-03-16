@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/16 08:50:51 by ekaik-ne         ###   ########.fr       */
+/*   Created: 2023/03/16 14:12:25 by ekaik-ne          #+#    #+#             */
+/*   Updated: 2023/03/16 17:47:23 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+//vem o unset e dps tem q pegar todos os indices da frente e apagar, msm q algum no meio n apague o resto sim
 
-t_data	g_data;
-
-int main (int argc, char **argv, char **envp)
+void ft_unset(char **line, int *index)
 {
-    char    *line;
-
-    (void)argc;
-    (void)argv;
-    ft_starting_variables(envp);
-    while (1)
+    *index += 1;
+    while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
     {
-        ft_get_folder();
-        line = readline(" ");
-        //if (line == NULL)
-            //Função de fechar
-        ft_check_line(line);
-        ft_clear_struct();
-        //criar ft para printar coisas tipo echo e limpar as structs
-        free(line);
+        
     }
-    return (0);
+    
 }

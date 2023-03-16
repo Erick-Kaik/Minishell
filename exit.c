@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/16 08:50:51 by ekaik-ne         ###   ########.fr       */
+/*   Created: 2023/03/16 10:25:11 by ekaik-ne          #+#    #+#             */
+/*   Updated: 2023/03/16 10:48:17 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
-
-int main (int argc, char **argv, char **envp)
+void ft_exit(char **line)
 {
-    char    *line;
+    int x;
 
-    (void)argc;
-    (void)argv;
-    ft_starting_variables(envp);
-    while (1)
-    {
-        ft_get_folder();
-        line = readline(" ");
-        //if (line == NULL)
-            //Função de fechar
-        ft_check_line(line);
-        ft_clear_struct();
-        //criar ft para printar coisas tipo echo e limpar as structs
+    x = 0;
+    while (line[x] != NULL)
+        free(line[x++]);
+    if (line != NULL)
         free(line);
-    }
-    return (0);
+    ft_clear_struct();
+    ft_putstr_fd("loggout\n", 0);
+    exit (1);
 }

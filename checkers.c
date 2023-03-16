@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 18:26:18 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/15 16:43:34 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/16 09:51:31 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void ft_print_error(char **line, int *index)
     else
         g_data.error.print = ft_strjoin_mod("bash: ", line[*index]);
     g_data.error.print = ft_strjoin_mod(g_data.error.print, ": command not found\n");
+    ft_putstr_fd(g_data.error.print, 0);
+    free(g_data.error.print);
     while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
         *index += 1;
 }

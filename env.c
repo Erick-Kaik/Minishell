@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:38:34 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/15 17:12:37 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/16 14:08:08 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void ft_env(char **line, int *index)
         ft_printf("%s: '%s': No such file or directory\n", line[*index] ,line[*index + 1]);
     else
         ft_get_print_env();
+    ft_putstr_fd(g_data.env.print, g_data.env.fd);
     while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
         *index += 1;  
 }
@@ -45,4 +46,17 @@ void ft_get_print_env(void)
 		aux = aux->next;
 	}
     
+}
+
+void ft_clear_env(void)
+{
+    if (g_data.env.env > 0)
+        g_data.env.env = 0;
+    if (g_data.env.fd != 0)
+        g_data.env.fd = 0;
+    if (g_data.env.print != NULL)
+    {
+        free(g_data.env.print);
+        g_data.env.print = NULL;
+    }
 }
