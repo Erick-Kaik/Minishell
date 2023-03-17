@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/16 14:13:19 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:30:57 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void ft_clear_struct(void)
 
 void ft_starting_variables(char **envp)
 {
+    g_data.envp = envp;
     ft_set_envp_t_var(envp);
 }
 
@@ -87,8 +88,8 @@ void ft_check_line(char *line)
             ft_redirector(broke_line, &index);
         else if (ft_its_a_builtins(broke_line[index]) == 1) // se for uma builtins alem de retornar 1, ja preenche a struct,
             ft_builtins(broke_line, &index);
-       /*  else if (ft_execute_ft_system(broke_line[index], &index) == 1) //se rodar retorna 1, caso contraio cai no else de erro
-            (void)line; */ //ft_correct_index função paras corrigir corrigir o index
+        else if (ft_execute_ft_system(broke_line, &index) != -1) //se rodar retorna 1, caso contraio cai no else de erro
+            continue; 
         else
             ft_print_error(broke_line, &index);
     }   

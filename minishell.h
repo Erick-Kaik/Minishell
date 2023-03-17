@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/16 11:43:05 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:19:12 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <linux/limits.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_echo
 {
@@ -100,6 +102,7 @@ typedef struct s_data
     t_error         error;
     pid_t           pid;
     int             fd;
+    char            **envp;
     char            path_comand[PATH_MAX];
     
 }   t_data;
@@ -151,6 +154,13 @@ void ft_clear_struct(void);
 void ft_exit(char **line);
 
 void ft_export(char **line, int *index);
+
+void ft_unset(char **line, int *index);
+int ft_check_exist_var(char *name_var);
+void ft_delete_var(char *name_var);
+
+int ft_execute_ft_system(char **line, int *index);
+char **ft_limit_execve(char **line, int *index);
 
 
 #endif
