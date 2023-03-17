@@ -6,7 +6,7 @@
 #    By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/09 10:26:47 by ekaik-ne          #+#    #+#              #
-#    Updated: 2023/03/17 12:50:14 by ekaik-ne         ###   ########.fr        #
+#    Updated: 2023/03/17 17:37:10 by ekaik-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ GCC =  $(CC) $(CFLAGS)
 
 LIBFT = libft/libft.a
 NAME = minishell
-SRC = main.c utils.c list_var.c checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c export.c unset.c exec.c
+SRC = main.c utils.c list_var.c checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c export.c unset.c exec.c split_line.c
 OBJ = ${SRC:.c=.o}
 
 .PHONY = all bonus clean fclean re

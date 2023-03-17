@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/17 16:30:57 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:37:24 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,24 +93,6 @@ void ft_check_line(char *line)
         else
             ft_print_error(broke_line, &index);
     }   
-}
-
-char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas ou simples) tem q tratar tudo q esta dentro
-{                               // como um indice do tempo, oq estiver fora pode ser no split msm
-    char *aux;
-    char **temp;
-
-    aux = ft_strtrim(line, " ");
-/*     if (ft_)
-        aux = 
-    else if ()
-        aux = 
-    else
-        temp = ft_split(aux, ' '); */
-    //Ou fazer um ft_count para a qtd de strings q terão, dps ir preenchendo via loop, e coloca a regra das aspas, ja no meio, alem de tratar os $
-    temp = ft_split(aux, ' ');
-    free(aux);
-    return (temp);
 }
 
 void ft_builtins(char **line, int *index)
