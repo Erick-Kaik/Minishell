@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/17 13:19:12 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/20 11:19:17 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_data
     pid_t           pid;
     int             fd;
     char            **envp;
+    int teste;
     char            path_comand[PATH_MAX];
     
 }   t_data;
@@ -162,5 +163,6 @@ void ft_delete_var(char *name_var);
 int ft_execute_ft_system(char **line, int *index);
 char **ft_limit_execve(char **line, int *index);
 
+void ft_clear_split_line(char **broke_line);
 
 #endif

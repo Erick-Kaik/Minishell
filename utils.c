@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/17 17:37:24 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:50:23 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void ft_get_folder(void)
     temp = ft_strjoin_mod(temp, "$->");
     ft_putstr_fd(temp, 0);
     free(temp);
+    ft_clear_split_line(folder);
 }
 
 void ft_check_line(char *line)
@@ -92,7 +93,23 @@ void ft_check_line(char *line)
             continue; 
         else
             ft_print_error(broke_line, &index);
-    }   
+    }
+    if (broke_line != NULL)
+        ft_clear_split_line(broke_line);
+}
+
+void ft_clear_split_line(char **str)
+{
+    int index;
+
+    index = 0;
+    while (str[index] != NULL)
+    {
+        free(str[index]);
+        index++;
+    }
+    if (str != NULL)
+        free(str);
 }
 
 void ft_builtins(char **line, int *index)
