@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/20 11:19:17 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:30:44 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void ft_clear_struct(void);
 void ft_exit(char **line);
 
 void ft_export(char **line, int *index);
+void ft_adding_export(char **line, int *index);
+int ft_check_name_var(char *str);
 
 void ft_unset(char **line, int *index);
 int ft_check_exist_var(char *name_var);
@@ -164,5 +166,15 @@ int ft_execute_ft_system(char **line, int *index);
 char **ft_limit_execve(char **line, int *index);
 
 void ft_clear_split_line(char **broke_line);
+
+void ft_start_signals(void);
+void ft_sig_new_prompt(int sig);
+void ft_sig_close(int sig);
+
+
+int ft_open_quotes(char *line);
+char *ft_get_more_content(char *line);
+int ft_count_split(char *str);
+
 
 #endif

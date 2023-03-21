@@ -6,28 +6,14 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:55:04 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/16 14:06:16 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:50:56 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* criar uma ft para verificar se a o '='
-pos split
-1° indice é igual ao nome
-2° indice pode ser o igual ou o valor tem q ver
-
- */
-
-
 void ft_export(char **line, int *index)
 {
-    int x;
-    char **aux;
-    char *name;
-    char *value;
-
-    x = 0;
     if (line[*index + 1] != NULL && ft_strchr(line[*index + 1], '=') != NULL)
         *index += 1;
     else if (line[*index + 1] == NULL || ft_strchr(line[*index + 1], '=') == NULL)
@@ -35,6 +21,22 @@ void ft_export(char **line, int *index)
         *index += 1;
         return ;
     }
+    if (ft_check_name_var(line[*index]) == 1)
+        return;
+    ft_adding_export(line, index);
+    ft_clear_env();
+    while (line[*index] != NULL && ft_its_a_builtins(line[*index]) == 0)
+        *index += 1;    
+}
+
+void ft_adding_export(char **line, int *index)
+{
+    int x;
+    char **aux;
+    char *name;
+    char *value;
+
+    x = 0;
     aux = ft_split(line[*index], '=');
     while (aux[x] != NULL)
     {
@@ -50,6 +52,18 @@ void ft_export(char **line, int *index)
         x++;
     }
     ft_add_lst_var(&g_data.var, ft_new_lst_var(name, value));
-    while (line[*index] != NULL && ft_its_a_builtins(line[*index]) == 0)
-        *index += 1;    
+}
+
+int ft_check_name_var(char *str)
+{
+    size_t i;
+
+    i = 0;
+    while (i < ft_strlen(str) || str[i] == '=')
+    {
+        if (ft_isalnum(str[i]) == 0 && str[i] != '_')
+            return (1);
+        i++;
+    }
+    return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/20 15:43:09 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/21 17:08:33 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas 
 
     // i = 0;
     aux = ft_strtrim(line, " ");
+    while (ft_open_quotes(aux) == 1)
+        aux = ft_get_more_content(aux);
+    // temp = super função pra cortar tudo
     // index = ft_count_split(line);
     // temp = (char **)malloc(sizeof(char *) * (index + 1));
     // while (i < index)
@@ -30,6 +33,48 @@ char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas 
     temp = ft_split(aux, ' ');
     free(aux);
     return (temp);
+}
+
+int ft_open_quotes(char *line)
+{
+    int i;
+    int quote;
+    int count;
+
+    i = 0;
+    quote = 0;
+    count = 0;
+    while (line[i] != '\0')
+    {
+        if ((line[i] == 34 || line[i] == 39) && quote == 0)
+        {
+            quote = line[i];
+            count++;
+        }
+        else if (quote > 0 && line[i] == quote)
+        {
+            quote = 0;
+            count++;
+        }
+        i++;
+    }
+    if (count % 2 == 0)
+        return (0);
+    else
+        return (1);
+}
+
+char *ft_get_more_content(char *line)
+{
+    char *aux;
+    char *temp;
+	rl_on_new_line();
+    temp = readline("> ");
+    aux = ft_strtrim(temp, " ");
+    free(temp);
+    aux = ft_strjoin_mod(aux, "\n");
+    line = ft_strjoin_mod(line, aux);
+    return (line);
 }
 
 char *ft_get_var(char *name_var)
@@ -68,7 +113,7 @@ int ft_count_split(char *str)
             quotes = 0;
         i++;
     }
-    return (quotes);
+    return (count);
 }
 
 /*
