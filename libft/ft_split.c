@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 16:00:04 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2022/07/13 16:41:20 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:06:13 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	**ft_split_words(char const *str, char c, char **temp, size_t count)
 	while (word < count)
 	{
 		while (str[x] != '\0' && str[x] == c)
-			x++;
+			x++;    
 		while (str[x] != '\0' && str[x] != c)
 		{
 			x++;

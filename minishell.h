@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/21 15:30:44 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:02:30 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,10 @@ void ft_sig_close(int sig);
 int ft_open_quotes(char *line);
 char *ft_get_more_content(char *line);
 int ft_count_split(char *str);
+int ft_jump_quotes(char *str, char quote, int i);
 
+char **ft_split_words(char *str, char **split, int count);
+int ft_lenth_split(char *str, int *i);
+char *ft_check_var(char *str, int *i);
 
 #endif
