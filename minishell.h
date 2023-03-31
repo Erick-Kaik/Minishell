@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/22 17:02:30 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:50:25 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,15 @@ typedef struct s_data
     pid_t           pid;
     int             fd;
     char            **envp;
-    int teste;
+    char            *str_history;
+    int             history;
+    int             status;
     char            path_comand[PATH_MAX];
     
 }   t_data;
 
 extern t_data	g_data;
+
 
 t_var   *ft_new_lst_var(char *title, char *value);
 void    ft_add_lst_var(t_var **var, t_var *new);
@@ -179,6 +182,13 @@ int ft_jump_quotes(char *str, char quote, int i);
 
 char **ft_split_words(char *str, char **split, int count);
 int ft_lenth_split(char *str, int *i);
-char *ft_check_var(char *str, int *i);
+char *ft_check_var(char *str, int i, int *index);
+char *ft_get_var(char *name_var);
+void ft_fill_split(char *dest, char *str, int start, int len);
+int ft_fix_index_position(char *str, int i);
+
+void ft_clear_pid(pid_t pid);
+int ft_len_quotes(char *str, char quote, int i);
+int ft_link_var_in_split(char *dest, char* var, int i);
 
 #endif

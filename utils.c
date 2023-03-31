@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/21 08:22:05 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:11:59 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,9 @@ void ft_check_line(char *line)
 {
     int index;
     char **broke_line;
-    
+
     index = 0;
     getcwd(g_data.path_comand, sizeof(g_data.path_comand));
-    add_history(line);
     broke_line = ft_broke_line(line);
     while (broke_line[index] != NULL) // somente printar se for erro, o print tem q ser a ultima coisa
     {

@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/22 17:15:45 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:56:59 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@ char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas 
     aux = ft_strtrim(line, " ");
     while (ft_open_quotes(aux) == 1)
         aux = ft_get_more_content(aux);
-    // temp = super função pra cortar tudo
+    add_history(aux);
     count = ft_count_split(line);
-    // temp = (char **)malloc(sizeof(char *) * (index + 1));
+    temp = (char **)malloc(sizeof(char *) * (count + 1));
     temp = ft_split_words(aux, temp, count);
+/*     // temp = super função pra cortar tudo
+    count = ft_count_split(line);
+    temp = (char **)malloc(sizeof(char *) * (count + 1));
+    temp = ft_split_words(aux, temp, count); */
 
-    temp = ft_split(aux, ' ');
+    // temp = ft_split(aux, ' ');
     free(aux);
     return (temp);
 }
@@ -41,37 +45,93 @@ char **ft_split_words(char *str, char **split, int count)
     index = 0;
     while (index < count)
     {
-        len = 0;
         len = ft_lenth_split(str, &i);
-        split[index] = (char *)malloc(sizeof(char) * (len + 1));
-
+        ft_printf("len = %d\n", len);
+        split[index] = (char *)malloc(sizeof(char) * len);
+        ft_fill_split(split[index], str, i, len);
+        split[index][len] = '\0';
+        ft_printf("split = %s\n", split[index]);
+        i = ft_fix_index_position(str, i);
+        index++;
     }
-    return (NULL);
+    split[index] = NULL;
+    return (split);
+}
+
+int ft_fix_index_position(char *str, int i)
+{
+    int x;
+
+    x = 0;
+    while (str[i + x] == ' ' && str[i + x] != '\0')
+        x++;
+    while (str[i + x] != '\0')
+    {
+        if (str[i + x] == ' ')
+            break;
+        else if (str[i + x] == 34 || str[i + x] == 39)
+            x = ft_jump_quotes(str, str[i + x], (i + x));
+        x++;
+    }
+    return (x);
+}
+
+void ft_fill_split(char *dest, char *str, int start, int len)
+{
+    int i;
+    int i_dest;
+
+    i = 0;
+    i_dest = 0;
+    while (i < len && str[start + i] != '\0')
+    {
+        if (str[start + i] == ' ')
+            break ;
+        else if (str[start + i] == '$')
+           i_dest += ft_link_var_in_split(dest, ft_check_var(&str[start + i], (start + i), &i), i_dest);
+        else
+            dest[i_dest++] = str[start + i];
+        i++;
+    }
+    
+}
+
+int ft_link_var_in_split(char *dest, char* var, int i)
+{
+    int x;
+    
+    x = 0;
+    while (var[x] != '\0')
+    {
+        dest[i + x] = var[x];
+        x++;
+    }
+    return (x);
 }
 
 int ft_lenth_split(char *str, int *i)
 {
+    int x;
     int len;
-    int sub;
+    int quotes;
 
     len = 0;
-    sub = 0;
+    x = 0;
+    quotes = 0;
     while (str[*i] == ' ' && str[*i] != '\0')
         *i += 1;
-    while (str[*i + len] != '\0')
+    while (str[*i + x] != '\0')
     {
-        if (str[*i + len] == ' ')
-            break;
-        else if (str[*i + len] == 34 || str[*i + len] == 39)
-        {
-            len += ft_jump_quotes(str, str[*i + len], (*i + len));
-            sub++;
-        }
-        else if (str[*i + len] == '$')
-            len += ;
+        if ((str[*i + x] == 34 || str[*i + x] == 39) && quotes == 0)
+            quotes = str[*i + x];
+        else if (quotes > 0 && str[*i + x] == quotes)
+            quotes = 0;
+        else if (quotes != 39 && str[*i + x] == '$')
+            len += ft_strlen(ft_check_var(&str[*i + x], (*i + x), &x));
+        else
+            len++;
+        x++;
     }
-    if (sub > 0)
-        len -= (sub * 2);
     return (len);
 }
 
@@ -112,6 +172,26 @@ int ft_jump_quotes(char *str, char quote, int i)
     return (x);
 }
 
+int ft_len_quotes(char *str, char quote, int i)
+{
+    int x;
+    int len;
+
+    x = 0;
+    len = 0;
+    if (str[i + x] != '\0' && str[i + x] == quote)
+        x++;
+    while (str[i + x] != '\0' && str[i + x] != quote)
+    {
+        if (quote == 34 && str[i + x] == '$')
+            len += (int)ft_strlen(ft_check_var(str, (i + x), &x));
+        else
+            len++;
+        x++;
+    }
+    return (len);
+}
+
 int ft_open_quotes(char *line)
 {
     int i;
@@ -147,33 +227,33 @@ char *ft_get_more_content(char *line)
     char *temp;
 	rl_on_new_line();
     temp = readline("> ");
+    if (temp == NULL)
+        ft_sig_close(0);
     aux = ft_strtrim(temp, " ");
     free(temp);
     aux = ft_strjoin_mod(aux, "\n");
+    add_history(aux);
     line = ft_strjoin_mod(line, aux);
+
     return (line);
 }
 
-char *ft_check_var(char *str, int *i)
+char *ft_check_var(char *str, int i, int *index)
 {
     int x;
-    int len;
     char *aux;
+    char *temp;
 
     x = 0;
-    len = 0;
-    if (str[*i + x] == '$')
-        x++;
-    while (str[*i + x] != '\0' && (ft_isalnum(str[*i + x]) == 1
-        || str[*i + x] == '_'))
+    while (str[i + x + 1] != '\0' && (ft_isalnum(str[i + x + 1]) == 1
+        || str[i + x + 1] == '_'))
         x++;
     aux = malloc(sizeof(char *) * x + 1);
-    x = 0;
-    while (str[*i + x + 1] != '\0' && (ft_isalnum(str[*i + x + 1]) == 1
-        || str[*i + x + 1] == '_'))
-        aux[x] = str[*i + x++ + 1];
-    aux[x] = '\0';
-    return (ft_get_var(aux));
+    ft_strlcpy(aux, &str[i + 1], x + 1);
+    temp = ft_get_var(aux);
+    *index += (int)ft_strlen(aux) + 1;
+    free(aux);
+    return (temp);
 }
 
 char *ft_get_var(char *name_var)
@@ -187,7 +267,7 @@ char *ft_get_var(char *name_var)
             return (aux->content);
         aux = aux->next;
     }
-    return (name_var);
+    return (NULL);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:58:33 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/15 17:10:58 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/24 08:10:57 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,36 @@ void ft_overwriting(char **line, int *index)
     *index += 1;
 }
 
+/*     char *aux;
+    char *temp;
+	rl_on_new_line();
+    temp = readline("> ");
+    if (temp == NULL)
+        ft_sig_close(0);
+    aux = ft_strtrim(temp, " ");
+    free(temp);
+    aux = ft_strjoin_mod(aux, "\n");
+    line = ft_strjoin_mod(line, aux);
+    return (line); */
+
 void ft_here_doc(char **line, int *index)
 {
-    if (ft_strlen(line[*index]) == 2 && line[*index][0] == '<' && line[*index][1] == '<')
-        *index += 1;
-    else
-        return;
+    char *aux;
 
+    if (ft_strlen(line[*index]) == 2 && line[*index][0] == '<'
+        && line[*index][1] == '<')
+        *index += 1;
+    while (1)
+    {
+        rl_on_new_line();
+        aux = readline("> ");
+        if (aux == NULL)
+            ft_sig_close(0);
+        if (ft_strlen(line[*index]) == ft_strlen(aux) && ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
+            break;
+        free(aux);
+    }
+    free(aux);
 }
 
 void ft_input(char **line, int *index)
