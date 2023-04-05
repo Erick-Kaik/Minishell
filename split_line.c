@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/31 16:56:59 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:58:21 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,9 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
-        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
-        ft_printf("split = %s\n", split[index]);
         i = ft_fix_index_position(str, i);
         index++;
     }
@@ -88,7 +86,7 @@ void ft_fill_split(char *dest, char *str, int start, int len)
         if (str[start + i] == ' ')
             break ;
         else if (str[start + i] == '$')
-           i_dest += ft_link_var_in_split(dest, ft_check_var(&str[start + i], (start + i), &i), i_dest);
+           i_dest += ft_link_var_in_split(dest, ft_check_var(str, start, &i), i_dest);
         else
             dest[i_dest++] = str[start + i];
         i++;
@@ -127,7 +125,9 @@ int ft_lenth_split(char *str, int *i)
         else if (quotes > 0 && str[*i + x] == quotes)
             quotes = 0;
         else if (quotes != 39 && str[*i + x] == '$')
-            len += ft_strlen(ft_check_var(&str[*i + x], (*i + x), &x));
+            len += ft_strlen(ft_check_var(str, *i, &x));
+        else if (quotes == 0 && str[*i + x] == ' ')
+            break;
         else
             len++;
         x++;
@@ -184,7 +184,7 @@ int ft_len_quotes(char *str, char quote, int i)
     while (str[i + x] != '\0' && str[i + x] != quote)
     {
         if (quote == 34 && str[i + x] == '$')
-            len += (int)ft_strlen(ft_check_var(str, (i + x), &x));
+            len += (int)ft_strlen(ft_check_var(str, i, &x));
         else
             len++;
         x++;
@@ -233,6 +233,8 @@ char *ft_get_more_content(char *line)
     free(temp);
     aux = ft_strjoin_mod(aux, "\n");
     add_history(aux);
+    if (line[ft_strlen(line) - 1] != '\n')
+        line = ft_strjoin_mod(line, "\n");
     line = ft_strjoin_mod(line, aux);
 
     return (line);
@@ -241,17 +243,24 @@ char *ft_get_more_content(char *line)
 char *ft_check_var(char *str, int i, int *index)
 {
     int x;
+    int len;
     char *aux;
     char *temp;
 
-    x = 0;
-    while (str[i + x + 1] != '\0' && (ft_isalnum(str[i + x + 1]) == 1
-        || str[i + x + 1] == '_'))
+    x = i + *index;
+    len = 0;
+    if (str[x] == '$')
         x++;
-    aux = malloc(sizeof(char *) * x + 1);
-    ft_strlcpy(aux, &str[i + 1], x + 1);
+    while (str[x] != '\0' && (ft_isalnum(str[x]) == 1
+        || str[x] == '_'))
+    {
+        x++;
+        len++;
+    }
+    aux = malloc(sizeof(char *) * len + 1);
+    ft_strlcpy(aux, &str[i + *index + 1], len + 1);
     temp = ft_get_var(aux);
-    *index += (int)ft_strlen(aux) + 1;
+    *index += ft_strlen(aux) + 1;
     free(aux);
     return (temp);
 }
