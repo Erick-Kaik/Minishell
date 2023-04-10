@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:48:59 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/07 21:21:03 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/09 09:29:53 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void ft_signals(void)
+{
+    struct sigaction sa_prompt;
+    struct sigaction sa_close;
+
+    sa_prompt.sa_handler = &ft_sig_new_prompt;
+    sa_prompt.sa_flags = SA_SIGINFO;
+    sigemptyset(&sa_prompt.sa_mask);
+    sigaction(SIGINT, &sa_prompt, NULL);
+
+    sa_close.sa_handler = &ft_sig_close;
+    sa_close.sa_flags = SA_SIGINFO;
+    sigemptyset(&sa_close.sa_mask);
+    sigaction(SIGQUIT, &sa_close, NULL);
+}
 
 t_var *ft_create_and_send_var(int create, char **env)
 {
@@ -48,15 +64,14 @@ void ft_sig_new_prompt(int sig)
 {
 	t_var *var;
 
-	if (sig == SIGINT)
-	{
-		var = ft_create_and_send_var(0, NULL);
-		ft_add_value_last_com(&var, "130");
-		ft_printf("\n");
-		ft_get_folder();
-		pause();
-	}
-	//querba de linha a imprimir o novo prompt (coder:~/MiniHell $->)
+    (void)sig;
+    var = ft_create_and_send_var(0, NULL);
+    ft_add_value_last_com(&var, "130");
+    ft_putchar_fd('\n', 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+    kill(0, SIGKILL);
 }
 
 
@@ -65,17 +80,18 @@ void ft_sig_close(int sig)
 	t_var *var;
 	t_history *history;
 
-	if (sig == SIGQUIT)
-	{
-		//usar esse esquema no exit tmb
-		var = ft_create_and_send_var(0, NULL);
-		history = ft_create_and_send_history(0);
-		
-		ft_clear_var(&var, ft_del_var);
-		ft_clear_history(&history, ft_del_history);
-		exit(1);
-	}
-	//quando entrar aqui vou ter q mandar algo para poder dar clear na list
+    var = ft_create_and_send_var(0, NULL);
+    history = ft_create_and_send_history(0);
+    ft_putchar_fd('\n', 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+    if (sig == 3)
+        ft_add_value_last_com(&var, "131");
+    else
+    {
+        ft_clear_var(&var, ft_del_var);
+        ft_clear_history(&history, ft_del_history);
+        exit(1);
+    }
 } 
-
-

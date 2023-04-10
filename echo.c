@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:27:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/07 17:54:40 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/08 09:26:51 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char *ft_check_echo(char *txt, int *fd, t_var **var)
 	if (str == NULL)
 		return (NULL);
 	*fd = ft_check_redirector(str);
-	if (fd > 0)
+	if (*fd > 0)
 		str = ft_str_echo(str);
 	return (str);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/16 13:11:02 by ekaik-ne          #+#    #+#              #
-#    Updated: 2023/03/06 20:56:29 by ekaik-ne         ###   ########.fr        #
+#    Updated: 2023/03/08 09:45:36 by ekaik-ne         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ = ${SRC:.c=.o}
 all: $(NAME)
 
 ${NAME}: $(OBJ)
-	$(GCC) $(OBJ) $(LIBFT) -o $(NAME)
+	$(GCC) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 
 ${OBJ}: | $(LIBFT)
 

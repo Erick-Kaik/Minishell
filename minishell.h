@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 12:51:04 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/07 19:45:11 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/09 10:13:58 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "libft/libft.h"
 # include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
 
 typedef struct s_var
 {
@@ -44,7 +47,7 @@ void ft_cd(char *str, t_var **var);
 void ft_pwd(char *str, t_var **var);
 void ft_env(char *str, t_var **var);
 char *ft_get_var(char *str);
-void ft_get_folder(void);
+char *ft_get_folder(void);
 void ft_exit();
 int ft_check_two_quotes(char *str, t_var **var);
 int ft_single_quote(int pos, char *str, int fd);
@@ -89,5 +92,7 @@ void	ft_del_history(char *content);
 void	ft_clear_var(t_var **var, void (*del)(char*));
 void	ft_del_one_var(t_var *var, void (*del)(char*));
 void	ft_del_var(char *content);
+
+void ft_signals(void);
 
 #endif

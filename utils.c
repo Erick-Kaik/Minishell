@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 20:02:10 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/07 21:30:22 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/03/10 09:24:52 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 void ft_read_comand(char *str, t_var **var, t_history **history)
 {
-
-	ft_add_history(str, history);
-	if (ft_strnstr(str, "cd", ft_strlen(str)) != NULL)
-		ft_cd(ft_strnstr(str, "cd", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "echo", ft_strlen(str)) != NULL) // ->
-		ft_echo(ft_strnstr(str, "echo", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "pwd", ft_strlen(str)) != NULL) // ->
-		ft_pwd(ft_strnstr(str, "pwd", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "env", ft_strlen(str)) != NULL) // ->
-		ft_env(ft_strnstr(str, "env", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "exit", ft_strlen(str)) != NULL) // printa exit e cria o file e dps  fecha
-		ft_exit();
-	else if (ft_strnstr(str, "$?", ft_strlen(str)) != NULL)
-		ft_vl_last_comand(var, 1);
-	else if (ft_strnstr(str, "export", ft_strlen(str)) != NULL)
-		ft_export(ft_strnstr(str, "export", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "unset", ft_strlen(str)) != NULL)
-		ft_unset(ft_strnstr(str, "unset", ft_strlen(str)), var);
-	else if (ft_strnstr(str, "history", ft_strlen(str)) != NULL) // ->
-		ft_history(ft_strnstr(str, "history", ft_strlen(str)), *history, var);
+    add_history(str);
+	//ft_add_history(str, history);
+    if (ft_strnstr(str, "cd", ft_strlen(str)) != NULL)
+        ft_cd(ft_strnstr(str, "cd", ft_strlen(str)), var);
+    else if (ft_strnstr(str, "echo", ft_strlen(str)) != NULL) // ->
+        ft_echo(ft_strnstr(str, "echo", ft_strlen(str)), var);
+    else if (ft_strnstr(str, "pwd", ft_strlen(str)) != NULL) // ->
+        ft_pwd(ft_strnstr(str, "pwd", ft_strlen(str)), var);
+    else if (ft_strnstr(str, "env", ft_strlen(str)) != NULL) // ->
+        ft_env(ft_strnstr(str, "env", ft_strlen(str)), var);
+    else if (ft_strnstr(str, "export", ft_strlen(str)) != NULL)
+        ft_export(ft_strnstr(str, "export", ft_strlen(str)), var);
+    else if (ft_strnstr(str, "unset", ft_strlen(str)) != NULL)
+        ft_unset(ft_strnstr(str, "unset", ft_strlen(str)), var);
+    else if (ft_strnstr(str, "exit", ft_strlen(str)) != NULL) // printa exit e cria o file e dps  fecha
+        ft_exit();
+    else if (ft_strnstr(str, "$?", ft_strlen(str)) != NULL)
+        ft_vl_last_comand(var, 1);
+    else if (ft_strnstr(str, "history", ft_strlen(str)) != NULL) // -> apagar q n é buildint
+        ft_history(ft_strnstr(str, "history", ft_strlen(str)), *history, var);
 }
 
 char *ft_jump_spaces(char const *str, char *comand)
@@ -83,30 +83,28 @@ char *ft_get_var(char *str)
 	return (var);
 }
 
-void ft_get_folder(void)
+char *ft_get_folder(void)
 {
-	char str[PATH_MAX];
+    char str[PATH_MAX];
 	char **folder;
-	int x;
+    char *temp;
+    int x;
 
 	x = 0;
 	folder = NULL;
-	if (getcwd(str, sizeof(str)) != NULL)
-	{
-		if (ft_strlen(str) > 1)
+    temp = ft_strjoin(getenv("USER"), ":~/");
+    if (getcwd(str, sizeof(str)) != NULL)
+    {
+        if (ft_strlen(str) > 1)
 		{
 			folder = ft_split(str, '/');
 			while (folder[x] != NULL)
 				x++;
-			ft_printf("%s:~/%s $->", getenv("USER"), folder[x - 1]);
+            temp = ft_strjoin_mod(temp, folder[x - 1]);
 		}
-		else
-			ft_printf("%s:~/$->", getenv("USER"));
-	}
-	else
-		ft_printf("%s:~/$->", getenv("USER"));
-	if (folder != NULL)
-		free(folder);
+    }
+    temp = ft_strjoin_mod(temp, "$->");
+    return (temp);
 }
 
 void ft_exit()
