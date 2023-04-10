@@ -6,13 +6,13 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:25:11 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/20 11:49:20 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 18:01:31 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_exit(char **line)
+void    ft_exit(char **line)
 {
     int x;
 

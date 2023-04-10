@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:58:33 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/24 08:10:57 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 18:02:46 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,4 @@ void ft_input(char **line, int *index)
         *index += 1;
     else
         return;
-
 }

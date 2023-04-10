@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 20:32:11 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/10 08:50:05 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 18:02:19 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_add_lst_var(t_var **var, t_var *new)
 	aux->next = new;
 }
 
-t_var *ft_lst_var_last(t_var *var)
+t_var   *ft_lst_var_last(t_var *var)
 {
 	if (var == NULL)
 		return (NULL);

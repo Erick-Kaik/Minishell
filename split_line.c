@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 17:32:24 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 18:03:01 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,6 @@ char *ft_get_var(char *name_var)
     }
     return (NULL);
 }
-
 /*
 1° ft -> conta quantas linhas vao ter nas Char**
 2° ft -> aplica o conteudo de str na linha splitada, assim fnzd o tratamento (cria o malloc fora da 1 e da 2)

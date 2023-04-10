@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/03/30 15:11:59 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 18:03:11 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ void ft_builtins(char **line, int *index)
     else if (ft_strlen(aux) == 6 && ft_strnstr(aux, "export", 6) != NULL)
         ft_export(line, index);
 }
-
 /* int ft_its_a_builtins(char *line)
 {
     ft_assign_to_struct();
