@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/06 09:25:19 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:32:24 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
-        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
@@ -130,13 +129,7 @@ int ft_lenth_split(char *str, int *i)
         else if (quotes > 0 && str[*i + x] == quotes)
             quotes = 0;
         else if (quotes != 39 && str[*i + x] == '$')
-        {
-            ft_printf("entrou\n");
-            ft_printf("len = %d\n", len);
             len += ft_strlen(ft_check_var(str, *i, &x));
-            ft_printf("len = %d\n", len);
-            ft_printf("saiu\n");
-        }
         else
             len++;
         if (quotes == 0 && str[*i + x] == ' ')
