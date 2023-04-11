@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:33:44 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:01:09 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 19:07:12 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void ft_echo(char **line, int *index)
 {
+    ft_printf("echo line = %s\n");
     g_data.echo.echo = 1;
     if (ft_strlen(line[*index + 1]) == 2 && line[*index + 1][0] == '-'
         && line[*index + 1][1] == 'n')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:03:01 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/10 20:20:14 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
+        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
@@ -124,7 +125,9 @@ int ft_lenth_split(char *str, int *i)
         *i += 1;
     while (str[*i + x] != '\0')
     {
-        if ((str[*i + x] == 34 || str[*i + x] == 39) && quotes == 0)
+        if (quotes == 0 && str[*i + x] == ' ')
+            break;
+        else if ((str[*i + x] == 34 || str[*i + x] == 39) && quotes == 0)
             quotes = str[*i + x];
         else if (quotes > 0 && str[*i + x] == quotes)
             quotes = 0;
@@ -132,8 +135,6 @@ int ft_lenth_split(char *str, int *i)
             len += ft_strlen(ft_check_var(str, *i, &x));
         else
             len++;
-        if (quotes == 0 && str[*i + x] == ' ')
-            break;
         x++;
     }
     return (len);
