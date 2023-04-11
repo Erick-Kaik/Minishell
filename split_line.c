@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/11 09:38:49 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/11 17:56:43 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
+        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
@@ -87,13 +88,13 @@ void ft_fill_split(char *dest, char *str, int start, int len)
     quotes = 0;
     while (i_dest < len && str[start + i] != '\0' &&  quotes != 39)
     {
-        if (str[start + i] == ' ')
+        if (str[start + i] == ' ' && quotes == 0)
             break ;
-        else if (str[start + i] == '$')
+        else if (str[start + i] == '$' && quotes != 39)
         {
             i_dest += ft_link_var_in_split(dest, ft_check_var(str, start, &i), i_dest);
             if (str[start + i] == ' ')
-                break;
+                continue;;
         }
         else if (str[start + i] == 39 || str[start + i] == 34)
             quotes = str[start + i];
@@ -131,6 +132,7 @@ int ft_lenth_split(char *str, int *i)
         *i += 1;
     while (str[*i + x] != '\0')
     {
+        ft_printf("str[%c]\n", str[*i + x]);
         if (quotes == 0 && str[*i + x] == ' ')
             break;
         else if ((str[*i + x] == 34 || str[*i + x] == 39) && quotes == 0)

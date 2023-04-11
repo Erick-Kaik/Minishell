@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 18:26:18 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 19:06:19 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/11 17:42:33 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int ft_its_a_redirector(char *line)
 
 int ft_its_a_builtins(char *line)
 {
-    ft_printf("line = %s\n", line);
     if (line == NULL || ft_strlen(line) > 6)
         return (0);
     if (ft_strlen(line) == 2 && ft_strnstr(line, "cd", 2) != NULL)
