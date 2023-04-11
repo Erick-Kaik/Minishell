@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 20:20:14 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/11 09:38:49 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas ou simples) tem q tratar tudo q esta dentro
 {                               // como um indice do tempo, oq estiver fora pode ser no split msm
     int count;
+    int concat;
     char *aux;
     char **temp;
 
+    concat = 0;
     aux = ft_strtrim(line, " ");
     while (ft_open_quotes(aux) == 1)
-        aux = ft_get_more_content(aux);
+        aux = ft_get_more_content(aux, &concat);
     add_history(aux);
     count = ft_count_split(line);
     temp = (char **)malloc(sizeof(char *) * (count + 1));
@@ -46,7 +48,6 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
-        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
@@ -78,11 +79,13 @@ int ft_fix_index_position(char *str, int i)
 void ft_fill_split(char *dest, char *str, int start, int len)
 {
     int i;
+    int quotes;
     int i_dest;
-
+    
     i = 0;
     i_dest = 0;
-    while (i < len && str[start + i] != '\0')
+    quotes = 0;
+    while (i_dest < len && str[start + i] != '\0' &&  quotes != 39)
     {
         if (str[start + i] == ' ')
             break ;
@@ -92,11 +95,14 @@ void ft_fill_split(char *dest, char *str, int start, int len)
             if (str[start + i] == ' ')
                 break;
         }
+        else if (str[start + i] == 39 || str[start + i] == 34)
+            quotes = str[start + i];
+        else if (quotes > 0 && str[start + i] == quotes)
+            quotes = 0;
         else
             dest[i_dest++] = str[start + i];
         i++;
-    }
-    
+    }  
 }
 
 int ft_link_var_in_split(char *dest, char* var, int i)
@@ -226,7 +232,7 @@ int ft_open_quotes(char *line)
         return (1);
 }
 
-char *ft_get_more_content(char *line)
+char *ft_get_more_content(char *line, int *concat)
 {
     char *aux;
     char *temp;
@@ -236,12 +242,13 @@ char *ft_get_more_content(char *line)
         ft_sig_close(0);
     aux = ft_strtrim(temp, " ");
     free(temp);
-    aux = ft_strjoin_mod(aux, "\n");
+    if (*concat > 0)
+        aux = ft_strjoin_mod(aux, "\n");
     add_history(aux);
-    if (line[ft_strlen(line) - 1] != '\n')
+    if (*concat == 0)
         line = ft_strjoin_mod(line, "\n");
     line = ft_strjoin_mod(line, aux);
-
+    concat++;
     return (line);
 }
 
