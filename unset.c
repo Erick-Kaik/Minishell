@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 14:12:25 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:03:06 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:24:38 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void ft_unset(char **line, int *index)
 {
     *index += 1;
-    while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
+    while (line[*index] != NULL && ft_its_a_redirector(line[*index],
+        ft_strlen(line[*index])) == 0)
     {
         if (ft_check_exist_var(line[*index]) == 1)
             ft_delete_var(line[*index]);

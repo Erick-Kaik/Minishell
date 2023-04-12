@@ -6,28 +6,55 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 18:26:18 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/11 17:42:33 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:45:45 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_its_a_redirector(char *line)
+int ft_its_a_redirector(char *line, int len)
 {
     if (line == NULL || ft_strlen(line) > 2)
         return (0);
-    if (ft_strlen(line) == 2)
+    if (len == 2)
     {
         if ((line[0] == '>' && line[1] == '>')
             || (line[0] == '<' && line[1] == '<')) 
             return (1);
     }
-    else if (ft_strlen(line) == 1)
+    else if (len == 1)
     {
         if (line[0] == '>' || line[0] == '<')
             return (1);
         else if (line[0] == '|')
             return (2);
+    }
+    return (0);
+}
+
+int ft_break_redirector(char *str, int start, int *i, int *len)
+{
+    if (str == NULL)
+        return (0);
+    if (ft_strlen(str) - (start + *i) >= 2)
+    {
+        if ((str[start + *i] == '>' && str[start + *i + 1] == '>')
+            || (str[start + *i] == '<' && str[start + *i + 1] == '<'))
+        {
+            *i += 2;
+            *len = 2;
+            return (1);
+        }
+    }
+    if (ft_strlen(str) - (start + *i) >= 1)
+    {
+        if (str[start + *i] == '>' || str[start + *i] == '<'
+            || str[start + *i] == '|')
+        {
+            *i += 1;
+            *len = 1;
+            return (1);
+        }
     }
     return (0);
 }
@@ -63,6 +90,7 @@ void    ft_print_error(char **line, int *index)
     aux = ft_strjoin_mod(aux, ": command not found\n");
     ft_putstr_fd(aux, 0);
     free(aux);
-    while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
+    while (line[*index] != NULL && ft_its_a_redirector(line[*index],
+        ft_strlen(line[*index])) == 0)
         *index += 1;
 }

@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:33:44 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/11 17:40:50 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:15:47 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void ft_get_str_echo(char **line, int *index)
 
     while (line[*index] != NULL)
     {
-        ret = ft_its_a_redirector(line[*index]);
+        ret = ft_its_a_redirector(line[*index], ft_strlen(line[*index]));
         if (ret == 1)
         {
             ft_redirector(line, index);

@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 14:06:39 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:02:40 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:24:16 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void ft_pwd(char **line, int *index)
     g_data.pwd.pdw = *index;
     while (line[*index] != NULL)
     {
-        ret = ft_its_a_redirector(line[*index]);
+        ret = ft_its_a_redirector(line[*index], ft_strlen(line[*index]));
         if (ret == 1)
         {
             ft_redirector(line, index);

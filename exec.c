@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:47:04 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:01:16 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:25:10 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ char **ft_limit_execve(char **line, int *index)
 
     x = 0;
     y = 0;
-    while (line[*index + x] != NULL && ft_its_a_redirector(line[*index + x]) == 0)
+    while (line[*index + x] != NULL && ft_its_a_redirector(line[*index + x],
+        ft_strlen(line[*index + x])) == 0)
         x++;
     aux = (char **)malloc(sizeof(char *) * (x + 1));
     if (aux == NULL)

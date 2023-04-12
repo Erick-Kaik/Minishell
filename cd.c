@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:17:04 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:01:01 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:20:52 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void ft_cd(char **line, int *index)
             line[*index], line[*index + 1]);
     if (path != NULL)
         free(path);
-    while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
+    while (line[*index] != NULL && ft_its_a_redirector(line[*index],
+        ft_strlen(line[*index])) == 0)
         *index += 1;    
 }
 
@@ -40,15 +41,18 @@ char *ft_get_path_cd(char **line, int *index)
     char *path;
 
     path = NULL;
-    if (line[*index + 1] == NULL || ft_its_a_redirector(line[*index + 1]) == 1)
+    if (line[*index + 1] == NULL || ft_its_a_redirector(line[*index + 1],
+        ft_strlen(line[*index + 1])) == 1)
     {
         path = malloc(sizeof(char) * 1);
         path[0] = '~';
         path[1] = '\0';
     }
-    else if (line[*index + 1] != NULL && ft_its_a_redirector(line[*index + 1]) == 0)
+    else if (line[*index + 1] != NULL && ft_its_a_redirector(line[*index + 1],
+        ft_strlen(line[*index + 1])) == 0)
     {
-        if (line[*index + 2] != NULL && ft_its_a_redirector(line[*index + 2]) == 0)
+        if (line[*index + 2] != NULL && ft_its_a_redirector(line[*index + 2],
+            ft_strlen(line[*index + 2])) == 0)
         {
             path = NULL;
             ft_printf("bash: %s: too many arguments\n", line[*index]);

@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:38:34 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:01:12 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:21:37 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void ft_env(char **line, int *index)
 {
     g_data.env.env = *index;
-    if (line[*index + 1] != NULL && ft_its_a_redirector(line[*index + 1]) == 0)
+    if (line[*index + 1] != NULL && ft_its_a_redirector(line[*index + 1],
+        ft_strlen(line[*index + 1])) == 0)
         ft_printf("%s: '%s': No such file or directory\n", line[*index] ,line[*index + 1]);
     else
         ft_get_print_env();
     ft_putstr_fd(g_data.env.print, g_data.env.fd);
-    while (line[*index] != NULL && ft_its_a_redirector(line[*index]) == 0)
+    while (line[*index] != NULL && ft_its_a_redirector(line[*index],
+        ft_strlen(line[*index])) == 0)
         *index += 1;  
 }
 

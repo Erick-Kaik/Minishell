@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 19:05:19 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:15:30 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void ft_starting_variables(char **envp)
 {
     g_data.envp = envp;
     ft_set_envp_t_var(envp);
+    ft_add_lst_var(&g_data.var, ft_new_lst_var("$?", "0"));
 }
 
 void ft_set_envp_t_var(char **envp)
@@ -84,7 +85,8 @@ void ft_check_line(char *line)
     broke_line = ft_broke_line(line);
     while (broke_line[index] != NULL) // somente printar se for erro, o print tem q ser a ultima coisa
     {
-        if (ft_its_a_redirector(broke_line[index]) >= 1)
+        if (ft_its_a_redirector(broke_line[index],
+            ft_strlen(broke_line[index])) >= 1)
             ft_redirector(broke_line, &index);
         else if (ft_its_a_builtins(broke_line[index]) == 1) // se for uma builtins alem de retornar 1, ja preenche a struct,
             ft_builtins(broke_line, &index);
