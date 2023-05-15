@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/12 17:45:49 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:24:34 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,9 @@ void ft_clear_pid(pid_t pid);
 int ft_len_quotes(char *str, char quote, int i);
 int ft_link_var_in_split(char *dest, char* var, int i);
 
-int ft_break_redirector(char *str, int start, int *i, int *len);
+int ft_break_redirector(char *str, int pos);
+
+int ft_split_redirection(char *str);
+
 
 #endif

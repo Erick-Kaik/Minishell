@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/12 13:15:30 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:04:02 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void ft_clear_struct(void)
 void ft_starting_variables(char **envp)
 {
     g_data.envp = envp;
+    ft_add_lst_var(&g_data.var, ft_new_lst_var("?", "0"));
     ft_set_envp_t_var(envp);
-    ft_add_lst_var(&g_data.var, ft_new_lst_var("$?", "0"));
 }
 
 void ft_set_envp_t_var(char **envp)
@@ -133,24 +133,3 @@ void ft_builtins(char **line, int *index)
     else if (ft_strlen(aux) == 6 && ft_strnstr(aux, "export", 6) != NULL)
         ft_export(line, index);
 }
-/* int ft_its_a_builtins(char *line)
-{
-    ft_assign_to_struct();
-} */
-
-/*     int x;
-    char *line_t;
-    char *first_word;
-
-    x = 0;
-    first_word = NULL;
-    line_t = ft_strtrim(line, " ");
-    while (line_t[x] != '\0')
-    {
-        if (line_t[x] == ' ' || line_t[x] == '  '
-            || line_t[x] == '>' || line_t[x] == '<') 
-            break;
-        x++;
-    }
-    first_word = malloc(sizeof(char *) * x);
-    ft_memmove(first_word, line_t, x); */

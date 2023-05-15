@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 18:26:18 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/12 17:45:45 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:38:25 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,15 @@ int ft_its_a_redirector(char *line, int len)
     return (0);
 }
 
-int ft_break_redirector(char *str, int start, int *i, int *len)
+int ft_break_redirector(char *str, int pos)
 {
     if (str == NULL)
         return (0);
-    if (ft_strlen(str) - (start + *i) >= 2)
+    if (str[pos] != '\0')
     {
-        if ((str[start + *i] == '>' && str[start + *i + 1] == '>')
-            || (str[start + *i] == '<' && str[start + *i + 1] == '<'))
-        {
-            *i += 2;
-            *len = 2;
+        if (str[pos] == ' ' || str[pos] == '>'
+            || str[pos] == '<' || str[pos] == '|')
             return (1);
-        }
-    }
-    if (ft_strlen(str) - (start + *i) >= 1)
-    {
-        if (str[start + *i] == '>' || str[start + *i] == '<'
-            || str[start + *i] == '|')
-        {
-            *i += 1;
-            *len = 1;
-            return (1);
-        }
     }
     return (0);
 }

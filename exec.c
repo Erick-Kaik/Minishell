@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:47:04 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/12 13:25:10 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/28 12:01:08 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int ft_execute_ft_system(char **line, int *index)
     {
         waitpid(pid, &status, WUNTRACED);
         if (status > 0)
-            ret = -1;
+             ret = -1;
     }
     free(path);
     ft_clear_split_line(aux);

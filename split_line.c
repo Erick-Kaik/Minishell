@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/12 17:49:21 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:47:18 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,9 @@ char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas 
         aux = ft_get_more_content(aux, &concat);
     add_history(aux);
     count = ft_count_split(line);
+    ft_printf("count = %d\n", count);
     temp = (char **)malloc(sizeof(char *) * (count + 1));
     temp = ft_split_words(aux, temp, count);
-/*     // temp = super função pra cortar tudo
-    count = ft_count_split(line);
-    temp = (char **)malloc(sizeof(char *) * (count + 1));
-    temp = ft_split_words(aux, temp, count); */
-
-    // temp = ft_split(aux, ' ');
     free(aux);
     return (temp);
 }
@@ -45,15 +40,14 @@ char **ft_split_words(char *str, char **split, int count)
 
     i = 0;
     index = 0;
-    ft_printf("count = %d\n", count);
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
+        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
         i += ft_fix_index_position(str, i);
-        ft_printf("index = %d\nlen = %d\nsplit = %s\n", index, len, split[index]);
         index++;
     }
     split[index] = NULL;
@@ -65,11 +59,11 @@ int ft_fix_index_position(char *str, int i)
     int x;
 
     x = 0;
-    while (str[i + x] == ' ' && str[i + x] != '\0')
+    while (str[i + x] == 32 && str[i + x] != '\0')
         x++;
     while (str[i + x] != '\0')
     {
-        if (str[i + x] == ' ')
+        if (str[i + x] == 32)
             break;
         else if (str[i + x] == 34 || str[i + x] == 39)
             x = ft_jump_quotes(str, str[i + x], (i + x));
@@ -87,10 +81,9 @@ void ft_fill_split(char *dest, char *str, int start, int len)
     i = 0;
     i_dest = 0;
     quotes = 0;
-    ft_printf("adasd\n");
     while (i_dest < len && str[start + i] != '\0')
     {
-        if (quotes == 0 && str[start + i] == ' ')
+        if (quotes == 0 && str[start + i] == 32)
             break ;
         else if (str[start + i] == '$' && quotes != 39)
         {
@@ -130,12 +123,11 @@ int ft_lenth_split(char *str, int *i)
     len = 0;
     x = 0;
     quotes = 0;
-    while (str[*i] == ' ' && str[*i] != '\0')
+    while (str[*i] != '\0' && str[*i] == ' ')
         *i += 1;
-    while (str[*i + x++] != '\0')
+    while (str[*i + x] != '\0')
     {
-        if (quotes == 0 && (str[*i + x] == 32
-            || ft_break_redirector(str, *i, &x, &len) >= 1))
+        if (quotes == 0 && ft_break_redirector(str, (*i + x)) == 1) //preciso salvar caso seja redirecionador
             break;
         else if ((str[*i + x] == 34 || str[*i + x] == 39) && quotes == 0)
             quotes = str[*i + x];
@@ -159,25 +151,45 @@ int ft_count_split(char *str)
     count = 0;
     while (str[i] != '\0')
     {
-        if (str[i] == ' ')
+        if (ft_break_redirector(str, i) == 1)
             i++;
         else
         {
             count++;
-            while (str[i] != '\0' && str[i] != ' ')
+            while (str[i] != '\0' && ft_break_redirector(str, i) == 0)
             {
                 if (str[i] == 34 || str[i] == 39)
                     i += ft_jump_quotes(str, str[i], i);
-                else if (ft_break_redirector(str, 0, &i, (int *)0) > 0)
-                {
-                    count++;
-                    break;
-                }
                 i++;
             }
         }
     }
+    count += ft_split_redirection(str);
     return (count);
+}
+
+int ft_split_redirection(char *str)
+{
+    int i;
+    int add;
+
+    i = 0;
+    add = 0;
+    while (str[i] != '\0')
+    {
+        if (ft_break_redirector(str, i) == 1 && str[i] != ' ' && str[i] != ' ')
+        {
+            if (str[i + 1] != '\0' && ((str[i] == '>' && str[i + 1] == '>')
+                || (str[i] == '<' && str[i + 1] == '<')))
+                i += 2;
+            else
+                i++;
+            add++;
+        }
+        else
+            i++;
+    }
+    return (add);
 }
 
 int ft_jump_quotes(char *str, char quote, int i)
@@ -299,9 +311,3 @@ char *ft_get_var(char *name_var)
     }
     return (NULL);
 }
-/*
-1° ft -> conta quantas linhas vao ter nas Char**
-2° ft -> aplica o conteudo de str na linha splitada, assim fnzd o tratamento (cria o malloc fora da 1 e da 2)
-
-//split somente entre espacos e tudo dentro das aspas é 1 coias so
- */

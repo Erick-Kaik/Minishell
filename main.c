@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:02:23 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/04/28 10:36:49 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int main (int argc, char **argv, char **envp)
         ft_check_line(line);
         ft_clear_struct();
         free(line);
-        //criar ft para printar coisas tipo echo e limpar as structs
     }
     return (0);
 }
