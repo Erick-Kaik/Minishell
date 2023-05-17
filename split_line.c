@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/15 15:47:18 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:44:43 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas 
         aux = ft_get_more_content(aux, &concat);
     add_history(aux);
     count = ft_count_split(line);
-    ft_printf("count = %d\n", count);
     temp = (char **)malloc(sizeof(char *) * (count + 1));
     temp = ft_split_words(aux, temp, count);
     free(aux);
@@ -43,7 +42,6 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
-        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
@@ -127,8 +125,8 @@ int ft_lenth_split(char *str, int *i)
         *i += 1;
     while (str[*i + x] != '\0')
     {
-        if (quotes == 0 && ft_break_redirector(str, (*i + x)) == 1) //preciso salvar caso seja redirecionador
-            break;
+        if (quotes == 0 && ft_break_redirector(str, (*i + x)) == 1)
+            return (ft_len_redirector(str, (*i + x), len));
         else if ((str[*i + x] == 34 || str[*i + x] == 39) && quotes == 0)
             quotes = str[*i + x];
         else if (quotes > 0 && str[*i + x] == quotes)
@@ -138,6 +136,23 @@ int ft_lenth_split(char *str, int *i)
         else
             len++;
         x++;
+    }
+    return (len);
+}
+
+int ft_len_redirector(char *str, int index, int len_backup)
+{
+    int i;
+    int len;
+
+    i = 0;
+    len = 0;
+    if (len_backup > 0)
+        return (len_backup);
+    while (str[index + i] != ' ' && ft_break_redirector(str, index) == 1)
+    {
+        len++;
+        i++;
     }
     return (len);
 }

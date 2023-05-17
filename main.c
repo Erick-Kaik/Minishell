@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/28 10:36:49 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:36:56 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int main (int argc, char **argv, char **envp)
 {
     char *line;
     
-    (void)argc;
-    (void)argv;
+    if (argc > 1 || argv == NULL)
+        return (0);
     ft_starting_variables(envp);
     ft_start_signals();
     while (1)

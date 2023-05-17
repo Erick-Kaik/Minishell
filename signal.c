@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 10:33:46 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:02:52 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:39:30 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void ft_sig_new_prompt(int sig)
 void ft_sig_close(int sig)
 {   
     (void)sig;
+    ft_putchar('\n');
     ft_clear_struct();
     exit(0);
 }

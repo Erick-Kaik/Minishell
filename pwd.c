@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 14:06:39 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/12 13:24:16 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:42:55 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ void ft_pwd(char **line, int *index)
         else if (ret == 2)
             break; //seria o pipe
         else
-            continue;
+            *index += 1;
     }
     if (getcwd(path, sizeof(path)) != NULL)
         g_data.pwd.print = path;
     ft_putstr_fd(g_data.pwd.print, g_data.pwd.fd);
+    ft_putchar_fd('\n', g_data.pwd.fd);
 }
 
 void ft_clear_pwd(void)

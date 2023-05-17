@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 08:42:52 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/28 14:04:02 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:22:56 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void ft_check_line(char *line)
 {
     int index;
     char **broke_line;
-
+    
     index = 0;
     getcwd(g_data.path_comand, sizeof(g_data.path_comand));
     broke_line = ft_broke_line(line);

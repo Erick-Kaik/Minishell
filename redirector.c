@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirector.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:58:33 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/04/10 18:02:46 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:15:09 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,7 @@ void ft_overwriting(char **line, int *index)
     *index += 1;
 }
 
-/*     char *aux;
-    char *temp;
-	rl_on_new_line();
-    temp = readline("> ");
-    if (temp == NULL)
-        ft_sig_close(0);
-    aux = ft_strtrim(temp, " ");
-    free(temp);
-    aux = ft_strjoin_mod(aux, "\n");
-    line = ft_strjoin_mod(line, aux);
-    return (line); */
-
-void ft_here_doc(char **line, int *index)
+void  ft_here_doc(char **line, int *index)
 {
     char *aux;
 
@@ -93,17 +81,20 @@ void ft_here_doc(char **line, int *index)
         aux = readline("> ");
         if (aux == NULL)
             ft_sig_close(0);
-        if (ft_strlen(line[*index]) == ft_strlen(aux) && ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
+        if (ft_strlen(line[*index]) == ft_strlen(aux)
+            && ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
             break;
         free(aux);
     }
     free(aux);
+    *index += 1;
 }
 
-void ft_input(char **line, int *index)
+void ft_input(char **line, int *index) // preciso fazer ainda
 {
     if (ft_strlen(line[*index]) == 1 && line[*index][0] == '<')
         *index += 1;
     else
-        return;
+        *index += 1;
+    return;
 }
