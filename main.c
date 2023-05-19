@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/17 17:35:17 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/19 12:52:14 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ int main (int argc, char **argv, char **envp)
     while (1)
     {
         pid = fork();
+        if (pid > 0)
+            g_data.pid = pid;
         if (pid < 0)
             continue;
         else if (pid == 0)
         {
-            g_data.pid = pid;
             ft_get_folder();
             line = readline(" ");
             if (line == NULL)
@@ -43,13 +44,7 @@ int main (int argc, char **argv, char **envp)
             exit(1);
         }
         else if (pid > 0)
-        {
-            ft_printf("esperrando\n");
             waitpid(pid,&stts,WUNTRACED);
-            ft_printf("status global = %d\n", g_data.status);
-            ft_printf("recebeu\n");
-        }
-        ft_printf("Stts = %d\n", stts);
     }
     return (0);
 }

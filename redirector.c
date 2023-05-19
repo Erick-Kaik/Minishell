@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirector.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:58:33 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/16 20:15:09 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:01:59 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,20 @@ void  ft_here_doc(char **line, int *index)
     *index += 1;
 }
 
-void ft_input(char **line, int *index) // preciso fazer ainda
-{
+void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do bglh dps do '<'  pega todos, fznd em ordem se der erro ele trava e gera um erro
+{                                       //se der erro break basicamente, e se funciona e dps tiver comandods preciso testar
+    int pipe_fd[2];
+    char aux_path[PATH_MAX];
+
+    getcwd(aux_path, sizeof(aux_path));
+    if (aux_path != NULL)
+        chdir(g_data.path_comand);
     if (ft_strlen(line[*index]) == 1 && line[*index][0] == '<')
         *index += 1;
-    else
-        *index += 1;
-    return;
+        
+    pipe(pipe_fd);
+    // dup2(pipe_fd[0], novo);
+    // dup2(pipe_fd[1], novo);
+    if (aux_path != NULL)
+        chdir(aux_path);
 }

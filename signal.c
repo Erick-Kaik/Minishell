@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 10:33:46 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/17 17:35:07 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/19 11:09:46 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,9 @@ void ft_start_signals(void)
 void ft_sig_new_prompt(int sig)
 {
     (void)sig;
-    pid_t pid;
-
-    pid = g_data.pid;
-    g_data.pid = 0;
-    if (pid == 0)
-        kill(1, SIGKILL);
-	// if (g_data.pid > 0)
-    //     ft_clear_pid(g_data.pid);
-    // ft_putchar_fd('\n', 1);
-    // rl_replace_line("", 0);
-    // if (g_data.pid == 0)
-    //     ft_get_folder();
-    // rl_on_new_line();
-    // rl_redisplay();
+    ft_putchar('\n');
+    ft_clear_struct();
+    kill(1, SIGKILL);
 }
 
 void ft_sig_close(int sig)
