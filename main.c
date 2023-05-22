@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:30:08 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/19 12:52:14 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:58:38 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ t_data	g_data;
 int main (int argc, char **argv, char **envp)
 {
     pid_t pid;
-    int stts;
     char *line;
     
-    stts = 0;
     if (argc > 1 || argv == NULL)
         return (0);
     ft_starting_variables(envp);
@@ -44,7 +42,7 @@ int main (int argc, char **argv, char **envp)
             exit(1);
         }
         else if (pid > 0)
-            waitpid(pid,&stts,WUNTRACED);
+            waitpid(pid, NULL, WUNTRACED);
     }
     return (0);
 }

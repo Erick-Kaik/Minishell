@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 10:33:46 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/19 11:09:46 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:55:49 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void ft_sig_close(int sig)
     (void)sig;
     ft_putchar('\n');
     ft_clear_struct();
-    g_data.status = -1;
-    // kill(-1, SIGKILL);
-    // kill(-1, SIGTERM);
     kill(1, SIGKILL);
 }
 

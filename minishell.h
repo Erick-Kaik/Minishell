@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 10:32:49 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/16 19:00:56 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:39:04 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,5 +195,7 @@ int ft_break_redirector(char *str, int pos);
 
 int ft_split_redirection(char *str);
 int ft_len_redirector(char *str, int index, int len_backup);
+int ft_execute_execve(char **aux, char **line, char *path, int *index);
+
 
 #endif

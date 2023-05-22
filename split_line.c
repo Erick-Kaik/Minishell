@@ -6,14 +6,14 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 17:36:41 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/19 12:55:48 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:41:28 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas ou simples) tem q tratar tudo q esta dentro
-{                               // como um indice do tempo, oq estiver fora pode ser no split msm
+char **ft_broke_line(char *line)
+{
     int count;
     int concat;
     char *aux;
@@ -24,7 +24,7 @@ char **ft_broke_line(char *line) //fazer um tratamento, caso haja aspas (duplas 
     while (ft_open_quotes(aux) == 1)
         aux = ft_get_more_content(aux, &concat);
     add_history(aux);
-    count = ft_count_split(line);
+    count = ft_count_split(aux);
     temp = (char **)malloc(sizeof(char *) * (count + 1));
     temp = ft_split_words(aux, temp, count);
     free(aux);
@@ -284,7 +284,7 @@ char *ft_get_more_content(char *line, int *concat)
     if (*concat == 0)
         line = ft_strjoin_mod(line, "\n");
     line = ft_strjoin_mod(line, aux);
-    concat++;
+    *concat += 1;
     return (line);
 }
 

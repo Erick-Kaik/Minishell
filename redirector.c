@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 08:58:33 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/19 17:01:59 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:11:20 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void  ft_here_doc(char **line, int *index)
 
 void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do bglh dps do '<'  pega todos, fznd em ordem se der erro ele trava e gera um erro
 {                                       //se der erro break basicamente, e se funciona e dps tiver comandods preciso testar
-    int pipe_fd[2];
     char aux_path[PATH_MAX];
 
     getcwd(aux_path, sizeof(aux_path));
@@ -100,10 +99,18 @@ void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do b
         chdir(g_data.path_comand);
     if (ft_strlen(line[*index]) == 1 && line[*index][0] == '<')
         *index += 1;
-        
-    pipe(pipe_fd);
-    // dup2(pipe_fd[0], novo);
-    // dup2(pipe_fd[1], novo);
+    ft_printf("before line = %s\n", line[*index]);
+    while (line[*index] != NULL)
+    {
+        g_data.fd = open(line[*index], O_RDONLY | O_SYNC);
+        if (g_data.fd < 0)
+            ft_print_error(line, index);
+        if (line[*index + 1] == NULL || ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
+            break;
+    }     
+    ft_printf("after line = %s\n", line[*index]);
+    dup2(g_data.fd, STDIN_FILENO);
+    close(STDIN_FILENO);
     if (aux_path != NULL)
         chdir(aux_path);
 }

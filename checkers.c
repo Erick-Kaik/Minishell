@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 18:26:18 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/15 14:38:25 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:03:33 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,7 @@ void    ft_print_error(char **line, int *index)
     while (line[*index] != NULL && ft_its_a_redirector(line[*index],
         ft_strlen(line[*index])) == 0)
         *index += 1;
+    ft_clear_split_line(line);
+    ft_clear_struct();
+    exit(1);
 }
