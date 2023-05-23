@@ -83,3 +83,5 @@ void    ft_print_error(char **line, int *index)
     ft_clear_struct();
     exit(1);
 }
+
+// void ft_print

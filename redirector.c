@@ -44,7 +44,6 @@ void    ft_appending(char **line, int *index)
         *index += 1;
     else
         return;
-        
     g_data.fd = open(line[*index], O_RDWR | O_CREAT | O_APPEND | O_SYNC, 0644);
     if (aux_path != NULL)
         chdir(aux_path);
@@ -99,18 +98,21 @@ void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do b
         chdir(g_data.path_comand);
     if (ft_strlen(line[*index]) == 1 && line[*index][0] == '<')
         *index += 1;
-    ft_printf("before line = %s\n", line[*index]);
     while (line[*index] != NULL)
     {
         g_data.fd = open(line[*index], O_RDONLY | O_SYNC);
-        if (g_data.fd < 0)
-            ft_print_error(line, index);
-        if (line[*index + 1] == NULL || ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
+        if (g_data.fd < 0 || line[*index + 1] == NULL
+            || ft_its_a_redirector(line[*index],ft_strlen(line[*index])) > 0)
             break;
-    }     
-    ft_printf("after line = %s\n", line[*index]);
+        *index += 1;
+    }
     dup2(g_data.fd, STDIN_FILENO);
-    close(STDIN_FILENO);
+    if (line[*index] != NULL && line[*index + 1] != NULL
+        && ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
+    {
+        
+        g_data.fd = open(line[*index], O_RDONLY | O_SYNC);
+    }
     if (aux_path != NULL)
         chdir(aux_path);
 }
