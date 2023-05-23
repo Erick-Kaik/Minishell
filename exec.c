@@ -93,12 +93,10 @@ int ft_execute_execve(char **aux, char **line, char *path, int *index)
 
     ret = 0;
     status = 0;  
+    ft_redirector_in_exec(line, index);
     pid = fork();
     if (pid == 0)
     {
-        if (line[*index] != NULL && ft_its_a_redirector(line[*index],
-            ft_strlen(line[*index])) > 0)
-            ft_redirector(line, index);
         ret = execve(path, aux, g_data.envp);
         exit(ret);
     }
@@ -111,6 +109,16 @@ int ft_execute_execve(char **aux, char **line, char *path, int *index)
     return (ret);
 }
 
+void ft_redirector_in_exec(char** line, int *index)
+{
+    while (line[*index] != NULL)
+    {
+        if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
+            ft_redirector(line, index);
+        else
+            break;
+    }
+}
 
 char **ft_limit_execve(char **line, int *index)
 {

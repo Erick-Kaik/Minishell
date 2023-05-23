@@ -102,6 +102,7 @@ typedef struct s_data
     t_error         error;
     pid_t           pid;
     int             fd;
+    int             pipe[2];
     char            **envp;
     char            *str_history;
     int             history;
@@ -196,6 +197,7 @@ int ft_break_redirector(char *str, int pos);
 int ft_split_redirection(char *str);
 int ft_len_redirector(char *str, int index, int len_backup);
 int ft_execute_execve(char **aux, char **line, char *path, int *index);
+void ft_redirector_in_exec(char** line, int *index);
 
 
 #endif

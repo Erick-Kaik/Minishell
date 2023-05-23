@@ -83,9 +83,9 @@ void ft_check_line(char *line)
     index = 0;
     getcwd(g_data.path_comand, sizeof(g_data.path_comand));
     broke_line = ft_broke_line(line);
+    // pipe(g_data.pipe);
     while (broke_line[index] != NULL)
     {
-        ft_printf("line = %s\n", broke_line[index]);
         if (ft_its_a_redirector(broke_line[index],
             ft_strlen(broke_line[index])) >= 1)
             ft_redirector(broke_line, &index);
