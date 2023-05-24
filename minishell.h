@@ -102,7 +102,6 @@ typedef struct s_data
     t_error         error;
     pid_t           pid;
     int             fd;
-    int             pipe[2];
     char            **envp;
     char            *str_history;
     int             history;
