@@ -44,8 +44,8 @@ void    ft_appending(char **line, int *index)
         *index += 1;
     else
         return;
-    g_data.fd = open(line[*index], O_RDWR | O_CREAT | O_APPEND | O_SYNC, 0777);
-    // dup2(g_data.fd, STDOUT_FILENO);
+    g_data.fd = open(line[*index], O_WRONLY | O_CREAT | O_APPEND | O_SYNC, 0777);
+    dup2(g_data.fd, 1);
     if (aux_path != NULL)
         chdir(aux_path);
     *index += 1;
@@ -62,9 +62,8 @@ void ft_overwriting(char **line, int *index)
         *index += 1;
     else
         return;
-    g_data.fd = open(line[*index], O_RDWR | O_CREAT | O_TRUNC | O_SYNC, 0777);
-
-    // dup2(g_data.fd, STDOUT_FILENO);
+    g_data.fd = open(line[*index], O_WRONLY | O_CREAT | O_TRUNC | O_SYNC, 0777);
+    dup2(g_data.fd, 1);
     if (aux_path != NULL)
         chdir(aux_path);
     *index += 1;
@@ -103,13 +102,16 @@ void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do b
         *index += 1;
     while (line[*index] != NULL)
     {
-        g_data.fd = open(line[*index], O_RDWR | O_SYNC, 0777);
+        g_data.fd = open(line[*index], O_RDONLY, 0777);
         if (g_data.fd < 0 || line[*index + 1] == NULL
             || ft_its_a_redirector(line[*index + 1],ft_strlen(line[*index + 1])) > 0)
+        {
+            *index += 1;
             break;
+        }
         *index += 1;
     }
-    dup2(g_data.pipe[1], STDOUT_FILENO);
+    dup2(g_data.fd, 0);
     if (aux_path != NULL)
         chdir(aux_path);
 }

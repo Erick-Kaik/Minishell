@@ -28,6 +28,7 @@ void ft_starting_variables(char **envp)
     g_data.envp = envp;
     ft_add_lst_var(&g_data.var, ft_new_lst_var("?", "0"));
     ft_set_envp_t_var(envp);
+    pipe(g_data.pipe);
 }
 
 void ft_set_envp_t_var(char **envp)
@@ -83,7 +84,6 @@ void ft_check_line(char *line)
     index = 0;
     getcwd(g_data.path_comand, sizeof(g_data.path_comand));
     broke_line = ft_broke_line(line);
-    // pipe(g_data.pipe);
     while (broke_line[index] != NULL)
     {
         if (ft_its_a_redirector(broke_line[index],
