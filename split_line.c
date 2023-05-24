@@ -23,13 +23,23 @@ char **ft_broke_line(char *line)
     aux = ft_strtrim(line, " ");
     while (ft_open_quotes(aux) == 1)
         aux = ft_get_more_content(aux, &concat);
-    add_history(aux);
+    ft_add_history(aux);
     count = ft_count_split(aux);
     temp = (char **)malloc(sizeof(char *) * (count + 1));
     temp = ft_split_words(aux, temp, count);
-    free(aux);
+    // free(aux);
     return (temp);
 }
+
+void ft_add_history(char *aux)
+{
+    t_history *new;
+
+    new = ft_new_lst_history(aux);
+    ft_add_lst_history(&g_data.history, new);
+    add_history(aux);
+}
+ 
 
 char **ft_split_words(char *str, char **split, int count)
 {
@@ -42,9 +52,11 @@ char **ft_split_words(char *str, char **split, int count)
     while (index < count)
     {
         len = ft_lenth_split(str, &i);
+        ft_printf("len = %d\n", len);
         split[index] = (char *)malloc(sizeof(char) * len);
         ft_fill_split(split[index], str, i, len);
         split[index][len] = '\0';
+        ft_printf("split[%s]\n",split[index]);
         i += ft_fix_index_position(str, i);
         index++;
     }
@@ -121,7 +133,7 @@ int ft_lenth_split(char *str, int *i)
     len = 0;
     x = 0;
     quotes = 0;
-    while (str[*i] != '\0' && str[*i] == ' ')
+    while (str[*i] != '\0' && str[*i] == ' ') 
         *i += 1;
     while (str[*i + x] != '\0')
     {
@@ -147,6 +159,7 @@ int ft_len_redirector(char *str, int index, int len_backup)
 
     i = 0;
     len = 0;
+    ft_printf("len back = %d\n", len_backup);
     if (len_backup > 0)
         return (len_backup);
     while (str[index + i] != ' ' && ft_break_redirector(str, index) == 1)

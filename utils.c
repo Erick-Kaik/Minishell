@@ -28,6 +28,7 @@ void ft_starting_variables(char **envp)
     g_data.envp = envp;
     ft_add_lst_var(&g_data.var, ft_new_lst_var("?", "0"));
     ft_set_envp_t_var(envp);
+    
 }
 
 void ft_set_envp_t_var(char **envp)

@@ -91,8 +91,8 @@ void  ft_here_doc(char **line, int *index)
     *index += 1;
 }
 
-void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do bglh dps do '<'  pega todos, fznd em ordem se der erro ele trava e gera um erro
-{                                       //se der erro break basicamente, e se funciona e dps tiver comandods preciso testar
+void ft_input(char **line, int *index)
+{
     char aux_path[PATH_MAX];
 
     getcwd(aux_path, sizeof(aux_path));
@@ -104,7 +104,8 @@ void ft_input(char **line, int *index)  // troca o fd do terminal pro texto do b
     {
         g_data.fd = open(line[*index], O_RDONLY, 0777);
         if (g_data.fd < 0 || line[*index + 1] == NULL
-            || ft_its_a_redirector(line[*index + 1],ft_strlen(line[*index + 1])) > 0)
+            || ft_its_a_redirector(line[*index + 1],
+            ft_strlen(line[*index + 1])) > 0)
         {
             *index += 1;
             break;

@@ -31,8 +31,11 @@ void ft_start_signals(void)
 void ft_sig_new_prompt(int sig)
 {
     (void)sig;
-    ft_putchar('\n');
     ft_clear_struct();
+	ft_putchar('\n');
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
+	// rl_redisplay();
     kill(1, SIGKILL);
 }
 

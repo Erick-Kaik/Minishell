@@ -88,6 +88,11 @@ typedef struct s_error
 
 }   t_error;
 
+typedef struct s_history
+{
+    char *str;
+    struct s_history	*next;
+}   t_history;
 
 typedef struct s_data
 {
@@ -100,11 +105,10 @@ typedef struct s_data
     t_exit          exit;
     t_var           *var;
     t_error         error;
+    t_history       *history;
     pid_t           pid;
     int             fd;
     char            **envp;
-    char            *str_history;
-    int             history;
     int             status;
     char            path_comand[PATH_MAX];
     
@@ -197,6 +201,14 @@ int ft_split_redirection(char *str);
 int ft_len_redirector(char *str, int index, int len_backup);
 int ft_execute_execve(char **aux, char **line, char *path, int *index);
 void ft_redirector_in_exec(char** line, int *index);
+
+t_history	*ft_new_lst_history(char *content);
+void	ft_add_lst_history(t_history **history, t_history *new);
+t_history   *ft_lst_history_last(t_history *history);
+void	ft_clear_history(t_history **history, void (*del)(char*));
+void	ft_del_one_history(t_history *history, void (*del)(char*));
+void	ft_del_history(char *content);
+void ft_add_history(char *aux);
 
 
 #endif

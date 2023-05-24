@@ -75,7 +75,6 @@ void	ft_del_one_var(t_var *var, void (*del)(char*))
 
 void	ft_del_var(char *content)
 {
-	content = NULL;
 	if (content != NULL)
 		free(content);
 	else
