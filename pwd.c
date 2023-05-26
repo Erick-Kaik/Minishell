@@ -12,38 +12,36 @@
 
 #include "minishell.h"
 
-void ft_pwd(char **line, int *index)
+void	ft_pwd(char **line, int *index)
 {
-    char path[PATH_MAX];
-    int ret;
+	char	path[PATH_MAX];
+	int		ret;
 
-    *index += 1;
-    g_data.pwd.pdw = *index;
-    while (line[*index] != NULL)
-    {
-        ret = ft_its_a_redirector(line[*index], ft_strlen(line[*index]));
-        if (ret == 1)
-        {
-            ft_redirector(line, index);
-            g_data.pwd.fd = g_data.fd;
-        }
-        else if (ret == 2)
-            break; //seria o pipe
-        else
-            *index += 1;
-    }
-    if (getcwd(path, sizeof(path)) != NULL)
-        g_data.pwd.print = path;
-    ft_putstr_fd(g_data.pwd.print, g_data.pwd.fd);
-    ft_putchar_fd('\n', g_data.pwd.fd);
+	*index += 1;
+	g_data.pwd.pdw = *index;
+	while (line[*index] != NULL)
+	{
+		ret = ft_its_a_redirector(line[*index], ft_strlen(line[*index]));
+		if (ret == 1)
+		{
+			ft_redirector(line, index);
+			g_data.pwd.fd = g_data.fd;
+		}
+		else
+			*index += 1;
+	}
+	if (getcwd(path, sizeof(path)) != NULL)
+		g_data.pwd.print = path;
+	ft_putstr_fd(g_data.pwd.print, g_data.pwd.fd);
+	ft_putchar_fd('\n', g_data.pwd.fd);
 }
 
-void ft_clear_pwd(void)
+void	ft_clear_pwd(void)
 {
-    if (g_data.pwd.pdw > 0)
-        g_data.pwd.pdw = 0;
-    if (g_data.pwd.fd != 0)
-        g_data.pwd.fd = 0;
-    if (g_data.pwd.print != NULL)
-        g_data.pwd.print = NULL;
+	if (g_data.pwd.pdw > 0)
+		g_data.pwd.pdw = 0;
+	if (g_data.pwd.fd != 0)
+		g_data.pwd.fd = 0;
+	if (g_data.pwd.print != NULL)
+		g_data.pwd.print = NULL;
 }

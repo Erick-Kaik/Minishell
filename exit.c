@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-void    ft_exit(char **line)
+void	ft_exit(char **line)
 {
-    int x;
+	int	x;
 
-    x = 0;
-    while (line[x] != NULL)
-        free(line[x++]);
-    if (line != NULL)
-        free(line);
-    ft_clear_struct();
-    ft_putstr_fd("loggout\n", 0);
-    exit (1);
+	x = 0;
+	while (line[x] != NULL)
+		free(line[x++]);
+	if (line != NULL)
+		free(line);
+	ft_clear_struct();
+	ft_putstr_fd("loggout\n", 0);
+	exit (1);
 }

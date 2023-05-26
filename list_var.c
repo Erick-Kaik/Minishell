@@ -40,7 +40,7 @@ void	ft_add_lst_var(t_var **var, t_var *new)
 	aux->next = new;
 }
 
-t_var   *ft_lst_var_last(t_var *var)
+t_var	*ft_lst_var_last(t_var *var)
 {
 	if (var == NULL)
 		return (NULL);
@@ -65,7 +65,7 @@ void	ft_clear_var(t_var **var, void (*del)(char*))
 }
 
 void	ft_del_one_var(t_var *var, void (*del)(char*))
-{	
+{
 	if (var == NULL || del == NULL)
 		return ;
 	del(var->name);
@@ -75,7 +75,6 @@ void	ft_del_one_var(t_var *var, void (*del)(char*))
 
 void	ft_del_var(char *content)
 {
-	content = NULL;
 	if (content != NULL)
 		free(content);
 	else
