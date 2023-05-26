@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 10:39:05 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/24 10:44:14 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:20:25 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_add_lst_history(t_history **history, t_history *new)
 	aux->next = new;
 }
 
-t_history   *ft_lst_history_last(t_history *history)
+t_history	*ft_lst_history_last(t_history *history)
 {
 	if (history == NULL)
 		return (NULL);
@@ -64,7 +64,7 @@ void	ft_clear_history(t_history **history, void (*del)(char*))
 }
 
 void	ft_del_one_history(t_history *history, void (*del)(char*))
-{	
+{
 	if (history == NULL || del == NULL)
 		return ;
 	del(history->str);
