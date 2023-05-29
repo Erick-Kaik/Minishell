@@ -164,7 +164,7 @@ void		ft_fill_split(char *dest, char *str, int start, int len);
 int			ft_fix_index_position(char *str, int i);
 void		ft_clear_pid(pid_t pid);
 int			ft_len_quotes(char *str, char quote, int i);
-int			ft_link_var_in_split(char *dest, char* var, int i);
+int			ft_link_var(char *dest, char* var, int i);
 int			ft_break_redirector(char *str, int pos);
 int			ft_split_redirection(char *str);
 int			ft_len_redirector(char *str, int index, int len_backup);
