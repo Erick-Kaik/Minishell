@@ -175,7 +175,7 @@ t_history	*ft_lst_history_last(t_history *history);
 void		ft_clear_history(t_history **history, void (*del)(char*));
 void		ft_del_one_history(t_history *history, void (*del)(char*));
 void		ft_del_history(char *content);
-void		ft_add_history(char *aux);
+char		*ft_add_history(void);
 
 
 #endif

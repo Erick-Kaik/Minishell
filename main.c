@@ -25,15 +25,14 @@ int	main(int argc, char **argv, char **envp)
 	ft_start_signals();
 	while (1)
 	{
+		line = ft_add_history();
 		pid = fork();
-		if (pid > 0)
+		if (pid > 0) //acho q posso comentar n faz sentido
 			g_data.pid = pid;
 		if (pid < 0)
-			continue;
+			continue ;
 		else if (pid == 0)
 		{
-			ft_get_folder();
-			line = readline(" ");
 			if (line == NULL)
 				ft_sig_close(0);
 			ft_check_line(line);
@@ -42,7 +41,26 @@ int	main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		else if (pid > 0)
+		{
 			waitpid(pid, NULL, WUNTRACED);
+			free(line);
+		}
+
 	}
 	return (0);
+}
+
+char *ft_add_history(void)
+{
+	int		concat;
+	char	*line;
+
+	concat = 0;
+	ft_get_folder();
+	line = readline(" ");
+	while (ft_open_quotes(line) == 1)
+		line = ft_get_more_content(line, &concat);
+	ft_add_lst_history(&g_data.history, ft_new_lst_history(line));
+	add_history(line);
+	return (line);
 }

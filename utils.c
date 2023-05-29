@@ -86,7 +86,7 @@ void	ft_check_line(char *line)
 	while (broke_line[index] != NULL)
 	{
 		if (ft_its_a_redirector(broke_line[index],
-				ft_strlen(broke_line[index])) >= 1)
+				ft_strlen(broke_line[index])) == 1)
 			ft_redirector(broke_line, &index);
 		else if (ft_its_a_builtins(broke_line[index]) == 1)
 			ft_builtins(broke_line, &index);

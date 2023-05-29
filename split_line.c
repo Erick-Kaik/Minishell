@@ -15,15 +15,10 @@
 char	**ft_broke_line(char *line)
 {
 	int		count;
-	int		concat;
 	char	*aux;
 	char	**temp;
 
-	concat = 0;
 	aux = ft_strtrim(line, " ");
-	while (ft_open_quotes(aux) == 1)
-		aux = ft_get_more_content(aux, &concat);
-	add_history(aux);
 	count = ft_count_split(aux);
 	temp = (char **)malloc(sizeof(char *) * (count + 1));
 	temp = ft_split_words(aux, temp, count);
