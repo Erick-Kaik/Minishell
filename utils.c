@@ -15,6 +15,7 @@
 void	ft_clear_struct(void)
 {
 	g_data.fd = 0;
+	g_data.jump_fork = 0;
 	if (g_data.env.env > 0)
 		ft_clear_env();
 	if (g_data.pwd.pdw > 0)
@@ -26,6 +27,7 @@ void	ft_clear_struct(void)
 void	ft_starting_variables(char **envp)
 {
 	g_data.envp = envp;
+	g_data.jump_fork = 0;
 	ft_add_lst_var(&g_data.var, ft_new_lst_var("?", "0"));
 	ft_set_envp_t_var(envp);
 }

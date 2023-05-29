@@ -65,15 +65,10 @@ int	ft_its_a_builtins(char *line)
 
 void	ft_print_error(char **line, int *index)
 {
-	char	*aux;
-
 	g_data.error.error += 1;
 	if (line[*index] == NULL)
 		*index -= 1;
-	aux = ft_strjoin("bash: ", line[*index]);
-	aux = ft_strjoin_mod(aux, ": command not found\n");
-	ft_putstr_fd(aux, 0);
-	free(aux);
+	ft_printf("bash: %s: command not found\n", line[*index]);
 	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
 			ft_strlen(line[*index])) == 0)
 		*index += 1;

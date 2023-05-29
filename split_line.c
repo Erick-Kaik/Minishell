@@ -86,7 +86,7 @@ void	ft_fill_split(char *dest, char *str, int start, int len)
 			break ;
 		else if (str[start + i] == '$' && quotes != 39)
 		{
-			i_dest += ft_link_var_in_split(dest, ft_check_var(str, start, &i), i_dest);
+			i_dest += ft_link_var(dest, ft_check_var(str, start, &i), i_dest);
 			if (str[start + i] == ' ')
 				continue ;
 		}
@@ -100,7 +100,7 @@ void	ft_fill_split(char *dest, char *str, int start, int len)
 	}
 }
 
-int	ft_link_var_in_split(char *dest, char *var, int i)
+int	ft_link_var(char *dest, char *var, int i)
 {
 	int	x;
 

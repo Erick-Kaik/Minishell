@@ -102,6 +102,7 @@ typedef struct s_data
 	int			fd;
 	char		**envp;
 	int			status;
+	int			jump_fork;
 	char		path_comand[PATH_MAX];
 }	t_data;
 
@@ -163,7 +164,7 @@ void		ft_fill_split(char *dest, char *str, int start, int len);
 int			ft_fix_index_position(char *str, int i);
 void		ft_clear_pid(pid_t pid);
 int			ft_len_quotes(char *str, char quote, int i);
-int			ft_link_var_in_split(char *dest, char* var, int i);
+int			ft_link_var(char *dest, char* var, int i);
 int			ft_break_redirector(char *str, int pos);
 int			ft_split_redirection(char *str);
 int			ft_len_redirector(char *str, int index, int len_backup);
@@ -175,7 +176,7 @@ t_history	*ft_lst_history_last(t_history *history);
 void		ft_clear_history(t_history **history, void (*del)(char*));
 void		ft_del_one_history(t_history *history, void (*del)(char*));
 void		ft_del_history(char *content);
-char		*ft_add_history(void);
+void		ft_add_history(char *aux);
 
 
 #endif
