@@ -27,8 +27,8 @@ void	ft_redirector(char **line, int *index)
 			ft_overwriting(line, index);
 		else if (line[*index][0] == '<')
 			ft_input(line, index);
-/*      else if (line[*index][0] == '|')
-			ft_pipe(); */
+     else if (line[*index][0] == '|')
+			ft_pipe(line, index);
 	}
 }
 
@@ -114,7 +114,8 @@ void	ft_input(char **line, int *index)
 		}
 		*index += 1;
 	}
-	dup2(g_data.fd, 0);
+	if (g_data.fd >= 0)
+		dup2(g_data.fd, 0);
 	if (aux_path != NULL)
 		chdir(aux_path);
 }

@@ -37,12 +37,10 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 	ret = 0;
 	status = 0;
 	ft_redirector_in_exec(line, index);
-	pid = fork();
-	if (pid == 0)
-	{
+	if (g_data.jump_fork == 0)
+		pid = fork();
+	if (pid == 0 || g_data.jump_fork == 1)
 		ret = execve(path, aux, g_data.envp);
-		exit(ret);
-	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, WUNTRACED);
@@ -57,7 +55,16 @@ void	ft_redirector_in_exec(char **line, int *index)
 	while (line[*index] != NULL)
 	{
 		if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
+		{
 			ft_redirector(line, index);
+			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
+				break ;
+			if (g_data.fd == -1)
+			{
+				*index -= 1;
+				ft_print_error(line, index);
+			}
+		}
 		else
 			break ;
 	}

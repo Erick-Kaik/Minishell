@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		if (pid > 0)
 			g_data.pid = pid;
 		if (pid < 0)
-			continue;
+			continue ;
 		else if (pid == 0)
 		{
 			ft_get_folder();

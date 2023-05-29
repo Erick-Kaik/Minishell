@@ -102,6 +102,7 @@ typedef struct s_data
 	int			fd;
 	char		**envp;
 	int			status;
+	int			jump_fork;
 	char		path_comand[PATH_MAX];
 }	t_data;
 
@@ -176,6 +177,7 @@ void		ft_clear_history(t_history **history, void (*del)(char*));
 void		ft_del_one_history(t_history *history, void (*del)(char*));
 void		ft_del_history(char *content);
 void		ft_add_history(char *aux);
-
+void		ft_pipe(char **line, int  *index);
+void		ft_check_next_comand(char **line, int *index);
 
 #endif
