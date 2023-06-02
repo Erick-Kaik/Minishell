@@ -18,12 +18,11 @@ void ft_start_signals(void)
 	struct sigaction sa_close;
 
 	sa_prompt.sa_handler = &ft_sig_new_prompt;
-	sa_prompt.sa_flags = SA_SIGINFO;
+    sa_prompt.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa_prompt.sa_mask);
 	sigaction(SIGINT, &sa_prompt, NULL);
 
 	sa_close.sa_handler = SIG_IGN;
-	sa_close.sa_flags = 0;
 	sigemptyset(&sa_close.sa_mask);
 	sigaction(SIGQUIT, &sa_close, NULL);
 }
@@ -32,19 +31,15 @@ void ft_sig_new_prompt(int sig)
 {
 	(void)sig;
 	ft_clear_struct();
-	ft_putchar('\n');
-	// rl_replace_line("", 0);
-	// rl_on_new_line();
-	// rl_redisplay();
 	kill(1, SIGKILL);
 }
 
 void ft_sig_close(int sig)
 {
 	(void)sig;
+	ft_putstr("roi\n");
 	ft_putchar('\n');
 	ft_clear_struct();
-	kill(1, SIGKILL);
 }
 
 void ft_clear_pid(pid_t pid)

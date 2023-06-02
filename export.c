@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+static void	ft_send_to_parent(char *name, char *value);
+
+
 void	ft_export(char **line, int *index)
 {
 	if (line[*index + 1] != NULL && ft_strchr(line[*index + 1], '=') != NULL)
@@ -39,6 +42,7 @@ void	ft_adding_export(char **line, int *index)
 
 	x = 0;
 	aux = ft_split(line[*index], '=');
+	value = "";
 	while (aux[x] != NULL)
 	{
 		if (x == 0)
@@ -53,6 +57,7 @@ void	ft_adding_export(char **line, int *index)
 		x++;
 	}
 	ft_add_lst_var(&g_data.var, ft_new_lst_var(name, value));
+	ft_send_to_parent(name, value);
 }
 
 int	ft_check_name_var(char *str)
@@ -60,11 +65,23 @@ int	ft_check_name_var(char *str)
 	size_t	i;
 
 	i = 0;
-	while (i < ft_strlen(str) || str[i] == '=')
+	while (i < ft_strlen(str) && str[i] != '=' && str[i] != '\0')
 	{
 		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
 			return (1);
 		i++;
 	}
 	return (0);
+}
+
+static void	ft_send_to_parent(char *name, char *value)
+{
+	if (g_data.pid == 0)
+	{
+		close(g_data.pipe[0]);
+		ft_putstr_fd("export:", g_data.pipe[1]);
+		ft_putstr_fd(name, g_data.pipe[1]);
+		ft_putstr_fd("=", g_data.pipe[1]);
+		ft_putstr_fd(value, g_data.pipe[1]);
+	}
 }

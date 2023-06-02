@@ -62,6 +62,7 @@ static char	**ft_split_words(char const *str, char c, char **temp, size_t count)
 	x = 0;
 	word = 0;
 	len = 0;
+
 	while (word < count)
 	{
 		while (str[x] != '\0' && str[x] == c)

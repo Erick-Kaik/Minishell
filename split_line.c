@@ -18,6 +18,7 @@ char	**ft_broke_line(char *line)
 	char	*aux;
 	char	**temp;
 
+	temp = NULL;
 	aux = ft_strtrim(line, " ");
 	count = ft_count_split(aux);
 	temp = (char **)malloc(sizeof(char *) * (count + 1));
@@ -37,7 +38,7 @@ char	**ft_split_words(char *str, char **split, int count)
 	while (index < count)
 	{
 		len = ft_lenth_split(str, &i);
-		split[index] = (char *)malloc(sizeof(char) * len);
+		split[index] = (char *)malloc(sizeof(char) * len + 1);
 		ft_fill_split(split[index], str, i, len);
 		split[index][len] = '\0';
 		i += ft_fix_index_position(str, i);
@@ -65,7 +66,7 @@ int	ft_fix_index_position(char *str, int i)
 		if (ft_break_redirector(str, (i + x)) == 1)
 			break ;
 		else if (str[i + x] == 34 || str[i + x] == 39)
-			x = ft_jump_quotes(str, str[i + x], (i + x));
+			x += ft_jump_quotes(str, str[i + x], (i + x));
 		x++;
 	}
 	return (x);
@@ -280,12 +281,9 @@ char	*ft_get_more_content(char *line, int *concat)
 		ft_sig_close(0);
 	aux = ft_strtrim(temp, " ");
 	free(temp);
-	if (*concat > 0)
-		aux = ft_strjoin_mod(aux, "\n");
-	add_history(aux);
-	if (*concat == 0)
-		line = ft_strjoin_mod(line, "\n");
+	line = ft_strjoin_mod(line, "\n");
 	line = ft_strjoin_mod(line, aux);
+	free(aux);
 	*concat += 1;
 	return (line);
 }

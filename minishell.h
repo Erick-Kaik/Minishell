@@ -99,10 +99,13 @@ typedef struct s_data
 	t_error		error;
 	t_history	*history;
 	pid_t		pid;
+	int			pipe[2];
 	int			fd;
 	char		**envp;
 	int			status;
 	int			jump_fork;
+	char		*line;
+	char		**Broke_line;
 	char		path_comand[PATH_MAX];
 }	t_data;
 
@@ -176,7 +179,12 @@ t_history	*ft_lst_history_last(t_history *history);
 void		ft_clear_history(t_history **history, void (*del)(char*));
 void		ft_del_one_history(t_history *history, void (*del)(char*));
 void		ft_del_history(char *content);
-void		ft_add_history(char *aux);
+char		*ft_add_history(void);
+void		ft_pipe(char **line, int  *index);
+void		ft_check_next_comand(char **line, int *index);
+void		ft_init(char *line);
+char		*ft_get_path_exec(char *comand);
+void		ft_update_parent(char *aux);
 
 
 #endif

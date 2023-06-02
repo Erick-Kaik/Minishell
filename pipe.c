@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,24 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:10:35 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/26 17:21:59 by ekaik-ne         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-void	pipe(char **line, int  *index)
-{
-
-}
-=======
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/24 16:10:35 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/05/29 17:58:11 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/06/02 10:59:37 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +42,10 @@ void	ft_pipe(char **line, int *index)
 
 void ft_check_next_comand(char **line, int *index)
 {
-/* 	if (line[*index] == NULL)
-		ft_get_comand_pipe();
-	else  */if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) >= 1)
+	if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) >= 1)
 		ft_redirector(line, index);
 	else if (ft_its_a_builtins(line[*index]) == 1)
 		ft_builtins(line, index);
-	else if (ft_execute_ft_system(line, index) != -1)
-		printf("seria um erro\n");
+	else if (ft_execute_ft_system(line, index) == -1)
+		ft_print_error(line, index);
 }
-
-void	ft_get_comand_pipe(void)
-{
-
-}
->>>>>>> 76dc1f43f36c55f435e3761be49c152751447874

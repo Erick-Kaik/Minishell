@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -g -Wall -Werror -Wextra
 GCC =  $(CC) $(CFLAGS)
 
 LIBFT = libft/libft.a

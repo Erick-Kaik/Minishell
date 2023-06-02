@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+static void	ft_send_to_parent(char *value);
+
 void	ft_cd(char **line, int *index)
 {
 	int		value;
@@ -26,6 +28,10 @@ void	ft_cd(char **line, int *index)
 		else
 			value = chdir(path);
 	}
+	if (g_data.pid == 0 && value >= 0 && ft_strlen(path) == 1 && path[0] == '~')
+		ft_send_to_parent("~");
+	else if (g_data.pid == 0 && value >= 0 && path != NULL)
+		ft_send_to_parent(path);
 	if (value == -1)
 		ft_printf("bash: %s: '%s': No such file or directory\n",
 			line[*index], line[*index + 1]);
@@ -61,4 +67,15 @@ char	*ft_get_path_cd(char **line, int *index)
 			path = ft_strjoin(path, line[*index + 1]);
 	}
 	return (path);
+}
+
+static void	ft_send_to_parent(char *value)
+{
+	printf("aux = %s\n", value);
+	if (g_data.pid == 0)
+	{
+		close(g_data.pipe[0]);
+		ft_putstr_fd("cd:", g_data.pipe[1]);
+		ft_putstr_fd(value, g_data.pipe[1]);
+	}
 }

@@ -22,13 +22,15 @@ void	ft_clear_struct(void)
 		ft_clear_pwd();
 	if (g_data.echo.echo > 0)
 		ft_clear_echo();
+	ft_clear_var(&g_data.var, &ft_del_var);
+	rl_clear_history();
 }
 
 void	ft_starting_variables(char **envp)
 {
 	g_data.envp = envp;
 	g_data.jump_fork = 0;
-	ft_add_lst_var(&g_data.var, ft_new_lst_var("?", "0"));
+	ft_add_lst_var(&g_data.var, ft_new_lst_var(ft_strdup("?"), ft_strdup("0")));
 	ft_set_envp_t_var(envp);
 }
 
@@ -38,16 +40,18 @@ void	ft_set_envp_t_var(char **envp)
 	char	**aux;
 
 	index = 0;
-	while (envp[index++] != NULL)
+	while (envp[index] != NULL)
 	{
-		aux = ft_split(envp[index], '=');
+		aux = ft_split(envp[index++], '=');
 		if (aux == NULL)
 			break ;
 		if (g_data.var == NULL)
-			g_data.var = ft_new_lst_var(aux[0], aux[1]);
+			g_data.var = ft_new_lst_var(ft_strdup(aux[0]), ft_strdup(aux[1]));
 		else
-			ft_add_lst_var(&g_data.var, ft_new_lst_var(aux[0], aux[1]));
-		free(aux);
+			ft_add_lst_var(&g_data.var, ft_new_lst_var(ft_strdup(aux[0]), ft_strdup(aux[1])));
+		ft_clear_split_line(aux);
+		if (aux != NULL)
+			free(aux);
 	}
 }
 
@@ -69,12 +73,14 @@ void	ft_get_folder(void)
 			while (folder[x] != NULL)
 				x++;
 			temp = ft_strjoin_mod(temp, folder[x - 1]);
+			ft_clear_split_line(folder);
+			if (folder != NULL)
+				free(folder);
 		}
 	}
 	temp = ft_strjoin_mod(temp, "$->");
 	ft_putstr_fd(temp, 0);
 	free(temp);
-	ft_clear_split_line(folder);
 }
 
 void	ft_check_line(char *line)
@@ -83,12 +89,15 @@ void	ft_check_line(char *line)
 	char	**broke_line;
 
 	index = 0;
+	broke_line = NULL;
+	g_data.line = line;
 	getcwd(g_data.path_comand, sizeof(g_data.path_comand));
 	broke_line = ft_broke_line(line);
+	g_data.Broke_line = broke_line;
 	while (broke_line[index] != NULL)
 	{
 		if (ft_its_a_redirector(broke_line[index],
-				ft_strlen(broke_line[index])) == 1)
+				ft_strlen(broke_line[index])) >= 1)
 			ft_redirector(broke_line, &index);
 		else if (ft_its_a_builtins(broke_line[index]) == 1)
 			ft_builtins(broke_line, &index);
@@ -97,8 +106,9 @@ void	ft_check_line(char *line)
 		else
 			ft_print_error(broke_line, &index);
 	}
+	ft_clear_split_line(broke_line);
 	if (broke_line != NULL)
-		ft_clear_split_line(broke_line);
+		free(broke_line);
 }
 
 void	ft_clear_split_line(char **str)
@@ -111,8 +121,6 @@ void	ft_clear_split_line(char **str)
 		free(str[index]);
 		index++;
 	}
-	if (str != NULL)
-		free(str);
 }
 
 void	ft_builtins(char **line, int *index)

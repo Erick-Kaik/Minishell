@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+static void	ft_send_to_parent(char *value);
+
 void	ft_unset(char **line, int *index)
 {
 	*index += 1;
@@ -19,8 +21,22 @@ void	ft_unset(char **line, int *index)
 			ft_strlen(line[*index])) == 0)
 	{
 		if (ft_check_exist_var(line[*index]) == 1)
+		{
 			ft_delete_var(line[*index]);
+			if (g_data.pid == 0)
+				ft_send_to_parent(line[*index]);
+		}
 		*index += 1;
+	}
+}
+
+static void	ft_send_to_parent(char *value)
+{
+	if (g_data.pid == 0)
+	{
+		close(g_data.pipe[0]);
+		ft_putstr_fd("unset:", g_data.pipe[1]);
+		ft_putstr_fd(value, g_data.pipe[1]);
 	}
 }
 

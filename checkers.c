@@ -68,11 +68,13 @@ void	ft_print_error(char **line, int *index)
 	g_data.error.error += 1;
 	if (line[*index] == NULL)
 		*index -= 1;
-	ft_printf("bash: %s: command not found\n", line[*index]);
+	printf("bash: %s: command not found\n", line[*index]);
 	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
 			ft_strlen(line[*index])) == 0)
 		*index += 1;
 	ft_clear_split_line(line);
 	ft_clear_struct();
+	if (line != NULL)
+		free(line);
 	exit(1);
 }
