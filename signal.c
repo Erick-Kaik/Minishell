@@ -12,38 +12,15 @@
 
 #include "minishell.h"
 
-void ft_start_signals(void)
+void ft_start_signals_parent(void)
 {
-	struct sigaction sa_prompt;
-	struct sigaction sa_close;
-
-	sa_prompt.sa_handler = &ft_sig_new_prompt;
-    sa_prompt.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa_prompt.sa_mask);
-	sigaction(SIGINT, &sa_prompt, NULL);
-
-	sa_close.sa_handler = SIG_IGN;
-	sigemptyset(&sa_close.sa_mask);
-	sigaction(SIGQUIT, &sa_close, NULL);
+/* 	struct sigaction saParent;
+	saParent.
+ */
 }
 
-void ft_sig_new_prompt(int sig)
-{
-	(void)sig;
-	ft_clear_struct();
-	kill(1, SIGKILL);
-}
 
-void ft_sig_close(int sig)
+void ft_start_signal_child(void)
 {
-	(void)sig;
-	ft_putstr("roi\n");
-	ft_putchar('\n');
-	ft_clear_struct();
-}
 
-void ft_clear_pid(pid_t pid)
-{
-	g_data.pid = 0;
-	kill(pid, SIGKILL);
 }

@@ -277,8 +277,8 @@ char	*ft_get_more_content(char *line, int *concat)
 
 	rl_on_new_line();
 	temp = readline("> ");
-	if (temp == NULL)
-		ft_sig_close(0);
+	if (temp == NULL) /* sig close pro pai */
+		// ft_sig_close(0);
 	aux = ft_strtrim(temp, " ");
 	free(temp);
 	line = ft_strjoin_mod(line, "\n");

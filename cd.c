@@ -71,7 +71,6 @@ char	*ft_get_path_cd(char **line, int *index)
 
 static void	ft_send_to_parent(char *value)
 {
-	printf("aux = %s\n", value);
 	if (g_data.pid == 0)
 	{
 		close(g_data.pipe[0]);

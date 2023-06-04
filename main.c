@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv == NULL)
 		return (0);
 	ft_starting_variables(envp);
-	ft_start_signals();
+	//ft_start_signals_parent();
 	line = "";
 	ft_init(line);
 	return (0);
@@ -50,12 +50,11 @@ void	ft_init(char *line)
 		{
 
 			waitpid(g_data.pid, NULL, WUNTRACED);
-			aux = malloc((ft_strlen(line) + 1) * sizeof(char));
+			aux = ft_calloc((ft_strlen(line) + 2), sizeof(char));
 			close(g_data.pipe[1]);
 			if (read(g_data.pipe[0], aux, ft_strlen(line) + 1) > 0)
 				ft_update_parent(aux);
-			else
-				close(g_data.pipe[0]);
+			close(g_data.pipe[0]);
 			free(aux);
 		}
 		free(line);

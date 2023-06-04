@@ -152,9 +152,6 @@ void		ft_delete_var(char *name_var);
 int			ft_execute_ft_system(char **line, int *index);
 char		**ft_limit_execve(char **line, int *index);
 void		ft_clear_split_line(char **broke_line);
-void		ft_start_signals(void);
-void		ft_sig_new_prompt(int sig);
-void		ft_sig_close(int sig);
 int			ft_open_quotes(char *line);
 char		*ft_get_more_content(char *line, int *concat);
 int			ft_count_split(char *str);
@@ -165,7 +162,6 @@ char		*ft_check_var(char *str, int i, int *index);
 char		*ft_get_var(char *name_var);
 void		ft_fill_split(char *dest, char *str, int start, int len);
 int			ft_fix_index_position(char *str, int i);
-void		ft_clear_pid(pid_t pid);
 int			ft_len_quotes(char *str, char quote, int i);
 int			ft_link_var(char *dest, char* var, int i);
 int			ft_break_redirector(char *str, int pos);
@@ -185,6 +181,7 @@ void		ft_check_next_comand(char **line, int *index);
 void		ft_init(char *line);
 char		*ft_get_path_exec(char *comand);
 void		ft_update_parent(char *aux);
+void		ft_start_signals_parent(void);
 
 
 #endif

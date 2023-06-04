@@ -82,8 +82,8 @@ void	ft_here_doc(char **line, int *index)
 	{
 		rl_on_new_line();
 		aux = readline("> ");
-		if (aux == NULL)
-			ft_sig_close(0);
+		if (aux == NULL) /* Sig close para o filho */
+			// ft_sig_close(0); 
 		if (ft_strlen(line[*index]) == ft_strlen(aux)
 			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
 			break ;
