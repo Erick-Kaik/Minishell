@@ -25,15 +25,15 @@ void	ft_pwd(char **line, int *index)
 		if (ret == 1)
 		{
 			ft_redirector(line, index);
-			g_data.pwd.fd = g_data.fd;
+			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
+				*index += 1;
 		}
 		else
 			*index += 1;
 	}
 	if (getcwd(path, sizeof(path)) != NULL)
 		g_data.pwd.print = path;
-	ft_putstr_fd(g_data.pwd.print, g_data.pwd.fd);
-	ft_putchar_fd('\n', g_data.pwd.fd);
+	printf("%s\n", g_data.pwd.print);
 }
 
 void	ft_clear_pwd(void)

@@ -21,8 +21,9 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 || argv == NULL)
 		return (0);
 	ft_starting_variables(envp);
-	//ft_start_signals_parent();
+	ft_start_signals_parent();
 	line = "";
+	ft_add_lst_history(&g_data.history, ft_new_lst_history(line));
 	ft_init(line);
 	return (0);
 }
@@ -41,9 +42,9 @@ void	ft_init(char *line)
 			continue ;
 		else if (g_data.pid == 0)
 		{
+			ft_start_signal_child();
 			if (line != NULL)
 				ft_check_line(line);
-			ft_clear_struct();
 			exit(1);
 		}
 		else if (g_data.pid > 0)
@@ -72,6 +73,8 @@ void	ft_update_parent(char *aux)
 		ft_export(split, &i);
 	else if (ft_strlen(split[0]) == 5 && ft_strnstr(split[0], "unset", 5) != NULL)
 		ft_unset(split, &i);
+	else if (ft_strlen(split[0]) == 4 && ft_strnstr(split[0], "exit", 5) != NULL)
+		ft_exit_parent(split, aux);
 	else if (ft_strlen(split[0]) == 2 && ft_strnstr(split[0], "cd", 2) != NULL)
 		ft_cd(split, &i);
 	ft_clear_split_line(split);

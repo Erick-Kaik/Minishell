@@ -27,7 +27,7 @@ void	ft_redirector(char **line, int *index)
 			ft_overwriting(line, index);
 		else if (line[*index][0] == '<')
 			ft_input(line, index);
-     else if (line[*index][0] == '|')
+		else if (line[*index][0] == '|')
 			ft_pipe(line, index);
 	}
 }
@@ -46,7 +46,7 @@ void	ft_appending(char **line, int *index)
 		return ;
 	g_data.fd = open(line[*index], O_WRONLY
 			| O_CREAT | O_APPEND | O_SYNC, 0777);
-	dup2(g_data.fd, 1);
+	dup2(g_data.fd, STDOUT_FILENO);
 	if (aux_path != NULL)
 		chdir(aux_path);
 	*index += 1;
@@ -65,7 +65,7 @@ void	ft_overwriting(char **line, int *index)
 		return ;
 	g_data.fd = open(line[*index], O_WRONLY
 			| O_CREAT | O_TRUNC | O_SYNC, 0777);
-	dup2(g_data.fd, 1);
+	dup2(g_data.fd, STDOUT_FILENO);
 	if (aux_path != NULL)
 		chdir(aux_path);
 	*index += 1;
@@ -83,7 +83,8 @@ void	ft_here_doc(char **line, int *index)
 		rl_on_new_line();
 		aux = readline("> ");
 		if (aux == NULL) /* Sig close para o filho */
-			// ft_sig_close(0); 
+			// ft_sig_close(0);
+			continue;
 		if (ft_strlen(line[*index]) == ft_strlen(aux)
 			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
 			break ;

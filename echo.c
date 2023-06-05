@@ -23,9 +23,9 @@ void	ft_echo(char **line, int *index)
 	}
 	*index += 1;
 	ft_get_str_echo(line, index);
-	ft_putstr_fd(g_data.echo.print, g_data.echo.fd);
+	printf("%s", g_data.echo.print);
 	if (g_data.echo.flag != 1)
-		ft_putchar_fd('\n', g_data.echo.fd);
+		printf("\n");
 }
 
 void	ft_get_str_echo(char **line, int *index)
@@ -38,7 +38,8 @@ void	ft_get_str_echo(char **line, int *index)
 		if (ret == 1)
 		{
 			ft_redirector(line, index);
-			g_data.echo.fd = g_data.fd;
+			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
+				*index += 1;
 		}
 		else
 		{

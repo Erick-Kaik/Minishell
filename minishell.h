@@ -182,6 +182,12 @@ void		ft_init(char *line);
 char		*ft_get_path_exec(char *comand);
 void		ft_update_parent(char *aux);
 void		ft_start_signals_parent(void);
-
+void		ft_new_prompt(int sig);
+void		ft_start_signal_child(void);
+void		ft_kill_child(int sig);
+void		ft_start_signal_execve(pid_t pid);
+void		ft_kill_execve(int sig);
+char		*ft_validate_path(char **path_s, char *comand);
+void		ft_exit_parent(char **split, char *line);
 
 #endif

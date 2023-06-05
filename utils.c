@@ -24,6 +24,13 @@ void	ft_clear_struct(void)
 		ft_clear_echo();
 	ft_clear_var(&g_data.var, &ft_del_var);
 	rl_clear_history();
+	ft_clear_split_line(g_data.Broke_line);
+	if (g_data.Broke_line != NULL)
+		free(g_data.Broke_line);
+	if (g_data.line != NULL)
+		free(g_data.line);
+	close(g_data.pipe[0]);
+	close(g_data.pipe[1]);
 }
 
 void	ft_starting_variables(char **envp)
@@ -106,9 +113,7 @@ void	ft_check_line(char *line)
 		else
 			ft_print_error(broke_line, &index);
 	}
-	ft_clear_split_line(broke_line);
-	if (broke_line != NULL)
-		free(broke_line);
+	ft_clear_struct();
 }
 
 void	ft_clear_split_line(char **str)
@@ -116,6 +121,10 @@ void	ft_clear_split_line(char **str)
 	int	index;
 
 	index = 0;
+	if (str == NULL)
+		return ;
+	else if (str[index] == NULL)
+		return ;
 	while (str[index] != NULL)
 	{
 		free(str[index]);

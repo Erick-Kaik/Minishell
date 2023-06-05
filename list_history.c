@@ -67,8 +67,10 @@ void	ft_del_one_history(t_history *history, void (*del)(char*))
 {
 	if (history == NULL || del == NULL)
 		return ;
-	del(history->str);
-	free(history);
+	if (history->str != NULL)
+		del(history->str);
+	if (history != NULL)
+		free(history);
 }
 
 void	ft_del_history(char *content)

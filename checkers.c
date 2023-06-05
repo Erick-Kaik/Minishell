@@ -65,16 +65,26 @@ int	ft_its_a_builtins(char *line)
 
 void	ft_print_error(char **line, int *index)
 {
+	char	*aux;
+
 	g_data.error.error += 1;
-	if (line[*index] == NULL)
+	if (line[*index] == NULL || (line[*index] != NULL
+			&& ft_its_a_redirector(line[*index],
+				ft_strlen(line[*index])) == 1))
 		*index -= 1;
-	printf("bash: %s: command not found\n", line[*index]);
-	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
-			ft_strlen(line[*index])) == 0)
+	aux = ft_strdup(line[*index]);
+	while (line[*index] != NULL)
+	{
+		if (line[*index] != NULL && ft_its_a_redirector(line[*index],
+				ft_strlen(line[*index])) == 1)
+		{
+			ft_redirector(line, index);
+			break ;
+		}
 		*index += 1;
-	ft_clear_split_line(line);
+	}
+	printf("bash: %s: command not found\n", aux);
 	ft_clear_struct();
-	if (line != NULL)
-		free(line);
+	free(aux);
 	exit(1);
 }
