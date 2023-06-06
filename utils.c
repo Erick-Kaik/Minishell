@@ -23,10 +23,11 @@ void	ft_clear_struct(void)
 	if (g_data.echo.echo > 0)
 		ft_clear_echo();
 	ft_clear_var(&g_data.var);
+	ft_clear_history(&g_data.history);
 	rl_clear_history();
-	ft_clear_split_line(g_data.Broke_line);
-	if (g_data.Broke_line != NULL)
-		free(g_data.Broke_line);
+	ft_clear_split_line(g_data.broke_line);
+	if (g_data.broke_line != NULL)
+		free(g_data.broke_line);
 	if (g_data.line != NULL)
 		free(g_data.line);
 	close(g_data.pipe[0]);
@@ -101,7 +102,7 @@ void	ft_check_line(char *line)
 	g_data.line = line;
 	getcwd(g_data.path_comand, sizeof(g_data.path_comand));
 	broke_line = ft_broke_line(line);
-	g_data.Broke_line = broke_line;
+	g_data.broke_line = broke_line;
 	while (broke_line[index] != NULL)
 	{
 		if (ft_its_a_redirector(broke_line[index],
