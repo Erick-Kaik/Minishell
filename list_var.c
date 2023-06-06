@@ -49,34 +49,29 @@ t_var	*ft_lst_var_last(t_var *var)
 	return (var);
 }
 
-void	ft_clear_var(t_var **var, void (*del)(char*))
+void	ft_clear_var(t_var **var)
 {
 	t_var	*aux;
 
-	if (var == NULL || del == NULL)
+	if (var == NULL)
 		return ;
 	while (*var != NULL)
 	{
 		aux = (*var)->next;
-		ft_del_one_var(*var, del);
+		ft_del_one_var(*var);
 		*var = aux;
 	}
 	*var = NULL;
 }
 
-void	ft_del_one_var(t_var *var, void (*del)(char*))
+void	ft_del_one_var(t_var *var)
 {
-	if (var == NULL || del == NULL)
+	if (var == NULL)
 		return ;
-	del(var->name);
-	del(var->content);
-	free(var);
-}
-
-void	ft_del_var(char *content)
-{
-	if (content != NULL)
-		free(content);
-	else
-		return ;
+	if (var->name != NULL)
+		free(var->name);
+	if (var->content != NULL)
+		free(var->content);
+	if (var != NULL)
+		free(var);
 }

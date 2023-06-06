@@ -14,18 +14,17 @@
 
 void	ft_start_signals_parent(void)
 {
-	struct sigaction	saParent_int;
-	struct sigaction	saParent_quit;
+	struct sigaction	sa_parent_int;
+	struct sigaction	sa_parent_quit;
 
-	saParent_int.sa_handler = &ft_new_prompt;
-	saParent_int.sa_flags = SA_RESTART;
-	sigemptyset(&saParent_int.sa_mask);
-	sigaction(SIGINT, &saParent_int, NULL);
-
-	saParent_quit.sa_handler = SIG_IGN;
-	saParent_quit.sa_flags = 0;
-	sigemptyset(&saParent_quit.sa_mask);
-	sigaction(SIGQUIT, &saParent_quit, NULL);
+	sa_parent_int.sa_handler = &ft_new_prompt;
+	sa_parent_int.sa_flags = SA_RESTART;
+	sigemptyset(&sa_parent_int.sa_mask);
+	sigaction(SIGINT, &sa_parent_int, NULL);
+	sa_parent_quit.sa_handler = SIG_IGN;
+	sa_parent_quit.sa_flags = 0;
+	sigemptyset(&sa_parent_quit.sa_mask);
+	sigaction(SIGQUIT, &sa_parent_quit, NULL);
 }
 
 void	ft_new_prompt(int sig)
@@ -40,18 +39,17 @@ void	ft_new_prompt(int sig)
 
 void	ft_start_signal_child(void)
 {
-	struct sigaction	saChild_int;
-	struct sigaction	saChild_quit;
+	struct sigaction	sa_child_int;
+	struct sigaction	sa_child_quit;
 
-	saChild_int.sa_flags = 0;
-	saChild_int.sa_handler = &ft_kill_child;
-	sigemptyset(&saChild_int.sa_mask);
-	sigaction(SIGINT, &saChild_int, NULL);
-
-	saChild_quit.sa_handler = SIG_IGN;
-	saChild_quit.sa_flags = 0;
-	sigemptyset(&saChild_quit.sa_mask);
-	sigaction(SIGQUIT, &saChild_quit, NULL);
+	sa_child_int.sa_flags = 0;
+	sa_child_int.sa_handler = &ft_kill_child;
+	sigemptyset(&sa_child_int.sa_mask);
+	sigaction(SIGINT, &sa_child_int, NULL);
+	sa_child_quit.sa_handler = SIG_IGN;
+	sa_child_quit.sa_flags = 0;
+	sigemptyset(&sa_child_quit.sa_mask);
+	sigaction(SIGQUIT, &sa_child_quit, NULL);
 }
 
 void	ft_kill_child(int sig)
@@ -63,21 +61,20 @@ void	ft_kill_child(int sig)
 
 void	ft_start_signal_execve(pid_t pid) /* Not working */
 {
-	struct sigaction	saExecve;
+	struct sigaction	sa_execve;
 
-	saExecve.sa_flags = 0;
-	sigemptyset(&saExecve.sa_mask);
+	sa_execve.sa_flags = 0;
+	sigemptyset(&sa_execve.sa_mask);
 	if (pid == 0)
-		saExecve.sa_handler = &ft_kill_execve; /* Se for processo filho passa uma ft q faz quebra de linha, limpa e finaliza */
+		sa_execve.sa_handler = SIG_DFL; /* Se for processo filho passa uma ft q faz quebra de linha, limpa e finaliza */
 	else
-		saExecve.sa_handler = SIG_IGN;
-	sigaction(SIGINT, &saExecve, NULL);
-	sigaction(SIGQUIT, &saExecve, NULL);
+		sa_execve.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &sa_execve, NULL);
+	sigaction(SIGQUIT, &sa_execve, NULL);
 }
 
-void	ft_kill_execve(int sig) /* duplicando terminal */
+void	ft_kill_execve(int sig) /* Falta lidar com esse caso */
 {
-	(void)sig;
 	ft_clear_struct();
-	kill(1, SIGINT);
+	kill(1, sig);
 }

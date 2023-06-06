@@ -14,7 +14,6 @@
 
 static void	ft_send_to_parent(char *name, char *value);
 
-
 void	ft_export(char **line, int *index)
 {
 	if (line[*index + 1] != NULL && ft_strchr(line[*index + 1], '=') != NULL)

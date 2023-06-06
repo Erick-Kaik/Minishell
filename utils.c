@@ -22,7 +22,7 @@ void	ft_clear_struct(void)
 		ft_clear_pwd();
 	if (g_data.echo.echo > 0)
 		ft_clear_echo();
-	ft_clear_var(&g_data.var, &ft_del_var);
+	ft_clear_var(&g_data.var);
 	rl_clear_history();
 	ft_clear_split_line(g_data.Broke_line);
 	if (g_data.Broke_line != NULL)
@@ -55,7 +55,8 @@ void	ft_set_envp_t_var(char **envp)
 		if (g_data.var == NULL)
 			g_data.var = ft_new_lst_var(ft_strdup(aux[0]), ft_strdup(aux[1]));
 		else
-			ft_add_lst_var(&g_data.var, ft_new_lst_var(ft_strdup(aux[0]), ft_strdup(aux[1])));
+			ft_add_lst_var(&g_data.var, ft_new_lst_var(ft_strdup(aux[0]),
+					ft_strdup(aux[1])));
 		ft_clear_split_line(aux);
 		if (aux != NULL)
 			free(aux);
@@ -114,41 +115,4 @@ void	ft_check_line(char *line)
 			ft_print_error(broke_line, &index);
 	}
 	ft_clear_struct();
-}
-
-void	ft_clear_split_line(char **str)
-{
-	int	index;
-
-	index = 0;
-	if (str == NULL)
-		return ;
-	else if (str[index] == NULL)
-		return ;
-	while (str[index] != NULL)
-	{
-		free(str[index]);
-		index++;
-	}
-}
-
-void	ft_builtins(char **line, int *index)
-{
-	char	*aux;
-
-	aux = line[*index];
-	if (ft_strlen(aux) == 2 && ft_strnstr(aux, "cd", 2) != NULL)
-		ft_cd(line, index);
-	else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "env", 3) != NULL)
-		ft_env(line, index);
-	else if (ft_strlen(aux) == 3 && ft_strnstr(aux, "pwd", 3) != NULL)
-		ft_pwd(line, index);
-	else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "echo", 4) != NULL)
-		ft_echo(line, index);
-	else if (ft_strlen(aux) == 4 && ft_strnstr(aux, "exit", 4) != NULL)
-		ft_exit(line);
-	else if (ft_strlen(aux) == 5 && ft_strnstr(aux, "unset", 5) != NULL)
-		ft_unset(line, index);
-	else if (ft_strlen(aux) == 6 && ft_strnstr(aux, "export", 6) != NULL)
-		ft_export(line, index);
 }

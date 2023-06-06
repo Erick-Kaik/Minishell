@@ -16,7 +16,7 @@ static void	ft_send_to_parent(void);
 
 void	ft_exit(char **line)
 {
-	int pipe;
+	int	pipe;
 	int	x;
 
 	x = 0;
@@ -50,9 +50,8 @@ static void	ft_send_to_parent(void)
 	}
 }
 
-void ft_exit_parent(char **split, char *line)
+void	ft_exit_parent(char **split, char *line)
 {
-
 	ft_clear_struct();
 	ft_clear_split_line(split);
 	if (split != NULL)

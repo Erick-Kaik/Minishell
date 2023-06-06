@@ -61,10 +61,10 @@ char	*ft_get_path_exec(char *comand)
 	return (path);
 }
 
-char *ft_validate_path(char **path_s, char *comand)
+char	*ft_validate_path(char **path_s, char *comand)
 {
-	int i;
-	char *path;
+	int		i;
+	char	*path;
 
 	i = 0;
 	path = NULL;
@@ -108,26 +108,6 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 	if (status > 0)
 			ret = -1;
 	return (ret);
-}
-
-void	ft_redirector_in_exec(char **line, int *index)
-{
-	while (line[*index] != NULL)
-	{
-		if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
-		{
-			ft_redirector(line, index);
-			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
-				break ;
-			if (g_data.fd == -1)
-			{
-				*index -= 1;
-				ft_print_error(line, index);
-			}
-		}
-		else
-			break ;
-	}
 }
 
 char	**ft_limit_execve(char **line, int *index)

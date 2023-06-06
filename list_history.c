@@ -48,35 +48,27 @@ t_history	*ft_lst_history_last(t_history *history)
 	return (history);
 }
 
-void	ft_clear_history(t_history **history, void (*del)(char*))
+void	ft_clear_history(t_history **history)
 {
 	t_history	*aux;
 
-	if (history == NULL || del == NULL)
+	if (history == NULL)
 		return ;
 	while (*history != NULL)
 	{
 		aux = (*history)->next;
-		ft_del_one_history(*history, del);
+		ft_del_one_history(*history);
 		*history = aux;
 	}
 	*history = NULL;
 }
 
-void	ft_del_one_history(t_history *history, void (*del)(char*))
+void	ft_del_one_history(t_history *history)
 {
-	if (history == NULL || del == NULL)
+	if (history == NULL)
 		return ;
 	if (history->str != NULL)
-		del(history->str);
+		free(history->str);
 	if (history != NULL)
 		free(history);
-}
-
-void	ft_del_history(char *content)
-{
-	if (content != NULL)
-		free(content);
-	else
-		return ;
 }

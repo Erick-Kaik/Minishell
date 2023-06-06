@@ -23,7 +23,8 @@ void	ft_echo(char **line, int *index)
 	}
 	*index += 1;
 	ft_get_str_echo(line, index);
-	printf("%s", g_data.echo.print);
+	if (g_data.echo.print != NULL)
+		printf("%s", g_data.echo.print);
 	if (g_data.echo.flag != 1)
 		printf("\n");
 }

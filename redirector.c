@@ -34,8 +34,9 @@ void	ft_redirector(char **line, int *index)
 
 void	ft_appending(char **line, int *index)
 {
-	char	aux_path[PATH_MAX];
+	char	*aux_path;
 
+	aux_path = NULL;
 	getcwd(aux_path, sizeof(aux_path));
 	if (aux_path != NULL)
 		chdir(g_data.path_comand);
@@ -54,8 +55,9 @@ void	ft_appending(char **line, int *index)
 
 void	ft_overwriting(char **line, int *index)
 {
-	char	aux_path[PATH_MAX];
+	char	*aux_path;
 
+	aux_path = NULL;
 	getcwd(aux_path, sizeof(aux_path));
 	if (aux_path != NULL)
 		chdir(g_data.path_comand);
@@ -82,9 +84,12 @@ void	ft_here_doc(char **line, int *index)
 	{
 		rl_on_new_line();
 		aux = readline("> ");
-		if (aux == NULL) /* Sig close para o filho */
-			// ft_sig_close(0);
-			continue;
+		if (aux == NULL)
+		{
+			ft_printf("-bash: warning: here-document has been delimited ");
+			ft_printf("by end-of-file (wanted `%s')\n", line[*index]);
+			break ;
+		}
 		if (ft_strlen(line[*index]) == ft_strlen(aux)
 			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
 			break ;
@@ -96,8 +101,9 @@ void	ft_here_doc(char **line, int *index)
 
 void	ft_input(char **line, int *index)
 {
-	char	aux_path[PATH_MAX];
+	char	*aux_path;
 
+	aux_path = NULL;
 	getcwd(aux_path, sizeof(aux_path));
 	if (aux_path != NULL)
 		chdir(g_data.path_comand);
