@@ -72,7 +72,7 @@ char	*ft_validate_path(char **path_s, char *comand)
 	{
 		path = ft_strjoin(path_s[i++], "/");
 		path = ft_strjoin_mod(path, comand);
-		if (access(path, F_OK) == 0)
+		if (access(path, X_OK) == 0 && access(path, F_OK) == 0)
 			break ;
 		free(path);
 		path = NULL;
@@ -97,14 +97,12 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 		pid = fork();
 	ft_start_signal_execve(pid);
 	if (pid == 0 || g_data.jump_fork == 1)
-		ret = execve(path, aux, g_data.envp);
-	else if (pid > 0)
-		waitpid(pid, &status, WUNTRACED);
-	if (status == 2)
 	{
 		ft_clear_struct();
-		exit(1);
+		ret = execve(path, aux, g_data.envp);
 	}
+	else if (pid > 0)
+		waitpid(pid, &status, WUNTRACED);
 	if (status > 0)
 			ret = -1;
 	return (ret);

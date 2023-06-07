@@ -23,7 +23,6 @@ void	ft_clear_struct(void)
 	if (g_data.echo.echo > 0)
 		ft_clear_echo();
 	ft_clear_var(&g_data.var);
-	ft_clear_history(&g_data.history);
 	rl_clear_history();
 	ft_clear_split_line(g_data.broke_line);
 	if (g_data.broke_line != NULL)
@@ -64,7 +63,7 @@ void	ft_set_envp_t_var(char **envp)
 	}
 }
 
-void	ft_get_folder(void)
+char	*ft_get_folder(void)
 {
 	char	str[PATH_MAX];
 	char	**folder;
@@ -87,9 +86,8 @@ void	ft_get_folder(void)
 				free(folder);
 		}
 	}
-	temp = ft_strjoin_mod(temp, "$->");
-	ft_putstr_fd(temp, 0);
-	free(temp);
+	temp = ft_strjoin_mod(temp, "$-> ");
+	return (temp);
 }
 
 void	ft_check_line(char *line)
@@ -115,5 +113,4 @@ void	ft_check_line(char *line)
 		else
 			ft_print_error(broke_line, &index);
 	}
-	ft_clear_struct();
 }

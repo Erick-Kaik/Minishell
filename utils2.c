@@ -6,7 +6,7 @@
 /*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:12:53 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/06/06 17:13:23 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:59:35 by ekaik-ne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ void	ft_builtins(char **line, int *index)
 char	*ft_verify_line(void)
 {
 	char	*line;
+	char	*aux;
 
-	line = readline(" ");
+	aux = ft_get_folder();
+	line = readline(aux);
+	free (aux);
 	if (line == NULL)
 	{
 		ft_clear_struct();
@@ -62,6 +65,7 @@ char	*ft_verify_line(void)
 	if (ft_strlen_other(line, ' ') <= 0)
 	{
 		free(line);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 		return (NULL);
@@ -85,4 +89,9 @@ char	ft_get_quote_open(char *line)
 		i++;
 	}
 	return (quote);
+}
+
+void ft_clear_struct_execve()
+{
+
 }

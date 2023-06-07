@@ -23,7 +23,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_starting_variables(envp);
 	ft_start_signals_parent();
 	line = NULL;
-	g_data.history = ft_new_lst_history(line);
 	ft_init(line);
 	return (0);
 }
@@ -34,6 +33,8 @@ void	ft_init(char *line)
 	{
 		if (g_data.pid != -1)
 			line = ft_add_history();
+		if (line == NULL)
+			continue ;
 		pipe(g_data.pipe);
 		g_data.pid = fork();
 		if (g_data.pid < 0)
@@ -43,6 +44,7 @@ void	ft_init(char *line)
 			ft_start_signal_child();
 			if (line != NULL)
 				ft_check_line(line);
+			ft_clear_struct();
 			exit(1);
 		}
 		else if (g_data.pid > 0)
@@ -97,7 +99,6 @@ char	*ft_add_history(void)
 	char		*aux;
 
 	concat = 0;
-	ft_get_folder();
 	line = ft_verify_line();
 	if (line == NULL)
 		return (line);
@@ -109,7 +110,6 @@ char	*ft_add_history(void)
 		if (aux == NULL)
 			return (NULL);
 	}
-	ft_add_lst_history(&g_data.history, ft_new_lst_history(aux));
 	add_history(aux);
 	return (aux);
 }

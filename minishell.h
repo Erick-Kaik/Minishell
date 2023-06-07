@@ -118,7 +118,7 @@ void		ft_clear_var(t_var **var);
 void		ft_del_one_var(t_var *var);
 void		ft_starting_variables(char **envp);
 void		ft_set_envp_t_var(char **envp);
-void		ft_get_folder(void);
+char		*ft_get_folder(void);
 void		ft_check_line(char *line);
 char		**ft_broke_line(char *line);
 int			ft_its_a_redirector(char *line, int len);
