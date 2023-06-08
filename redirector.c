@@ -86,7 +86,7 @@ void	ft_here_doc(char **line, int *index)
 		aux = readline("> ");
 		if (aux == NULL)
 		{
-			ft_printf("-bash: warning: here-document has been delimited ");
+			ft_printf("-Minishell: warning: here-document has been delimited ");
 			ft_printf("by end-of-file (wanted `%s')\n", line[*index]);
 			break ;
 		}

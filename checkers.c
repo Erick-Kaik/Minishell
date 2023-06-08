@@ -83,7 +83,7 @@ void	ft_print_error(char **line, int *index)
 		}
 		*index += 1;
 	}
-	printf("bash: %s: command not found\n", aux);
+	printf("Minishell: %s: command not found\n", aux);
 	ft_clear_struct();
 	free(aux);
 	exit(1);

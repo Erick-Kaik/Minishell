@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_line3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucdos-s <lukas.facchi@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 15:55:54 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/06/06 17:01:09 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:08:37 by lucdos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ char	*ft_get_more_content(char *line, int *concat)
 	temp = readline("> ");
 	if (temp == NULL)
 	{
-		ft_printf("-bash: unexpected EOF while looking");
+		ft_printf("-Minishell: unexpected EOF while looking");
 		ft_printf("for matching '%c'\n", ft_get_quote_open(line));
-		ft_printf("-bash: syntax error: unexpected end of file\n");
+		ft_printf("-Minishell: syntax error: unexpected end of file\n");
 		free(line);
 		return (NULL);
 	}

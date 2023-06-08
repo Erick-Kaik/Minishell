@@ -33,7 +33,7 @@ void	ft_cd(char **line, int *index)
 	else if (g_data.pid == 0 && value >= 0 && path != NULL)
 		ft_send_to_parent(path);
 	if (value == -1)
-		ft_printf("bash: %s: '%s': No such file or directory\n",
+		ft_printf("Minishell: %s: '%s': No such file or directory\n",
 			line[*index], line[*index + 1]);
 	if (path != NULL)
 		free(path);
@@ -61,7 +61,7 @@ char	*ft_get_path_cd(char **line, int *index)
 				ft_strlen(line[*index + 2])) == 0)
 		{
 			path = NULL;
-			ft_printf("bash: %s: too many arguments\n", line[*index]);
+			ft_printf("Minishell: %s: too many arguments\n", line[*index]);
 		}
 		else
 			path = ft_strjoin(path, line[*index + 1]);

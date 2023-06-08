@@ -107,6 +107,7 @@ typedef struct s_data
 	char		*line;
 	char		**broke_line;
 	char		path_comand[PATH_MAX];
+	char		*exit_status;
 }	t_data;
 
 extern t_data	g_data;
@@ -190,4 +191,5 @@ void		ft_exit_parent(char **split, char *line);
 void		ft_parent_init(char *line);
 char		*ft_verify_line(void);
 char		ft_get_quote_open(char *line);
+void ft_update_status_code(char **spt, int i);
 #endif

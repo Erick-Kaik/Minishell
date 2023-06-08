@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucdos-s <lukas.facchi@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:12:53 by ekaik-ne          #+#    #+#             */
-/*   Updated: 2023/06/07 16:59:35 by ekaik-ne         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:37:52 by lucdos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*ft_verify_line(void)
 	free (aux);
 	if (line == NULL)
 	{
+		ft_printf("\n");
 		ft_clear_struct();
 		exit(1);
 	}

@@ -113,4 +113,8 @@ void	ft_check_line(char *line)
 		else
 			ft_print_error(broke_line, &index);
 	}
+	if (close(g_data.pipe[0]) == -1)
+        ft_putstr_fd(":", g_data.pipe[1]);
+    ft_putstr_fd("?:", g_data.pipe[1]);
+    ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);  
 }

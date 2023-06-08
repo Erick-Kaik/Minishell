@@ -79,17 +79,27 @@ void	ft_update_parent(char *aux)
 	char	**spt;
 	int		i;
 
-	i = 0;
-	spt = ft_split(aux, ':');
-	if (ft_strlen(spt[0]) == 6 && ft_strnstr(spt[0], "export", 6) != NULL)
-		ft_export(spt, &i);
-	else if (ft_strlen(spt[0]) == 5 && ft_strnstr(spt[0], "unset", 5) != NULL)
-		ft_unset(spt, &i);
-	else if (ft_strlen(spt[0]) == 4 && ft_strnstr(spt[0], "exit", 5) != NULL)
-		ft_exit_parent(spt, aux);
-	else if (ft_strlen(spt[0]) == 2 && ft_strnstr(spt[0], "cd", 2) != NULL)
-		ft_cd(spt, &i);
-	ft_clear_split_line(spt);
+    i = 0;
+    spt = ft_split(aux, ':');
+    while (spt[i] != NULL)
+    {
+        if (ft_strlen(spt[i]) == 6 && ft_strnstr(spt[i], "export", 6) != NULL)
+            ft_export(spt, &i);
+        else if (ft_strlen(spt[i]) == 5 && ft_strnstr(spt[i], "unset", 5) != NULL)
+            ft_unset(spt, &i);
+        else if (ft_strlen(spt[i]) == 2 && ft_strnstr(spt[i], "cd", 2) != NULL)
+            ft_cd(spt, &i);
+        else if (ft_strlen(spt[i]) == 1 &&  spt[i][0] == '?')
+		{
+			i++;
+        	ft_update_status_code(spt, i);
+		}
+        i++;
+    }
+    if (ft_strlen(spt[0]) == 4 && ft_strnstr(spt[0], "exit", 4) != NULL)
+        ft_exit_parent(spt, aux);
+    ft_clear_split_line(spt);
+
 }
 
 char	*ft_add_history(void)
@@ -112,4 +122,24 @@ char	*ft_add_history(void)
 	}
 	add_history(aux);
 	return (aux);
+}
+
+void ft_update_status_code(char **spt, int i)
+{
+	t_var	*aux;
+	t_var	*temp;
+
+	aux = g_data.var;
+	temp = aux;
+	while (temp != NULL)
+	{
+		if (temp->name[0] != '?' && ft_strlen(temp->name) == 1)
+		{
+			temp->content = spt[i];
+			ft_printf("%s", g_data.exit_status);
+			break ;
+		}
+		temp = temp->next;
+	}
+	g_data.var = aux;
 }

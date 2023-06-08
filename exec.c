@@ -87,8 +87,8 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 {
 	int		status;
 	int		ret;
-	pid_t	pid;
-
+	pid_t	pid;	
+	
 	ret = 0;
 	status = 0;
 	pid = -1;
@@ -105,6 +105,7 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 		waitpid(pid, &status, WUNTRACED);
 	if (status > 0)
 			ret = -1;
+	g_data.exit_status = ft_itoa(WEXITSTATUS(status));
 	return (ret);
 }
 
