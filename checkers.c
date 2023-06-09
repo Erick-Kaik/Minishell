@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+static void	ft_send_to_parent(char *value, char *aux);
+
 int	ft_its_a_redirector(char *line, int len)
 {
 	if (line == NULL || ft_strlen(line) > 2)
@@ -83,8 +85,24 @@ void	ft_print_error(char **line, int *index)
 		}
 		*index += 1;
 	}
-	printf("Minishell: %s: command not found\n", aux);
+	ft_send_to_parent("127", aux);
 	ft_clear_struct();
 	free(aux);
 	exit(1);
+}
+
+static void	ft_send_to_parent(char *value, char *aux)
+{
+/* 	if (g_data.exit_status != NULL && ft_strlen(g_data.exit_status) == 3
+		&& (ft_strnstr("130", g_data.exit_status, 3) == NULL
+			&& ft_strnstr("131", g_data.exit_status, 3) == NULL)) */
+		g_data.exit_status = ft_strdup(value);
+/* 	else */
+		printf("Minishell: %s: command not found\n", aux);
+	if (g_data.pid == 0)
+	{
+		close(g_data.pipe[0]);
+		ft_putstr_fd("?:", g_data.pipe[1]);
+		ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
+	}
 }

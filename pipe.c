@@ -12,21 +12,21 @@
 
 #include "minishell.h"
 
+static int	ft_create_fork_pipe(int *fd, pid_t *pid);
+
 void	ft_pipe(char **line, int *index)
 {
 	int		fd[2];
 	pid_t	pid;
 
-	if (pipe(fd) < 0)
-		perror("error - pipe");
-	g_data.jump_fork = 1;
-	pid = fork();
-	if (pid == -1)
-		perror("error - fork");
-	else if (pid > 0)
+
+	if (ft_create_fork_pipe(fd, &pid) == -1)
+		return ;
+	else if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(fd[1], 1);
+		close(fd[1]);
 	}
 	else
 	{
@@ -34,9 +34,9 @@ void	ft_pipe(char **line, int *index)
 			*index += 1;
 		close(fd[1]);
 		dup2(fd[0], 0);
+		close(fd[0]);
 		waitpid(pid, NULL, WUNTRACED);
 		ft_check_next_comand(line, index);
-		ft_clear_struct();
 		exit(1);
 	}
 }
@@ -49,6 +49,7 @@ void	ft_check_next_comand(char **line, int *index)
 		ft_builtins(line, index);
 	else if (ft_execute_ft_system(line, index) == -1)
 		ft_print_error(line, index);
+	ft_clear_struct();
 }
 
 void	ft_redirector_in_exec(char **line, int *index)
@@ -69,4 +70,22 @@ void	ft_redirector_in_exec(char **line, int *index)
 		else
 			break ;
 	}
+}
+
+static int	ft_create_fork_pipe(int *fd, pid_t *pid)
+{
+	if (pipe(fd) < 0)
+	{
+		ft_printf("Minishell - pipe creation error\n");
+		return (-1);
+	}
+	g_data.jump_fork = 1;
+	*pid = fork();
+	if (*pid == -1)
+	{
+		g_data.jump_fork = 0;
+		ft_printf("Minishell - fork creation error\n");
+		return (-1);
+	}
+	return (0);
 }

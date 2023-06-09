@@ -34,6 +34,7 @@ void	ft_pwd(char **line, int *index)
 	if (getcwd(path, sizeof(path)) != NULL)
 		g_data.pwd.print = path;
 	printf("%s\n", g_data.pwd.print);
+	g_data.exit_status = ft_strdup("0");
 }
 
 void	ft_clear_pwd(void)

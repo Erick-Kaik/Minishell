@@ -91,7 +91,7 @@ void	ft_fill_split(char *dest, char *str, int start, int len)
 			if (str[start + i] == ' ')
 				continue ;
 		}
-		else if (str[start + i] == 39 || str[start + i] == 34)
+		else if (quotes == 0 && (str[start + i] == 39 || str[start + i] == 34))
 			quotes = str[start + i];
 		else if (quotes > 0 && str[start + i] == quotes)
 			quotes = 0;

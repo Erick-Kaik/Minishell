@@ -27,6 +27,7 @@ void	ft_echo(char **line, int *index)
 		printf("%s", g_data.echo.print);
 	if (g_data.echo.flag != 1)
 		printf("\n");
+	g_data.exit_status = ft_strdup("0");
 }
 
 void	ft_get_str_echo(char **line, int *index)

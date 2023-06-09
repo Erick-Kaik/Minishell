@@ -16,7 +16,7 @@ GCC =  $(CC) $(CFLAGS)
 
 LIBFT = libft/libft.a
 NAME = minishell
-SRC = main.c pipe.c utils.c utils2.c list_var.c checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c export.c unset.c exec.c split_line.c split_line2.c split_line3.c signal.c list_history.c
+SRC = main.c pipe.c utils.c utils2.c utils3.c list_var.c checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c export.c unset.c exec.c split_line.c split_line2.c split_line3.c signal.c list_history.c
 OBJ = ${SRC:.c=.o}
 
 .PHONY = all bonus clean fclean re

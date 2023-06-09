@@ -59,7 +59,6 @@ char	*ft_verify_line(void)
 	free (aux);
 	if (line == NULL)
 	{
-		ft_printf("\n");
 		ft_clear_struct();
 		exit(1);
 	}
@@ -90,9 +89,4 @@ char	ft_get_quote_open(char *line)
 		i++;
 	}
 	return (quote);
-}
-
-void ft_clear_struct_execve()
-{
-
 }

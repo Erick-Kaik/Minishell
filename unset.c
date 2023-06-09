@@ -16,7 +16,14 @@ static void	ft_send_to_parent(char *value);
 
 void	ft_unset(char **line, int *index)
 {
+	g_data.exit_status = ft_strdup("0");
 	*index += 1;
+	if (line[*index] != NULL && ft_strlen(line[*index]) == 1
+		&& line[*index][0] == '?' && g_data.pid == 0)
+	{
+		ft_printf("-Minishell: unset: ");
+		ft_printf("'%c': not a valid identifier\n", line[*index][0]);
+	}
 	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
 			ft_strlen(line[*index])) == 0)
 	{
@@ -25,6 +32,9 @@ void	ft_unset(char **line, int *index)
 			ft_delete_var(line[*index]);
 			if (g_data.pid == 0)
 				ft_send_to_parent(line[*index]);
+			if (g_data.pid > 0 && ft_strlen(line[*index + 1]) == 1
+				&& line[*index + 1][0] == '?')
+				break ;
 		}
 		*index += 1;
 	}
@@ -34,8 +44,9 @@ static void	ft_send_to_parent(char *value)
 {
 	if (g_data.pid == 0)
 	{
-		close(g_data.pipe[0]);
-		ft_putstr_fd("unset:", g_data.pipe[1]);
+		if (close(g_data.pipe[0]) == 0)
+			ft_putstr_fd("unset:", g_data.pipe[1]);
+		ft_putstr_fd(":", g_data.pipe[1]);
 		ft_putstr_fd(value, g_data.pipe[1]);
 	}
 }

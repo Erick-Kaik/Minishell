@@ -16,19 +16,30 @@ static void	ft_send_to_parent(char *name, char *value);
 
 void	ft_export(char **line, int *index)
 {
+	g_data.exit_status = ft_strdup("1");
 	if (line[*index + 1] != NULL && ft_strchr(line[*index + 1], '=') != NULL)
 		*index += 1;
 	else if (line[*index + 1] == NULL
 		|| ft_strchr(line[*index + 1], '=') == NULL)
 	{
-		*index += 1;
+		while (line[*index] != NULL && ft_strchr(line[*index], '=') == NULL)
+			*index += 1;
+		while (line[*index] != NULL)
+		{
+			ft_printf("-Minishell: export: '%s'", line[*index]);
+			ft_printf(": not a valid identifier\n");
+			*index += 1;
+			if (line[*index] == NULL)
+				break ;
+		}
 		return ;
 	}
 	if (ft_check_name_var(line[*index]) == 1)
 		return ;
 	ft_adding_export(line, index);
 	ft_clear_env();
-	while (line[*index] != NULL && ft_its_a_builtins(line[*index]) == 0)
+	while (line[*index] != NULL && ft_its_a_builtins(line[*index]) == 0
+		&& g_data.pid == 0)
 		*index += 1;
 }
 
@@ -57,6 +68,9 @@ void	ft_adding_export(char **line, int *index)
 	}
 	ft_add_lst_var(&g_data.var, ft_new_lst_var(name, value));
 	ft_send_to_parent(name, value);
+	ft_clear_split_line(aux);
+	if (aux != NULL)
+		free(aux);
 }
 
 int	ft_check_name_var(char *str)
@@ -75,6 +89,9 @@ int	ft_check_name_var(char *str)
 
 static void	ft_send_to_parent(char *name, char *value)
 {
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
+	g_data.exit_status = ft_strdup("0");
 	if (g_data.pid == 0)
 	{
 		close(g_data.pipe[0]);

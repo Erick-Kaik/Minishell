@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	ft_starting_variables(envp);
 	ft_start_signals_parent();
-	line = NULL;
+	line = "";
 	ft_init(line);
 	return (0);
 }
@@ -66,9 +66,9 @@ void	ft_parent_init(char *line)
 		rl_on_new_line();
 		return ;
 	}
-	aux = ft_calloc((ft_strlen(line) + 2), sizeof(char));
+	aux = ft_calloc((ft_strlen(line) + 10), sizeof(char));
 	close(g_data.pipe[1]);
-	if (read(g_data.pipe[0], aux, ft_strlen(line) + 1) > 0)
+	if (read(g_data.pipe[0], aux, ft_strlen(line) + 10) > 0)
 		ft_update_parent(aux);
 	close(g_data.pipe[0]);
 	free(aux);
@@ -79,27 +79,26 @@ void	ft_update_parent(char *aux)
 	char	**spt;
 	int		i;
 
-    i = 0;
-    spt = ft_split(aux, ':');
-    while (spt[i] != NULL)
-    {
-        if (ft_strlen(spt[i]) == 6 && ft_strnstr(spt[i], "export", 6) != NULL)
-            ft_export(spt, &i);
-        else if (ft_strlen(spt[i]) == 5 && ft_strnstr(spt[i], "unset", 5) != NULL)
-            ft_unset(spt, &i);
-        else if (ft_strlen(spt[i]) == 2 && ft_strnstr(spt[i], "cd", 2) != NULL)
-            ft_cd(spt, &i);
-        else if (ft_strlen(spt[i]) == 1 &&  spt[i][0] == '?')
-		{
-			i++;
-        	ft_update_status_code(spt, i);
-		}
-        i++;
-    }
-    if (ft_strlen(spt[0]) == 4 && ft_strnstr(spt[0], "exit", 4) != NULL)
-        ft_exit_parent(spt, aux);
-    ft_clear_split_line(spt);
-
+	i = 0;
+	spt = ft_split(aux, ':');
+	while (spt[i] != NULL)
+	{
+		if (ft_strlen(spt[i]) == 6 && ft_strnstr(spt[i], "export", 6) != NULL)
+			ft_export(spt, &i);
+		else if (ft_strlen(spt[i]) == 5
+			&& ft_strnstr(spt[i], "unset", 5) != NULL)
+			ft_unset(spt, &i);
+		else if (ft_strlen(spt[i]) == 2 && ft_strnstr(spt[i], "cd", 2) != NULL)
+			ft_cd(spt, &i);
+		else if (ft_strlen(spt[i]) == 1 && spt[i][0] == '?')
+			ft_update_status_code(spt, &i);
+		i++;
+	}
+	if (ft_strlen(spt[0]) == 4 && ft_strnstr(spt[0], "exit", 4) != NULL)
+		ft_exit_parent(spt, aux);
+	ft_clear_split_line(spt);
+	if (spt != NULL)
+		free(spt);
 }
 
 char	*ft_add_history(void)
@@ -122,24 +121,4 @@ char	*ft_add_history(void)
 	}
 	add_history(aux);
 	return (aux);
-}
-
-void ft_update_status_code(char **spt, int i)
-{
-	t_var	*aux;
-	t_var	*temp;
-
-	aux = g_data.var;
-	temp = aux;
-	while (temp != NULL)
-	{
-		if (temp->name[0] != '?' && ft_strlen(temp->name) == 1)
-		{
-			temp->content = spt[i];
-			ft_printf("%s", g_data.exit_status);
-			break ;
-		}
-		temp = temp->next;
-	}
-	g_data.var = aux;
 }

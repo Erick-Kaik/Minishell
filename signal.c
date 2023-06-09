@@ -58,22 +58,16 @@ void	ft_kill_child(int sig)
 	exit(1);
 }
 
-void	ft_start_signal_execve(pid_t pid) /* Not working */
+void	ft_start_signal_execve(pid_t pid)
 {
 	struct sigaction	sa_execve;
 
 	sa_execve.sa_flags = 0;
 	sigemptyset(&sa_execve.sa_mask);
 	if (pid == 0)
-		sa_execve.sa_handler = SIG_DFL; /* Se for processo filho passa uma ft q faz quebra de linha, limpa e finaliza */
+		sa_execve.sa_handler = SIG_DFL;
 	else
 		sa_execve.sa_handler = SIG_IGN;
 	sigaction(SIGINT, &sa_execve, NULL);
 	sigaction(SIGQUIT, &sa_execve, NULL);
-}
-
-void	ft_kill_execve(int sig) /* Falta lidar com esse caso */
-{
-	ft_clear_struct();
-	kill(1, sig);
 }

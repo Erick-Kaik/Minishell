@@ -29,6 +29,8 @@ void	ft_clear_struct(void)
 		free(g_data.broke_line);
 	if (g_data.line != NULL)
 		free(g_data.line);
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
 	close(g_data.pipe[0]);
 	close(g_data.pipe[1]);
 }
@@ -114,7 +116,7 @@ void	ft_check_line(char *line)
 			ft_print_error(broke_line, &index);
 	}
 	if (close(g_data.pipe[0]) == -1)
-        ft_putstr_fd(":", g_data.pipe[1]);
-    ft_putstr_fd("?:", g_data.pipe[1]);
-    ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);  
+		ft_putstr_fd(":", g_data.pipe[1]);
+	ft_putstr_fd("?:", g_data.pipe[1]);
+	ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
 }

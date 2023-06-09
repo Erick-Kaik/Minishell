@@ -28,6 +28,7 @@ void	ft_cd(char **line, int *index)
 		else
 			value = chdir(path);
 	}
+	g_data.exit_status = ft_itoa(value * -1);
 	if (g_data.pid == 0 && value >= 0 && ft_strlen(path) == 1 && path[0] == '~')
 		ft_send_to_parent("~");
 	else if (g_data.pid == 0 && value >= 0 && path != NULL)
@@ -38,7 +39,7 @@ void	ft_cd(char **line, int *index)
 	if (path != NULL)
 		free(path);
 	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
-			ft_strlen(line[*index])) == 0)
+			ft_strlen(line[*index])) == 0 && g_data.pid == 0)
 		*index += 1;
 }
 
@@ -47,18 +48,15 @@ char	*ft_get_path_cd(char **line, int *index)
 	char	*path;
 
 	path = NULL;
-	if (line[*index + 1] == NULL || ft_its_a_redirector(line[*index + 1],
-			ft_strlen(line[*index + 1])) == 1)
-	{
-		path = malloc(sizeof(char) * 1);
-		path[0] = '~';
-		path[1] = '\0';
-	}
+	if (line[*index + 1] == NULL || (line[*index + 1] != NULL
+			&& ft_its_a_redirector(line[*index + 1],
+				ft_strlen(line[*index + 1])) == 1))
+		path = ft_strdup("~");
 	else if (line[*index + 1] != NULL && ft_its_a_redirector(line[*index + 1],
 			ft_strlen(line[*index + 1])) == 0)
 	{
 		if (line[*index + 2] != NULL && ft_its_a_redirector(line[*index + 2],
-				ft_strlen(line[*index + 2])) == 0)
+				ft_strlen(line[*index + 2])) == 0 && g_data.pid == 0)
 		{
 			path = NULL;
 			ft_printf("Minishell: %s: too many arguments\n", line[*index]);

@@ -25,6 +25,7 @@ void	ft_env(char **line, int *index)
 	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
 			ft_strlen(line[*index])) == 0)
 		*index += 1;
+	g_data.exit_status = ft_strdup("0");
 }
 
 void	ft_get_print_env(void)
