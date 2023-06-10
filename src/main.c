@@ -23,6 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	ft_starting_variables(envp);
 	ft_start_signals_parent();
 	line = "";
+	g_data.original_fd[0] = dup(STDIN_FILENO);
+	g_data.original_fd[1] = dup(STDOUT_FILENO);
 	ft_init(line);
 	return (0);
 }
@@ -53,6 +55,7 @@ void	ft_init(char *line)
 		else if (g_data.pid > 0)
 			ft_parent_init(line);
 		free(line);
+		g_data.pid = 0;
 	}
 }
 

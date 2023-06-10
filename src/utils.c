@@ -105,6 +105,8 @@ void	ft_check_line(char *line)
 	g_data.broke_line = broke_line;
 	while (broke_line[index] != NULL)
 	{
+		dup2(g_data.original_fd[0], STDIN_FILENO);
+		dup2(g_data.original_fd[1], STDOUT_FILENO);	
 		if (ft_its_a_redirector(broke_line[index],
 				ft_strlen(broke_line[index])) >= 1)
 			ft_redirector(broke_line, &index);

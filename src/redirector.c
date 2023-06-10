@@ -77,9 +77,11 @@ void	ft_here_doc(char **line, int *index)
 {
 	char	*aux;
 
-	if (ft_strlen(line[*index]) == 2 && line[*index][0] == '<'
-		&& line[*index][1] == '<')
-		*index += 1;
+	*index += 1;
+	g_data.fd = open("/tmp/fd_here_doc_Minishell", O_RDWR
+			| O_CREAT | O_APPEND | O_SYNC, 0777);
+	printf("--> %d", g_data.pid);
+	dup2(g_data.fd, STDIN_FILENO);
 	while (1)
 	{
 		rl_on_new_line();
@@ -93,9 +95,9 @@ void	ft_here_doc(char **line, int *index)
 		if (ft_strlen(line[*index]) == ft_strlen(aux)
 			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
 			break ;
+		ft_putstr_fd(aux, g_data.fd);
 		free(aux);
 	}
-	
 	free(aux);
 	*index += 1;
 }
