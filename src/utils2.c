@@ -61,9 +61,7 @@ char	*ft_verify_line(void)
 	{
 		ft_putchar_fd('\n', 0);
 		ft_clear_struct();
-		close(0);
-		close(1);
-		close(2);
+		ft_close_default_fd();
 		exit(1);
 	}
 	if (ft_strlen_other(line, ' ') <= 0)

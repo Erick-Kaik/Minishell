@@ -69,8 +69,7 @@ void	ft_adding_export(char **line, int *index)
 	ft_add_lst_var(&g_data.var, ft_new_lst_var(name, value));
 	ft_send_to_parent(name, value);
 	ft_clear_split_line(aux);
-	if (aux != NULL)
-		free(aux);
+	free(aux);
 }
 
 int	ft_check_name_var(char *str)

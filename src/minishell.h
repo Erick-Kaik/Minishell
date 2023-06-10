@@ -187,12 +187,14 @@ void		ft_start_signal_child(void);
 void		ft_kill_child(int sig);
 void		ft_start_signal_execve(pid_t pid);
 void		ft_kill_execve(int sig);
-char		*ft_validate_path(char **path_s, char *comand);
+char		*ft_validate_path(char **path_s, char *comand, char *temp);
 void		ft_exit_parent(char **split, char *line);
 void		ft_parent_init(char *line);
 char		*ft_verify_line(void);
 char		ft_get_quote_open(char *line);
 void		ft_get_value_exit_execve(int status);
 void		ft_update_status_code(char **spt, int *i);
+char		*ft_init_here_doc(char *EOF_s);
+void		ft_close_default_fd(void);
 
 #endif

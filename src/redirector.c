@@ -76,34 +76,16 @@ void	ft_overwriting(char **line, int *index)
 void	ft_here_doc(char **line, int *index)
 {
 	char	*buffer;
-	char	*aux;
 
-	buffer = "";
 	*index += 1;
-	while (1)
-	{
-		rl_on_new_line();
-		aux = readline("> ");
-		if (aux == NULL)
-		{
-			ft_printf("-Minishell: warning: here-document has been delimited ");
-			ft_printf("by end-of-file (wanted `%s')\n", line[*index]);
-			break ;
-		}
-		if (ft_strlen(line[*index]) == ft_strlen(aux)
-			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) == NULL)
-			{
-				buffer = ft_strjoin_mod(buffer, aux);
-				buffer = ft_strjoin_mod(buffer, "\n"); 
-			}
-		else
-			break ;
-		free(aux);
-	}
-	g_data.fd = open("/tmp/tempfile", O_RDWR | O_CREAT | O_SYNC, 0777);
-	write(g_data.fd, buffer, ft_strlen(buffer));
+	buffer = ft_init_here_doc(line[*index]);
+	g_data.fd = open("/tmp/tempfile", O_WRONLY | O_CREAT
+			| O_TRUNC | O_SYNC, 0777);
+	ft_putstr_fd(buffer, g_data.fd);
+	close(g_data.fd);
+	g_data.fd = open("/tmp/tempfile", O_RDONLY, 0777);
 	dup2(g_data.fd, STDIN_FILENO);
-	free(aux);
+	free(buffer);
 	*index += 1;
 }
 

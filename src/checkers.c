@@ -87,18 +87,15 @@ void	ft_print_error(char **line, int *index)
 	}
 	ft_send_to_parent("127", aux);
 	ft_clear_struct();
+	ft_close_default_fd();
 	free(aux);
 	exit(1);
 }
 
 static void	ft_send_to_parent(char *value, char *aux)
 {
-/* 	if (g_data.exit_status != NULL && ft_strlen(g_data.exit_status) == 3
-		&& (ft_strnstr("130", g_data.exit_status, 3) == NULL
-			&& ft_strnstr("131", g_data.exit_status, 3) == NULL)) */
-		g_data.exit_status = ft_strdup(value);
-/* 	else */
-		printf("Minishell: %s: command not found\n", aux);
+	g_data.exit_status = ft_strdup(value);
+	printf("Minishell: %s: command not found\n", aux);
 	if (g_data.pid == 0)
 	{
 		close(g_data.pipe[0]);

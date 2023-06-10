@@ -62,12 +62,11 @@ char	*ft_get_path_exec(char *comand)
 		temp = ft_strdup(aux->content);
 		path_s = ft_split(temp, ':');
 	}
-	path = ft_validate_path(path_s, comand);
-	free(temp);
+	path = ft_validate_path(path_s, comand, temp);
 	return (path);
 }
 
-char	*ft_validate_path(char **path_s, char *comand)
+char	*ft_validate_path(char **path_s, char *comand, char *temp)
 {
 	int		i;
 	char	*path;
@@ -86,6 +85,7 @@ char	*ft_validate_path(char **path_s, char *comand)
 	ft_clear_split_line(path_s);
 	if (path_s != NULL)
 		free(path_s);
+	free(temp);
 	return (path);
 }
 

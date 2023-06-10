@@ -19,7 +19,6 @@ void	ft_pipe(char **line, int *index)
 	int		fd[2];
 	pid_t	pid;
 
-
 	if (ft_create_fork_pipe(fd, &pid) == -1)
 		return ;
 	else if (pid == 0)

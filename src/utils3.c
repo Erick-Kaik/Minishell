@@ -24,12 +24,15 @@ void	ft_get_value_exit_execve(int status)
 			g_data.exit_status = ft_strdup("131");
 		}
 		ft_printf("\n");
+		ft_clear_struct();
+		ft_close_default_fd();
 		exit(1);
 	}
 	else if (WIFEXITED(status))
 		g_data.exit_status = ft_itoa(WEXITSTATUS(status));
 }
-void ft_update_status_code(char **spt, int *i)
+
+void	ft_update_status_code(char **spt, int *i)
 {
 	t_var	*aux;
 	t_var	*temp;
@@ -49,4 +52,40 @@ void ft_update_status_code(char **spt, int *i)
 		temp = temp->next;
 	}
 	g_data.var = aux;
+}
+
+char	*ft_init_here_doc(char *EOF_s)
+{
+	char	*buffer;
+	char	*aux;
+
+	buffer = ft_strdup("");
+	while (1)
+	{
+		rl_on_new_line();
+		aux = readline("> ");
+		if (aux == NULL)
+		{
+			ft_printf("-Minishell: warning: here-document has been delimited ");
+			ft_printf("by end-of-file (wanted `%s')\n", EOF_s);
+			break ;
+		}
+		if (ft_strlen(EOF_s) == ft_strlen(aux)
+			&& ft_strnstr(EOF_s, aux, ft_strlen(EOF_s)) != NULL)
+			break ;
+		buffer = ft_strjoin_mod(buffer, aux);
+		buffer = ft_strjoin_mod(buffer, "\n");
+		free(aux);
+	}
+	free(aux);
+	return (buffer);
+}
+
+void	ft_close_default_fd(void)
+{
+	close(0);
+	close(1);
+	close(2);
+	close(g_data.original_fd[0]);
+	close(g_data.original_fd[1]);
 }

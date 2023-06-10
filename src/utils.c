@@ -99,14 +99,12 @@ void	ft_check_line(char *line)
 
 	index = 0;
 	broke_line = NULL;
-	g_data.line = line;
 	getcwd(g_data.path_comand, sizeof(g_data.path_comand));
 	broke_line = ft_broke_line(line);
-	g_data.broke_line = broke_line;
 	while (broke_line[index] != NULL)
 	{
 		dup2(g_data.original_fd[0], STDIN_FILENO);
-		dup2(g_data.original_fd[1], STDOUT_FILENO);	
+		dup2(g_data.original_fd[1], STDOUT_FILENO);
 		if (ft_its_a_redirector(broke_line[index],
 				ft_strlen(broke_line[index])) >= 1)
 			ft_redirector(broke_line, &index);

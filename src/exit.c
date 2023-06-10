@@ -58,8 +58,6 @@ void	ft_exit_parent(char **split, char *line)
 		free(split);
 	free(line);
 	printf("logout\n");
-	close(0);
-	close(1);
-	close(2);
+	ft_close_default_fd();
 	exit(1);
 }

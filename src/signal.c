@@ -31,13 +31,14 @@ void	ft_new_prompt(int sig)
 {
 	char	**aux;
 	int		i;
-	(void)sig;
+
 	i = 0;
+	(void)sig;
 	if (g_data.pid > 0)
 		return ;
-	aux = ft_split("?:130", ':'); 
+	aux = ft_split("?:130", ':');
 	ft_update_status_code(aux, &i);
-	ft_putstr_fd("\n", 0);
+	ft_putstr_fd("\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -61,6 +62,7 @@ void	ft_start_signal_child(void)
 void	ft_kill_child(int sig)
 {
 	(void)sig;
+	ft_putstr_fd("\n", 1);
 	if (g_data.exit_status != NULL)
 		free(g_data.exit_status);
 	g_data.exit_status = ft_strdup("130");
@@ -69,6 +71,7 @@ void	ft_kill_child(int sig)
 	ft_putstr_fd("?:", g_data.pipe[1]);
 	ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
 	ft_clear_struct();
+	ft_close_default_fd();
 	exit(1);
 }
 
