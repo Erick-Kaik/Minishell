@@ -108,6 +108,7 @@ typedef struct s_data
 	char		**broke_line;
 	char		path_comand[PATH_MAX];
 	char		*exit_status;
+	int			original_fd[2];
 }	t_data;
 
 extern t_data	g_data;
@@ -139,7 +140,7 @@ void		ft_clear_env(void);
 void		ft_pwd(char **line, int *index);
 void		ft_clear_pwd(void);
 void		ft_echo(char **line, int *index);
-void		ft_get_str_echo(char **line, int *index);
+void		ft_get_str_echo(char **line, int *i);
 void		ft_clear_echo(void);
 void		ft_clear_struct(void);
 void		ft_exit(char **line);

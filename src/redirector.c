@@ -99,6 +99,7 @@ void	ft_here_doc(char **line, int *index)
 			buffer = ft_strjoin(buffer, "\n");
 		else
 			break ;
+		ft_putstr_fd(aux, g_data.fd);
 		free(aux);
 	}
 	g_data.fd = open("/tmp/tempfile", O_RDWR | O_TMPFILE | O_SYNC, 0777);

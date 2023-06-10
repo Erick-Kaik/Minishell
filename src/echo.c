@@ -14,6 +14,8 @@
 
 void	ft_echo(char **line, int *index)
 {
+	char	*aux;
+
 	g_data.echo.echo = 1;
 	if (ft_strlen(line[*index + 1]) == 2 && line[*index + 1][0] == '-'
 			&& line[*index + 1][1] == 'n')
@@ -24,34 +26,40 @@ void	ft_echo(char **line, int *index)
 	*index += 1;
 	ft_get_str_echo(line, index);
 	if (g_data.echo.print != NULL)
-		printf("%s", g_data.echo.print);
-	if (g_data.echo.flag != 1)
-		printf("\n");
+		aux = ft_strtrim(g_data.echo.print, " ");
+	if (g_data.echo.print != NULL && g_data.echo.flag != 1)
+		printf("%s\n", aux);
+	else if (g_data.echo.print != NULL && g_data.echo.flag == 1)
+		ft_putstr(aux);
+	free(aux);
 	g_data.exit_status = ft_strdup("0");
 }
 
-void	ft_get_str_echo(char **line, int *index)
+void	ft_get_str_echo(char **line, int *i)
 {
 	int	ret;
 
-	while (line[*index] != NULL)
+	while (line[*i] != NULL)
 	{
-		ret = ft_its_a_redirector(line[*index], ft_strlen(line[*index]));
+		ret = ft_its_a_redirector(line[*i], ft_strlen(line[*i]));
 		if (ret == 1)
 		{
-			ft_redirector(line, index);
-			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
-				*index += 1;
+			ft_redirector(line, i);
+			if (ft_strlen(line[*i]) == 1 && line[*i][0] == '|')
+			{
+				*i += 1;
+				break ;
+			}
 		}
 		else
 		{
 			if (g_data.echo.print == NULL)
-				g_data.echo.print = ft_strjoin(g_data.echo.print, line[*index]);
+				g_data.echo.print = ft_strjoin(g_data.echo.print, line[*i]);
 			else
 				g_data.echo.print = ft_strjoin_mod(g_data.echo.print,
-						line[*index]);
+						line[*i]);
 			g_data.echo.print = ft_strjoin_mod(g_data.echo.print, " ");
-			*index += 1;
+			*i += 1;
 		}
 	}
 }
