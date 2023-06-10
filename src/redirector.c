@@ -95,6 +95,7 @@ void	ft_here_doc(char **line, int *index)
 			break ;
 		free(aux);
 	}
+	
 	free(aux);
 	*index += 1;
 }
@@ -126,3 +127,4 @@ void	ft_input(char **line, int *index)
 	if (aux_path != NULL)
 		chdir(aux_path);
 }
+

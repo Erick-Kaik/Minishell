@@ -1,44 +1,48 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/03/09 10:26:47 by ekaik-ne          #+#    #+#              #
-#    Updated: 2023/04/10 18:02:27 by ekaik-ne         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# # **************************************************************************** #
+# #                                                                              #
+# #                                                         :::      ::::::::    #
+# #    Makefile                                           :+:      :+:    :+:    #
+# #                                                     +:+ +:+         +:+      #
+# #    By: ekaik-ne <ekaik-ne@student.42.fr>          +#+  +:+       +#+         #
+# #                                                 +#+#+#+#+#+   +#+            #
+# #    Created: 2023/03/09 10:26:47 by ekaik-ne          #+#    #+#              #
+# #    Updated: 2023/04/10 18:02:27 by ekaik-ne         ###   ########.fr        #
+# #                                                                              #
+# # **************************************************************************** #
 
-CC = gcc
-CFLAGS = -g -Wall -Werror -Wextra
-GCC =  $(CC) $(CFLAGS)
-
-LIBFT = libft/libft.a
-NAME = minishell
-SRC = main.c pipe.c utils.c utils2.c utils3.c list_var.c checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c export.c unset.c exec.c split_line.c split_line2.c split_line3.c signal.c list_history.c
-OBJ = ${SRC:.c=.o}
-
-.PHONY = all bonus clean fclean re
+NAME	= minishell
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror
+FT		= ./libft/libft.a
+SRC		= main.c pipe.c utils.c utils2.c utils3.c list_var.c \
+		  checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c \
+		  export.c unset.c exec.c split_line.c split_line2.c \
+		  split_line3.c signal.c list_history.c
+OBJSDIR	= obj
+OBJS	= $(addprefix $(OBJSDIR)/, $(SRC:%.c=%.o))
+.PHONY	= all clean fclean re
 
 all: $(NAME)
+	@clear
+	
+$(NAME): $(OBJSDIR) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline $(FT) -o $@
 
-${NAME}: $(OBJ)
-	$(GCC) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
+$(OBJSDIR):
+	mkdir -p $@
 
-${OBJ}: | $(LIBFT)
+$(OBJSDIR)/%.o: src/%.c src/minishell.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-${LIBFT}:
-	$(MAKE) bonus -C libft/
+${OBJS}: | ${FT}
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $^
+$(FT):
+	$(MAKE) -C libft/ bonus
 
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJSDIR)
 
 fclean: clean
-	make fclean -C libft/
 	rm -f $(NAME)
 
 re: fclean all
