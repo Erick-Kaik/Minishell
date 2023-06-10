@@ -79,15 +79,11 @@ void	ft_here_doc(char **line, int *index)
 	char	*aux;
 
 	buffer = "";
-	if (ft_strlen(line[*index]) == 2 && line[*index][0] == '<'
-		&& line[*index][1] == '<')
-		*index += 1;
+	*index += 1;
 	while (1)
 	{
 		rl_on_new_line();
 		aux = readline("> ");
-		if (buffer != NULL)
-			buffer = ft_strjoin(buffer, aux);
 		if (aux == NULL)
 		{
 			ft_printf("-Minishell: warning: here-document has been delimited ");
@@ -96,15 +92,17 @@ void	ft_here_doc(char **line, int *index)
 		}
 		if (ft_strlen(line[*index]) == ft_strlen(aux)
 			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) == NULL)
-			buffer = ft_strjoin(buffer, "\n");
+			{
+				buffer = ft_strjoin_mod(buffer, aux);
+				buffer = ft_strjoin_mod(buffer, "\n"); 
+			}
 		else
 			break ;
-		ft_putstr_fd(aux, g_data.fd);
 		free(aux);
 	}
-	g_data.fd = open("/tmp/tempfile", O_RDWR | O_TMPFILE | O_SYNC, 0777);
-	write(tmpfd, buffer, ft_strlen(buffer));
-	printf
+	g_data.fd = open("/tmp/tempfile", O_RDWR | O_CREAT | O_SYNC, 0777);
+	write(g_data.fd, buffer, ft_strlen(buffer));
+	dup2(g_data.fd, STDIN_FILENO);
 	free(aux);
 	*index += 1;
 }
