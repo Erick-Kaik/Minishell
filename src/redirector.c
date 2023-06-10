@@ -75,8 +75,10 @@ void	ft_overwriting(char **line, int *index)
 
 void	ft_here_doc(char **line, int *index)
 {
+	char	*buffer;
 	char	*aux;
 
+	buffer = "";
 	if (ft_strlen(line[*index]) == 2 && line[*index][0] == '<'
 		&& line[*index][1] == '<')
 		*index += 1;
@@ -84,6 +86,8 @@ void	ft_here_doc(char **line, int *index)
 	{
 		rl_on_new_line();
 		aux = readline("> ");
+		if (buffer != NULL)
+			buffer = ft_strjoin(buffer, aux);
 		if (aux == NULL)
 		{
 			ft_printf("-Minishell: warning: here-document has been delimited ");
@@ -91,11 +95,15 @@ void	ft_here_doc(char **line, int *index)
 			break ;
 		}
 		if (ft_strlen(line[*index]) == ft_strlen(aux)
-			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) != NULL)
+			&& ft_strnstr(line[*index], aux, ft_strlen(line[*index])) == NULL)
+			buffer = ft_strjoin(buffer, "\n");
+		else
 			break ;
 		free(aux);
 	}
-	
+	g_data.fd = open("/tmp/tempfile", O_RDWR | O_TMPFILE | O_SYNC, 0777);
+	write(tmpfd, buffer, ft_strlen(buffer));
+	printf
 	free(aux);
 	*index += 1;
 }
@@ -127,4 +135,3 @@ void	ft_input(char **line, int *index)
 	if (aux_path != NULL)
 		chdir(aux_path);
 }
-
