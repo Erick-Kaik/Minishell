@@ -45,6 +45,12 @@ char	*ft_get_path_exec(char *comand)
 	char	*temp;
 
 	aux = g_data.var;
+	if (comand[0] == '/')
+	{
+		if (access(comand, X_OK) == 0 && access(comand, F_OK) == 0)
+			return (ft_strdup(comand));
+		return (NULL);
+	}
 	while (aux != NULL)
 	{
 		if (ft_strncmp(aux->name, "PATH", ft_strlen(aux->name)) == 0)

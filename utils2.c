@@ -59,7 +59,11 @@ char	*ft_verify_line(void)
 	free (aux);
 	if (line == NULL)
 	{
+		ft_putchar_fd('\n', 0);
 		ft_clear_struct();
+		close(0);
+		close(1);
+		close(2);
 		exit(1);
 	}
 	if (ft_strlen_other(line, ' ') <= 0)

@@ -45,6 +45,9 @@ void	ft_init(char *line)
 			if (line != NULL)
 				ft_check_line(line);
 			ft_clear_struct();
+			close(0);
+			close(1);
+			close(2);
 			exit(1);
 		}
 		else if (g_data.pid > 0)
