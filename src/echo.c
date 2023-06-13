@@ -17,6 +17,8 @@ void	ft_echo(char **line, int *index)
 	char	*aux;
 
 	g_data.echo.echo = 1;
+	aux = NULL;
+	g_data.echo.print = NULL;
 	if (ft_strlen(line[*index + 1]) == 2 && line[*index + 1][0] == '-'
 			&& line[*index + 1][1] == 'n')
 	{
@@ -37,18 +39,16 @@ void	ft_echo(char **line, int *index)
 
 void	ft_get_str_echo(char **line, int *i)
 {
-	int	ret;
-
 	while (line[*i] != NULL)
 	{
-		ret = ft_its_a_redirector(line[*i], ft_strlen(line[*i]));
-		if (ret == 1)
+		if (ft_its_a_redirector(line[*i], ft_strlen(line[*i])) == 1
+			&& line[*i + 1] != NULL && ft_strlen(line[*i + 1]) > 0)
 		{
 			ft_redirector(line, i);
 			if (ft_strlen(line[*i]) == 1 && line[*i][0] == '|')
 			{
-				*i += 1;
-				break ;
+				while (line[*i] != NULL)
+					*i += 1;
 			}
 		}
 		else

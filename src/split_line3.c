@@ -78,7 +78,8 @@ char	*ft_get_more_content(char *line, int *concat)
 	}
 	aux = ft_strtrim(temp, " ");
 	free(temp);
-	line = ft_strjoin_mod(line, "\n");
+	if (line[ft_strlen(line) - 1] != '|')
+		line = ft_strjoin_mod(line, "\n");
 	line = ft_strjoin_mod(line, aux);
 	free(aux);
 	*concat += 1;

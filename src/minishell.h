@@ -19,6 +19,7 @@
 # include <linux/limits.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 
 typedef struct s_echo
 {
@@ -27,19 +28,6 @@ typedef struct s_echo
 	char	*print;
 	int		fd;
 }	t_echo;
-
-typedef struct s_cd
-{
-	int		cd;
-	char	*path;
-}	t_cd;
-
-typedef struct s_export
-{
-	int		export;
-	char	*name;
-	char	*value;
-}	t_export;
 
 typedef struct s_env
 {
@@ -55,18 +43,6 @@ typedef struct s_pdw
 	int		fd;
 }	t_pwd;
 
-typedef struct s_unset
-{
-	int		unset;
-	char	*name;
-	char	*value;
-}	t_unset;
-
-typedef struct s_exit
-{
-	int	exit;
-}	t_exit;
-
 typedef struct s_var
 {
 	char			*name;
@@ -80,29 +56,18 @@ typedef struct s_error
 	char	*print;
 }	t_error;
 
-typedef struct s_history
-{
-	char				*str;
-	struct s_history	*next;
-}	t_history;
-
 typedef struct s_data
 {
 	t_echo		echo;
-	t_cd		cd;
-	t_export	export;
 	t_env		env;
 	t_pwd		pwd;
-	t_unset		unset;
-	t_exit		exit;
 	t_var		*var;
 	t_error		error;
-	t_history	*history;
 	pid_t		pid;
 	int			pipe[2];
 	int			fd;
+	int			non_blocking;
 	char		**envp;
-	int			status;
 	int			jump_fork;
 	char		*line;
 	char		**broke_line;
@@ -170,11 +135,6 @@ int			ft_split_redirection(char *str);
 int			ft_len_redirector(char *str, int index, int len_backup);
 int			ft_execute_execve(char **aux, char **line, char *path, int *index);
 void		ft_redirector_in_exec(char **line, int *index);
-t_history	*ft_new_lst_history(char *content);
-void		ft_add_lst_history(t_history **history, t_history *new);
-t_history	*ft_lst_history_last(t_history *history);
-void		ft_clear_history(t_history **history);
-void		ft_del_one_history(t_history *history);
 char		*ft_add_history(void);
 void		ft_pipe(char **line, int *index);
 void		ft_check_next_comand(char **line, int *index);
@@ -196,5 +156,7 @@ void		ft_get_value_exit_execve(int status);
 void		ft_update_status_code(char **spt, int *i);
 char		*ft_init_here_doc(char *EOF_s);
 void		ft_close_default_fd(void);
+void		ft_check_final_value(char *line);
+void		ft_adding_or_replacing_export(char *name, char *vl);
 
 #endif

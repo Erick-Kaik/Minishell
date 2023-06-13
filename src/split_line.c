@@ -21,6 +21,7 @@ char	**ft_broke_line(char *line)
 	temp = NULL;
 	g_data.line = line;
 	aux = ft_strtrim(line, " ");
+	ft_check_final_value(aux);
 	count = ft_count_split(aux);
 	temp = (char **)malloc(sizeof(char *) * (count + 1));
 	temp = ft_split_words(aux, temp, count);

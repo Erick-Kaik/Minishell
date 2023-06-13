@@ -14,6 +14,8 @@
 
 void	ft_clear_struct(void)
 {
+	if (g_data.fd > 0 && g_data.pid == 0)
+		close(g_data.fd);
 	g_data.fd = 0;
 	g_data.jump_fork = 0;
 	if (g_data.env.env > 0)

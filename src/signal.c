@@ -34,11 +34,14 @@ void	ft_new_prompt(int sig)
 
 	i = 0;
 	(void)sig;
+	ft_putstr_fd("\n", 1);
 	if (g_data.pid > 0)
 		return ;
 	aux = ft_split("?:130", ':');
 	ft_update_status_code(aux, &i);
-	ft_putstr_fd("\n", 1);
+	ft_clear_split_line(aux);
+	if (aux != NULL)
+		free(aux);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

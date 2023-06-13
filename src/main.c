@@ -23,6 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_starting_variables(envp);
 	ft_start_signals_parent();
 	line = "";
+	g_data.non_blocking = 1;
 	g_data.original_fd[0] = dup(STDIN_FILENO);
 	g_data.original_fd[1] = dup(STDOUT_FILENO);
 	ft_init(line);

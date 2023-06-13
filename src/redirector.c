@@ -85,6 +85,9 @@ void	ft_here_doc(char **line, int *index)
 	close(g_data.fd);
 	g_data.fd = open("/tmp/tempfile", O_RDONLY, 0777);
 	dup2(g_data.fd, STDIN_FILENO);
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
+	g_data.exit_status = ft_strdup("0");
 	free(buffer);
 	*index += 1;
 }

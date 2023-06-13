@@ -14,7 +14,9 @@
 
 void	ft_get_value_exit_execve(int status)
 {
-	if (WIFSIGNALED(status))
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
+	if (WIFSIGNALED(status) != 0)
 	{
 		if (WTERMSIG(status) == SIGINT)
 			g_data.exit_status = ft_strdup("130");
@@ -28,8 +30,10 @@ void	ft_get_value_exit_execve(int status)
 		ft_close_default_fd();
 		exit(1);
 	}
-	else if (WIFEXITED(status))
+	else if (WIFEXITED(status) != 0 && g_data.pid > 0)
 		g_data.exit_status = ft_itoa(WEXITSTATUS(status));
+	else
+		g_data.exit_status = ft_strdup("0");
 }
 
 void	ft_update_status_code(char **spt, int *i)
@@ -88,4 +92,22 @@ void	ft_close_default_fd(void)
 	close(2);
 	close(g_data.original_fd[0]);
 	close(g_data.original_fd[1]);
+}
+
+void	ft_check_final_value(char *line)
+{
+	if ((ft_strlen(line) >= 1 && (line[ft_strlen(line) - 1] == '>'
+				|| line[ft_strlen(line) - 1] == '<')) || (ft_strlen(line) >= 2
+			&& (line[ft_strlen(line) - 1] == '>' && line[ft_strlen(line) - 2]
+				== '>')))
+	{
+		printf("-Minishell: syntax error near unexpected token 'newline'\n");
+		free(line);
+		close(g_data.pipe[0]);
+		ft_putstr_fd("?:", g_data.pipe[1]);
+		ft_putstr_fd("2", g_data.pipe[1]);
+		ft_clear_struct();
+		ft_close_default_fd();
+		exit(1);
+	}
 }

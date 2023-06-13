@@ -20,11 +20,20 @@ void	ft_env(char **line, int *index)
 		ft_printf("%s: '%s': No such file or directory\n", line[*index],
 			line[*index + 1]);
 	else
+	{
+		while (line[*index] != NULL)
+		{
+			if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) == 1)
+			{
+				ft_redirector(line, index);
+				if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
+					*index += 1;
+			}
+			else
+				*index += 1;
+		}
 		ft_get_print_env();
-	ft_putstr_fd(g_data.env.print, g_data.env.fd);
-	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
-			ft_strlen(line[*index])) == 0)
-		*index += 1;
+	}
 	g_data.exit_status = ft_strdup("0");
 }
 
@@ -40,13 +49,7 @@ void	ft_get_print_env(void)
 			aux = aux->next;
 			continue ;
 		}
-		if (g_data.env.print == NULL)
-			g_data.env.print = ft_strjoin(g_data.env.print, aux->name);
-		else
-			g_data.env.print = ft_strjoin_mod(g_data.env.print, aux->name);
-		g_data.env.print = ft_strjoin_mod(g_data.env.print, "=");
-		g_data.env.print = ft_strjoin_mod(g_data.env.print, aux->content);
-		g_data.env.print = ft_strjoin_mod(g_data.env.print, "\n");
+		printf("%s=%s\n", aux->name, aux->content);
 		aux = aux->next;
 	}
 }

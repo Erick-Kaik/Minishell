@@ -16,7 +16,6 @@ static void	ft_send_to_parent(char *value);
 
 void	ft_unset(char **line, int *index)
 {
-	g_data.exit_status = ft_strdup("0");
 	*index += 1;
 	if (line[*index] != NULL && ft_strlen(line[*index]) == 1
 		&& line[*index][0] == '?' && g_data.pid == 0)
@@ -42,11 +41,13 @@ void	ft_unset(char **line, int *index)
 
 static void	ft_send_to_parent(char *value)
 {
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
 	if (g_data.pid == 0)
 	{
-		if (close(g_data.pipe[0]) == 0)
-			ft_putstr_fd("unset:", g_data.pipe[1]);
-		ft_putstr_fd(":", g_data.pipe[1]);
+		g_data.exit_status = ft_strdup("0");
+		close(g_data.pipe[0]);
+		ft_putstr_fd("unset:", g_data.pipe[1]);
 		ft_putstr_fd(value, g_data.pipe[1]);
 	}
 }
@@ -68,23 +69,28 @@ int	ft_check_exist_var(char *name_var)
 void	ft_delete_var(char *name_var)
 {
 	t_var	*aux;
-	t_var	*temp;
+	t_var	*t;
+	t_var	*sup;
 
 	aux = g_data.var;
-	temp = aux;
-	while (temp != NULL)
+	t = aux;
+	sup = NULL;
+	while (t != NULL)
 	{
-		if (ft_strncmp(temp->next->name, name_var,
-				ft_strlen(temp->next->name)) == 0)
+		if (ft_strncmp(t->next->name, name_var, ft_strlen(t->next->name)) == 0)
 		{
-			if (temp->next == NULL)
-				free(temp);
+			if (t->next == NULL)
+				ft_del_one_var(t);
 			else
-				temp->next = temp->next->next;
+			{
+				sup = t->next->next;
+				ft_del_one_var(t->next);
+				t->next = sup;
+			}
 			ft_clear_env();
 			break ;
 		}
-		temp = temp->next;
+		t = t->next;
 	}
 	g_data.var = aux;
 }

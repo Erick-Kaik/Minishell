@@ -70,7 +70,7 @@ void	ft_print_error(char **line, int *index)
 	char	*aux;
 
 	g_data.error.error += 1;
-	if (line[*index] == NULL || (line[*index] != NULL
+	if ((*index > 1 && line[*index] == NULL) || (line[*index] != NULL /* Isso ta errado -> invalide read */
 			&& ft_its_a_redirector(line[*index],
 				ft_strlen(line[*index])) == 1))
 		*index -= 1;

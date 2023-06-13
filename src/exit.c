@@ -37,6 +37,7 @@ void	ft_exit(char **line)
 	if (pipe == 0)
 		ft_send_to_parent();
 	ft_clear_struct();
+	ft_close_default_fd();
 	exit(1);
 }
 

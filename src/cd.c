@@ -28,7 +28,6 @@ void	ft_cd(char **line, int *index)
 		else
 			value = chdir(path);
 	}
-	g_data.exit_status = ft_itoa(value * -1);
 	if (g_data.pid == 0 && value >= 0 && ft_strlen(path) == 1 && path[0] == '~')
 		ft_send_to_parent("~");
 	else if (g_data.pid == 0 && value >= 0 && path != NULL)
@@ -48,6 +47,10 @@ char	*ft_get_path_cd(char **line, int *index)
 	char	*path;
 
 	path = NULL;
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
+	if (g_data.pid == 0)
+		g_data.exit_status = ft_strdup("1");
 	if (line[*index + 1] == NULL || (line[*index + 1] != NULL
 			&& ft_its_a_redirector(line[*index + 1],
 				ft_strlen(line[*index + 1])) == 1))
@@ -69,8 +72,11 @@ char	*ft_get_path_cd(char **line, int *index)
 
 static void	ft_send_to_parent(char *value)
 {
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
 	if (g_data.pid == 0)
 	{
+		g_data.exit_status = ft_strdup("0");
 		close(g_data.pipe[0]);
 		ft_putstr_fd("cd:", g_data.pipe[1]);
 		ft_putstr_fd(value, g_data.pipe[1]);

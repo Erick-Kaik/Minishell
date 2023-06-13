@@ -19,11 +19,14 @@ void	ft_pipe(char **line, int *index)
 	int		fd[2];
 	pid_t	pid;
 
+	if (line[*index + 1] == NULL)
+		return ;
 	if (ft_create_fork_pipe(fd, &pid) == -1)
 		return ;
 	else if (pid == 0)
 	{
 		close(fd[0]);
+		ioctl(fd[1], FIONBIO, &g_data.non_blocking);
 		dup2(fd[1], 1);
 		close(fd[1]);
 	}
@@ -58,7 +61,8 @@ void	ft_redirector_in_exec(char **line, int *index)
 		if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) > 0)
 		{
 			ft_redirector(line, index);
-			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|')
+			if (ft_strlen(line[*index]) == 1 && line[*index][0] == '|'
+				&& g_data.jump_fork == 1)
 				break ;
 			if (g_data.fd == -1)
 			{

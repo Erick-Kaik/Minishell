@@ -45,23 +45,23 @@ char	*ft_get_path_exec(char *comand)
 	char	*temp;
 
 	aux = g_data.var;
+	path_s = NULL;
+	path = NULL;
+	temp = NULL;
 	if (comand[0] == '/')
 	{
 		if (access(comand, X_OK) == 0 && access(comand, F_OK) == 0)
 			return (ft_strdup(comand));
 		return (NULL);
 	}
-	while (aux != NULL)
+	while (aux != NULL && temp == NULL)
 	{
 		if (ft_strncmp(aux->name, "PATH", ft_strlen(aux->name)) == 0)
-			break ;
+			temp = ft_strdup(aux->content);
 		aux = aux->next;
 	}
-	if (aux != NULL)
-	{
-		temp = ft_strdup(aux->content);
-		path_s = ft_split(temp, ':');
-	}
+	if (aux == NULL)
+		return (NULL);
 	path = ft_validate_path(path_s, comand, temp);
 	return (path);
 }
@@ -73,6 +73,7 @@ char	*ft_validate_path(char **path_s, char *comand, char *temp)
 
 	i = 0;
 	path = NULL;
+	path_s = ft_split(temp, ':');
 	while (path_s[i] != NULL)
 	{
 		path = ft_strjoin(path_s[i++], "/");

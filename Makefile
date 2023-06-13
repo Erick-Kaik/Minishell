@@ -12,19 +12,19 @@
 
 NAME	= minishell
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -g3 -Wall -Wextra -Werror
 FT		= ./libft/libft.a
 SRC		= main.c pipe.c utils.c utils2.c utils3.c list_var.c \
 		  checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c \
 		  export.c unset.c exec.c split_line.c split_line2.c \
-		  split_line3.c signal.c list_history.c
+		  split_line3.c signal.c
 OBJSDIR	= obj
 OBJS	= $(addprefix $(OBJSDIR)/, $(SRC:%.c=%.o))
 .PHONY	= all clean fclean re
 
 all: $(NAME)
 	@clear
-	
+
 $(NAME): $(OBJSDIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -lreadline $(FT) -o $@
 
@@ -39,11 +39,19 @@ ${OBJS}: | ${FT}
 $(FT):
 	$(MAKE) -C libft/ bonus
 
+val:local.supp
+	valgrind --track-fds=yes --suppressions=./local.supp --leak-check=full ./minishell
+
+local.supp:
+	curl -O https://raw.githubusercontent.com/Erick-Kaik/Minishell/recreate-structs/local.supp
+	chmod 0777 local.supp
+
 clean:
 	rm -rf $(OBJSDIR)
 
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C libft/ fclean
+	rm -rf local.supp
 
 re: fclean all

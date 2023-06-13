@@ -69,7 +69,6 @@ char	*ft_verify_line(void)
 		free(line);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();
 		return (NULL);
 	}
 	return (line);
