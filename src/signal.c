@@ -37,7 +37,7 @@ void	ft_new_prompt(int sig)
 	ft_putstr_fd("\n", 1);
 	if (g_data.pid > 0)
 		return ;
-	aux = ft_split("?:130", ':');
+	aux = ft_split("?;130", ';');
 	ft_update_status_code(aux, &i);
 	ft_clear_split_line(aux);
 	if (aux != NULL)
@@ -70,8 +70,8 @@ void	ft_kill_child(int sig)
 		free(g_data.exit_status);
 	g_data.exit_status = ft_strdup("130");
 	if (close(g_data.pipe[0]) == -1)
-		ft_putstr_fd(":", g_data.pipe[1]);
-	ft_putstr_fd("?:", g_data.pipe[1]);
+		ft_putstr_fd(";", g_data.pipe[1]);
+	ft_putstr_fd("?;", g_data.pipe[1]);
 	ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
 	ft_clear_struct();
 	ft_close_default_fd();

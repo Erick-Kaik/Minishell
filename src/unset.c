@@ -47,7 +47,7 @@ static void	ft_send_to_parent(char *value)
 	{
 		g_data.exit_status = ft_strdup("0");
 		close(g_data.pipe[0]);
-		ft_putstr_fd("unset:", g_data.pipe[1]);
+		ft_putstr_fd("unset;", g_data.pipe[1]);
 		ft_putstr_fd(value, g_data.pipe[1]);
 	}
 }

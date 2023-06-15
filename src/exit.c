@@ -46,7 +46,7 @@ static void	ft_send_to_parent(void)
 	if (g_data.pid == 0)
 	{
 		close(g_data.pipe[0]);
-		ft_putstr_fd("exit:", g_data.pipe[1]);
+		ft_putstr_fd("exit;", g_data.pipe[1]);
 		ft_putstr_fd("1", g_data.pipe[1]);
 	}
 }

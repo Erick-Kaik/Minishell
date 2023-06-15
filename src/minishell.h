@@ -158,5 +158,6 @@ char		*ft_init_here_doc(char *EOF_s);
 void		ft_close_default_fd(void);
 void		ft_check_final_value(char *line);
 void		ft_adding_or_replacing_export(char *name, char *vl);
+void		ft_check_flag(char *str, int *index);
 
 #endif

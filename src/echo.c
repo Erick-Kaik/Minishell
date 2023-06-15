@@ -19,12 +19,7 @@ void	ft_echo(char **line, int *index)
 	g_data.echo.echo = 1;
 	aux = NULL;
 	g_data.echo.print = NULL;
-	if (ft_strlen(line[*index + 1]) == 2 && line[*index + 1][0] == '-'
-			&& line[*index + 1][1] == 'n')
-	{
-		g_data.echo.flag = 1;
-		*index += 1;
-	}
+	ft_check_flag(line[*index + 1], index);
 	*index += 1;
 	ft_get_str_echo(line, index);
 	if (g_data.echo.print != NULL)
@@ -35,6 +30,26 @@ void	ft_echo(char **line, int *index)
 		ft_putstr(aux);
 	free(aux);
 	g_data.exit_status = ft_strdup("0");
+}
+
+void	ft_check_flag(char *str, int *index)
+{
+	size_t	i;
+
+	i = 0;
+	if (str == NULL || ft_strlen(str) <= 1)
+		return ;
+	if (ft_strlen(str) > 1 && str[0] != '-')
+		return ;
+	i++;
+	while (str[i] != '\0')
+	{
+		if (str[i] != 'n')
+			return ;
+		i++;
+	}
+	g_data.echo.flag = 1;
+	*index += 1;
 }
 
 void	ft_get_str_echo(char **line, int *i)

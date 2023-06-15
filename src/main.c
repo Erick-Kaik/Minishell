@@ -77,6 +77,8 @@ void	ft_parent_init(char *line)
 		ft_update_parent(aux);
 	close(g_data.pipe[0]);
 	free(aux);
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
 }
 
 void	ft_update_parent(char *aux)
@@ -85,7 +87,7 @@ void	ft_update_parent(char *aux)
 	int		i;
 
 	i = 0;
-	spt = ft_split(aux, ':');
+	spt = ft_split(aux, ';');
 	while (spt[i] != NULL)
 	{
 		if (ft_strlen(spt[i]) == 6 && ft_strnstr(spt[i], "export", 6) != NULL)

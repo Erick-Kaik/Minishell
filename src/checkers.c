@@ -16,7 +16,7 @@ static void	ft_send_to_parent(char *value, char *aux);
 
 int	ft_its_a_redirector(char *line, int len)
 {
-	if (line == NULL || ft_strlen(line) > 2)
+	if (line == NULL || ft_strlen(line) <= 0 || ft_strlen(line) > 2)
 		return (0);
 	if (len == 2)
 	{
@@ -47,7 +47,7 @@ int	ft_break_redirector(char *str, int pos)
 
 int	ft_its_a_builtins(char *line)
 {
-	if (line == NULL || ft_strlen(line) > 6)
+	if (line == NULL || ft_strlen(line) <= 0 || ft_strlen(line) > 6)
 		return (0);
 	if (ft_strlen(line) == 2 && ft_strnstr(line, "cd", 2) != NULL)
 		return (1);
@@ -70,7 +70,7 @@ void	ft_print_error(char **line, int *index)
 	char	*aux;
 
 	g_data.error.error += 1;
-	if ((*index > 1 && line[*index] == NULL) || (line[*index] != NULL /* Isso ta errado -> invalide read */
+	if ((*index > 1 && line[*index] == NULL) || (line[*index] != NULL
 			&& ft_its_a_redirector(line[*index],
 				ft_strlen(line[*index])) == 1))
 		*index -= 1;
@@ -94,12 +94,14 @@ void	ft_print_error(char **line, int *index)
 
 static void	ft_send_to_parent(char *value, char *aux)
 {
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
 	g_data.exit_status = ft_strdup(value);
 	printf("Minishell: %s: command not found\n", aux);
 	if (g_data.pid == 0)
 	{
 		close(g_data.pipe[0]);
-		ft_putstr_fd("?:", g_data.pipe[1]);
+		ft_putstr_fd("?;", g_data.pipe[1]);
 		ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
 	}
 }

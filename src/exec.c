@@ -18,6 +18,8 @@ int	ft_execute_ft_system(char **line, int *index)
 	char	*path;
 	int		ret;
 
+	if (ft_strlen(line[*index]) <= 0)
+		return (-1);
 	aux = ft_limit_execve(line, index);
 	if (aux == NULL)
 		return (-1);
