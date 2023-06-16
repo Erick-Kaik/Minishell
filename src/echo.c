@@ -19,37 +19,40 @@ void	ft_echo(char **line, int *index)
 	g_data.echo.echo = 1;
 	aux = NULL;
 	g_data.echo.print = NULL;
-	ft_check_flag(line[*index + 1], index);
 	*index += 1;
+	ft_check_flag(line, index);
 	ft_get_str_echo(line, index);
 	if (g_data.echo.print != NULL)
-		aux = ft_strtrim(g_data.echo.print, " ");
-	if (g_data.echo.print != NULL && g_data.echo.flag != 1)
-		printf("%s\n", aux);
-	else if (g_data.echo.print != NULL && g_data.echo.flag == 1)
-		ft_putstr(aux);
+		aux = ft_strdup(g_data.echo.print);
+	if (g_data.echo.print != NULL)
+		ft_printf("%s", aux);
+	if (g_data.echo.flag != 1)
+		ft_printf("\n");
 	free(aux);
 	g_data.exit_status = ft_strdup("0");
 }
 
-void	ft_check_flag(char *str, int *index)
+void	ft_check_flag(char **str, int *index)
 {
 	size_t	i;
 
-	i = 0;
-	if (str == NULL || ft_strlen(str) <= 1)
+	if (str == NULL || str[*index] == NULL || ft_strlen(str[*index]) <= 1)
 		return ;
-	if (ft_strlen(str) > 1 && str[0] != '-')
-		return ;
-	i++;
-	while (str[i] != '\0')
+	while (str[*index] != NULL)
 	{
-		if (str[i] != 'n')
+		i = 0;
+		if (ft_strlen(str[*index]) > 1 && str[*index][i] != '-')
 			return ;
 		i++;
+		while (str[*index][i] != '\0')
+		{
+			if (str[*index][i] != 'n')
+				return ;
+			i++;
+		}
+		g_data.echo.flag = 1;
+		*index += 1;
 	}
-	g_data.echo.flag = 1;
-	*index += 1;
 }
 
 void	ft_get_str_echo(char **line, int *i)
@@ -73,7 +76,9 @@ void	ft_get_str_echo(char **line, int *i)
 			else
 				g_data.echo.print = ft_strjoin_mod(g_data.echo.print,
 						line[*i]);
-			g_data.echo.print = ft_strjoin_mod(g_data.echo.print, " ");
+			if (line[*i + 1] != NULL && ft_its_a_redirector(line[*i + 1],
+					ft_strlen(line[*i + 1])) == 0)
+				g_data.echo.print = ft_strjoin_mod(g_data.echo.print, " ");
 			*i += 1;
 		}
 	}

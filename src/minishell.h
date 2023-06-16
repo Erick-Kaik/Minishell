@@ -111,7 +111,7 @@ void		ft_clear_struct(void);
 void		ft_exit(char **line);
 void		ft_export(char **line, int *index);
 void		ft_adding_export(char **line, int *index);
-int			ft_check_name_var(char *str);
+int			ft_check_name_var(char **line, int *index);
 void		ft_unset(char **line, int *index);
 int			ft_check_exist_var(char *name_var);
 void		ft_delete_var(char *name_var);
@@ -158,6 +158,6 @@ char		*ft_init_here_doc(char *EOF_s);
 void		ft_close_default_fd(void);
 void		ft_check_final_value(char *line);
 void		ft_adding_or_replacing_export(char *name, char *vl);
-void		ft_check_flag(char *str, int *index);
+void		ft_check_flag(char **str, int *index);
 
 #endif

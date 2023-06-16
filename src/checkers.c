@@ -70,7 +70,7 @@ void	ft_print_error(char **line, int *index)
 	char	*aux;
 
 	g_data.error.error += 1;
-	if ((*index > 1 && line[*index] == NULL) || (line[*index] != NULL
+	if ((*index > 0 && line[*index] == NULL) || (line[*index] != NULL
 			&& ft_its_a_redirector(line[*index],
 				ft_strlen(line[*index])) == 1))
 		*index -= 1;
@@ -86,9 +86,6 @@ void	ft_print_error(char **line, int *index)
 		*index += 1;
 	}
 	ft_send_to_parent("127", aux);
-	ft_clear_struct();
-	ft_close_default_fd();
-	free(aux);
 	exit(1);
 }
 
@@ -104,4 +101,7 @@ static void	ft_send_to_parent(char *value, char *aux)
 		ft_putstr_fd("?;", g_data.pipe[1]);
 		ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
 	}
+	ft_clear_struct();
+	ft_close_default_fd();
+	free(aux);
 }

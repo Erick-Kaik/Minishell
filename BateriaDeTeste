@@ -1,0 +1,113 @@
+Simple command
+/bin/ls
+/bin/whoami
+/bin/cat
+(testa o exit status - ctrlC = 130 ctrlD = 0)
+/bin/clear
+(empty command)
+(only spaces)
+(only tabs)
+=========================OK===========================
+Arguments
+/bin/ls -l
+/bin/ls -a
+/bin/ls -l -a
+/bin/ls -la
+/bin/sleep 1
+/bin/sleep 5
+/bin/touch a
+/bin/rm a
+=========================OK===========================
+Echo
+echo "''"
+echo ""
+echo
+echo ''
+echo $=$=
+echo $+$+
+echo -n
+echo 1
+echo --n
+echo -nnnnn
+echo -n -n -n
+echo "jlknfe fieuanvl | > >> ibfe   "
+echo -n "     jlknfe fieuanvl | > >> ibfe   "
+echo -nblaa
+echo exit
+echo ekaik-ne
+echo "ekaik-ne"
+echo """ekaik-ne"""
+echo '''ekaik-ne'''
+=========================OK===========================
+Exit
+exit
+exit 42 (verificar se o status esta certo)
+exit 42 42
+exit 42 ee
+exit bla 
+exit bla bla
+=========================OK===========================
+Return Value process
+echo 1 e expr 1 +1, após:
+^C = 130
+ctrl + D = 0
+cd qualquercoisa = 1
+export "=" = 1 -> erro aqui
+command not found = 127
+no such file or directory = 127
+ls -e = 2
+=========================OK===========================
+signals
+Ctrl C, Ctrl D e Ctrl / em:
+- prompt
+- prompt com algo escrito
+- Bloclk command como grep qualquercoisa ou cat
+- Heredoc com e sem comando.
+=========================OK===========================
+Double e single quotes
+echo "cat lol.c | cat > lol.c"
+echo " cat lol.c | cat > lol.c "
+<< oi tr a "'MAS'" -> n funfou (n puxou o execve)
+<< oi tr a "MAS" -> n funfou n testei(n puxou o execve)
+<< oi tr aa "'"MAS"'" -> n funfou msm fita(n puxou o execve)
+echo 'ekaik-ne'
+=========================+/-==========================
+Env
+env
+=========================OK===========================
+Export
+export
+export aaaa=eeee
+export "aaaa1"=eeee -> 2 byts vazados (1) -> gerado na segunda execução
+export aaaa2="eeee"
+export "aaaa3"="eeee"
+export aaaa4"="eeee
+export "aaaa5=eeee"
+(precisa de mais?)
+Substitua alguma e remova depois com unset
+=========================Ta Vazando 1 byte===========================
+Cd
+Mova-se entre diretórios e use /bin/ls para conferir
+Use '.' e '..'
+use pwd nos diferentes diretórios
+
+Relative path
+ex1: ~/../../../bin/ls
+ex2: ../../../bin/ls
+ex3: ./../../../bin/ls
+ex4: /home/user42/../../../bin/ls
+ex5: ../../../../../../../../../../../../../bin/ls
+
+//TODO
+Enviroment Path
+ls | wc | awk '{printf "%s + %s\n", , }' | bc
+
+Redirections
+
+GoCrazy
+
+Variáveis de ambiente
+
+Wildcards
+
+Bonus do bonus

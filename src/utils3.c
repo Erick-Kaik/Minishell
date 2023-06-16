@@ -24,13 +24,10 @@ void	ft_get_value_exit_execve(int status)
 		{
 			ft_printf("Quit");
 			g_data.exit_status = ft_strdup("131");
+			ft_printf("\n");
 		}
-		ft_printf("\n");
-		ft_clear_struct();
-		ft_close_default_fd();
-		exit(1);
 	}
-	else if (WIFEXITED(status) != 0 && g_data.pid > 0)
+	else if (WIFEXITED(status) != 0)
 		g_data.exit_status = ft_itoa(WEXITSTATUS(status));
 	else
 		g_data.exit_status = ft_strdup("0");

@@ -34,7 +34,7 @@ void	ft_export(char **line, int *index)
 		}
 		return ;
 	}
-	if (ft_check_name_var(line[*index]) == 1)
+	if (ft_check_name_var(line, index) == 1)
 		return ;
 	ft_adding_export(line, index);
 	ft_clear_env();
@@ -52,7 +52,7 @@ void	ft_adding_export(char **line, int *index)
 
 	x = 0;
 	aux = ft_split(line[*index], '=');
-	vl = "";
+	vl = ft_strdup("");
 	while (aux[x] != NULL)
 	{
 		if (x == 0)
@@ -72,14 +72,29 @@ void	ft_adding_export(char **line, int *index)
 	free(aux);
 }
 
-int	ft_check_name_var(char *str)
+int	ft_check_name_var(char **line, int *index)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < ft_strlen(str) && str[i] != '=' && str[i] != '\0')
+	if (ft_strlen(line[*index]) < 2 || (ft_strlen(line[*index]) > 1
+			&& line[*index][0] == '='))
 	{
-		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
+		g_data.exit_status = ft_strdup("1");
+		while (line[*index] != NULL)
+		{
+			ft_printf("-Minishell: export: '%s'", line[*index]);
+			ft_printf(": not a valid identifier\n");
+			*index += 1;
+			if (line[*index] == NULL)
+				break ;
+		}
+		return (1);
+	}
+	while (i < ft_strlen(line[*index]) && line[*index][i] != '='
+		&& line[*index][i] != '\0')
+	{
+		if (ft_isalnum(line[*index][i]) == 0 && line[*index][i] != '_')
 			return (1);
 		i++;
 	}

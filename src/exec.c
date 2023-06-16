@@ -112,8 +112,6 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, WUNTRACED);
-	if (status > 0)
-			ret = -1;
 	ft_get_value_exit_execve(status);
 	return (ret);
 }
