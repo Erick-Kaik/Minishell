@@ -67,9 +67,9 @@ Ctrl C, Ctrl D e Ctrl / em:
 Double e single quotes
 echo "cat lol.c | cat > lol.c"
 echo " cat lol.c | cat > lol.c "
-<< oi tr a "'MAS'" -> n funfou (n puxou o execve)
-<< oi tr a "MAS" -> n funfou n testei(n puxou o execve)
-<< oi tr aa "'"MAS"'" -> n funfou msm fita(n puxou o execve)
+<< oi tr a "'MAS'"
+<< oi tr a "MAS"
+<< oi tr aa "'"MAS"'"
 echo 'ekaik-ne'
 =========================+/-==========================
 Env
@@ -78,7 +78,7 @@ env
 Export
 export
 export aaaa=eeee
-export "aaaa1"=eeee -> 2 byts vazados (1) -> gerado na segunda execução
+export "aaaa1"=eeee
 export aaaa2="eeee"
 export "aaaa3"="eeee"
 export aaaa4"="eeee
@@ -92,7 +92,7 @@ Use '.' e '..'
 use pwd nos diferentes diretórios
 
 Relative path
-ex1: ~/../../../bin/ls
+ex1: ~/../../../bin/ls -> arrumar esse add o HOME quando tiver o ~
 ex2: ../../../bin/ls
 ex3: ./../../../bin/ls
 ex4: /home/user42/../../../bin/ls
@@ -111,3 +111,11 @@ Variáveis de ambiente
 Wildcards
 
 Bonus do bonus
+
+Vericiar quando passar assim : $HOME/123 (segfault)
+{
+    ekaik-ne:~/Minishell$-> $HOME/123
+    Minishell: : command not found
+    double free or corruption (out)
+    Segmentation fault
+}

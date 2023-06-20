@@ -58,7 +58,7 @@ void	ft_adding_export(char **line, int *index)
 		if (x == 0)
 			name = ft_strdup(aux[x]);
 		else if (x == 1)
-			vl = ft_strjoin(vl, aux[x]);
+			vl = ft_strjoin_mod(vl, aux[x]);
 		else
 		{
 			vl = ft_strjoin_mod(vl, "=");
@@ -78,7 +78,7 @@ int	ft_check_name_var(char **line, int *index)
 
 	i = 0;
 	if (ft_strlen(line[*index]) < 2 || (ft_strlen(line[*index]) > 1
-			&& line[*index][0] == '='))
+			&& line[*index][0] == '=') || ft_strrchr(line[*index], '~') != NULL)
 	{
 		g_data.exit_status = ft_strdup("1");
 		while (line[*index] != NULL)

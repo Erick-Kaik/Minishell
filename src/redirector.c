@@ -83,13 +83,14 @@ void	ft_here_doc(char **line, int *index)
 			| O_TRUNC | O_SYNC, 0777);
 	ft_putstr_fd(buffer, g_data.fd);
 	close(g_data.fd);
-	g_data.fd = open("/tmp/tempfile", O_RDONLY, 0777);
+	g_data.fd = open("/tmp/tempfile", O_RDONLY | O_SYNC, 0777);
 	dup2(g_data.fd, STDIN_FILENO);
 	if (g_data.exit_status != NULL)
 		free(g_data.exit_status);
 	g_data.exit_status = ft_strdup("0");
 	free(buffer);
 	*index += 1;
+	ft_check_next_comand(line, index, 0);
 }
 
 void	ft_input(char **line, int *index)

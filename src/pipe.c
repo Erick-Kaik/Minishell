@@ -38,12 +38,12 @@ void	ft_pipe(char **line, int *index)
 		dup2(fd[0], 0);
 		close(fd[0]);
 		waitpid(pid, NULL, WUNTRACED);
-		ft_check_next_comand(line, index);
+		ft_check_next_comand(line, index, 1);
 		exit(1);
 	}
 }
 
-void	ft_check_next_comand(char **line, int *index)
+void	ft_check_next_comand(char **line, int *index, int in_pipe)
 {
 	if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) >= 1)
 		ft_redirector(line, index);
@@ -51,7 +51,8 @@ void	ft_check_next_comand(char **line, int *index)
 		ft_builtins(line, index);
 	else if (ft_execute_ft_system(line, index) == -1)
 		ft_print_error(line, index);
-	ft_clear_struct();
+	if (in_pipe == 1)
+		ft_clear_struct();
 }
 
 void	ft_redirector_in_exec(char **line, int *index)

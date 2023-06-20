@@ -137,7 +137,7 @@ int			ft_execute_execve(char **aux, char **line, char *path, int *index);
 void		ft_redirector_in_exec(char **line, int *index);
 char		*ft_add_history(void);
 void		ft_pipe(char **line, int *index);
-void		ft_check_next_comand(char **line, int *index);
+void		ft_check_next_comand(char **line, int *index, int in_pipe);
 void		ft_init(char *line);
 char		*ft_get_path_exec(char *comand);
 void		ft_update_parent(char *aux);
