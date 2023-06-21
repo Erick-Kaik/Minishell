@@ -98,11 +98,13 @@ char	*ft_check_var(char *str, int i, int *index)
 	if (str[x] == '$')
 		x++;
 	while (str[x] != '\0'
-		&& ((ft_isascii(str[x]) == 1 || str[x] == '?') && str[x] != ' '))
+		&& (ft_isalnum(str[x]) == 1 || str[x] == '?' || str[x] == '_'))
 	{
 		x++;
 		len++;
 	}
+	if (len == 0)
+		return ("$");
 	aux = malloc(sizeof(char *) * len + 1);
 	ft_strlcpy(aux, &str[i + *index + 1], len + 1);
 	temp = ft_get_var(aux);
@@ -118,8 +120,9 @@ char	*ft_get_var(char *name_var)
 	aux = g_data.var;
 	while (aux != NULL)
 	{
-		if (ft_strncmp(aux->name, name_var, ft_strlen(aux->name)) == 0)
-			return (aux->content);
+		if (ft_strlen(aux->name) == ft_strlen(name_var))
+			if (ft_strncmp(aux->name, name_var, ft_strlen(aux->name)) == 0)
+				return (aux->content);
 		aux = aux->next;
 	}
 	return (NULL);

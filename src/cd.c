@@ -28,9 +28,7 @@ void	ft_cd(char **line, int *index)
 		else
 			value = chdir(path);
 	}
-	if (g_data.pid == 0 && value >= 0 && ft_strlen(path) == 1 && path[0] == '~')
-		ft_send_to_parent("~");
-	else if (g_data.pid == 0 && value >= 0 && path != NULL)
+	if (g_data.pid == 0 && value >= 0 && path != NULL)
 		ft_send_to_parent(path);
 	if (value == -1)
 		ft_printf("Minishell: %s: '%s': No such file or directory\n",
@@ -60,10 +58,7 @@ char	*ft_get_path_cd(char **line, int *index)
 	{
 		if (line[*index + 2] != NULL && ft_its_a_redirector(line[*index + 2],
 				ft_strlen(line[*index + 2])) == 0 && g_data.pid == 0)
-		{
-			path = NULL;
 			ft_printf("Minishell: %s: too many arguments\n", line[*index]);
-		}
 		else
 			path = ft_strjoin(path, line[*index + 1]);
 	}

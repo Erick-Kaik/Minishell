@@ -123,17 +123,22 @@ char	**ft_limit_execve(char **line, int *index)
 	char	**aux;
 
 	x = 0;
-	y = 0;
+	y = -1;
 	while (line[*index + x] != NULL && ft_its_a_redirector(line[*index + x],
 			ft_strlen(line[*index + x])) == 0)
 		x++;
 	aux = (char **)malloc(sizeof(char *) * (x + 1));
 	if (aux == NULL)
 		return (NULL);
-	while (y < x)
+	while (++y < x)
 	{
-		aux[y] = ft_strdup(line[*index + y]);
-		y++;
+		if (ft_strlen(line[*index + y]) > 1 && line[*index + y][0] == '~'
+			&& line[*index + y][1] == '/')
+			aux[y] = ft_strjoin(getenv("HOME"), &line[*index + y][1]);
+		else if (ft_strlen(line[*index + y]) == 1 && line[*index + y][0] == '~')
+			aux[y] = ft_strdup(getenv("HOME"));
+		else
+			aux[y] = ft_strdup(line[*index + y]);
 	}
 	aux[x] = NULL;
 	*index += x;

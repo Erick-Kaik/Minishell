@@ -44,7 +44,7 @@ exit
 exit 42 (verificar se o status esta certo)
 exit 42 42
 exit 42 ee
-exit bla 
+exit bla
 exit bla bla
 =========================OK===========================
 Return Value process
@@ -71,7 +71,7 @@ echo " cat lol.c | cat > lol.c "
 << oi tr a "MAS"
 << oi tr aa "'"MAS"'"
 echo 'ekaik-ne'
-=========================+/-==========================
+=========================OK===========================
 Env
 env
 =========================OK===========================
@@ -85,23 +85,23 @@ export aaaa4"="eeee
 export "aaaa5=eeee"
 (precisa de mais?)
 Substitua alguma e remova depois com unset
-=========================Ta Vazando 1 byte===========================
+=========================OK===========================
 Cd
 Mova-se entre diretórios e use /bin/ls para conferir
 Use '.' e '..'
 use pwd nos diferentes diretórios
-
+=========================OK===========================
 Relative path
-ex1: ~/../../../bin/ls -> arrumar esse add o HOME quando tiver o ~
+ex1: ~/../../../bin/ls
 ex2: ../../../bin/ls
 ex3: ./../../../bin/ls
 ex4: /home/user42/../../../bin/ls
 ex5: ../../../../../../../../../../../../../bin/ls
-
+=========================OK===========================
 //TODO
 Enviroment Path
 ls | wc | awk '{printf "%s + %s\n", , }' | bc
-
+=========================OK===========================
 Redirections
 
 GoCrazy
@@ -111,11 +111,7 @@ Variáveis de ambiente
 Wildcards
 
 Bonus do bonus
+=========================OK===========================
+Vericiar quando passar assim : $HOME/123
+=========================OK===========================
 
-Vericiar quando passar assim : $HOME/123 (segfault)
-{
-    ekaik-ne:~/Minishell$-> $HOME/123
-    Minishell: : command not found
-    double free or corruption (out)
-    Segmentation fault
-}

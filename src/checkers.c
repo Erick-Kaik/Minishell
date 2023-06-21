@@ -74,7 +74,11 @@ void	ft_print_error(char **line, int *index)
 			&& ft_its_a_redirector(line[*index],
 				ft_strlen(line[*index])) == 1))
 		*index -= 1;
-	aux = ft_strdup(line[*index]);
+	if (line[*index] != NULL && ft_strlen(line[*index]) == 1
+		&& line[*index][0] == '~')
+		aux = ft_strdup(getenv("HOME"));
+	else
+		aux = ft_strdup(line[*index]);
 	while (line[*index] != NULL)
 	{
 		if (line[*index] != NULL && ft_its_a_redirector(line[*index],
