@@ -50,7 +50,8 @@ void	ft_check_next_comand(char **line, int *index, int in_pipe)
 	else if (ft_its_a_builtins(line[*index]) == 1)
 		ft_builtins(line, index);
 	else if (ft_execute_ft_system(line, index) == -1)
-		ft_print_error(line, index);
+		if (in_pipe == 1)
+			ft_print_error(line, index);
 	if (in_pipe == 1)
 		ft_clear_struct();
 }

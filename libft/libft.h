@@ -81,5 +81,6 @@ int		ft_toupper(int c);
 char	*ft_unsigned_itoa(unsigned int n);
 void	ft_lstdel(void *content);
 size_t	ft_strlen_other(const char *str, char c);
+int		ft_strisdigit(char *str);
 
 #endif

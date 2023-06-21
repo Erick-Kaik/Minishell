@@ -98,7 +98,7 @@ char	*ft_check_var(char *str, int i, int *index)
 	if (str[x] == '$')
 		x++;
 	while (str[x] != '\0'
-		&& (ft_isascii(str[x]) == 1 && str[x] != ' '))
+		&& ((ft_isascii(str[x]) == 1 || str[x] == '?') && str[x] != ' '))
 	{
 		x++;
 		len++;

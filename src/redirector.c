@@ -90,7 +90,8 @@ void	ft_here_doc(char **line, int *index)
 	g_data.exit_status = ft_strdup("0");
 	free(buffer);
 	*index += 1;
-	ft_check_next_comand(line, index, 0);
+	if (line[*index] != NULL)
+		ft_check_next_comand(line, index, 0);
 }
 
 void	ft_input(char **line, int *index)

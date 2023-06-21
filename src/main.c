@@ -74,14 +74,14 @@ void	ft_parent_init(char *line)
 	aux = ft_calloc((ft_strlen(line) + 10), sizeof(char));
 	close(g_data.pipe[1]);
 	if (read(g_data.pipe[0], aux, ft_strlen(line) + 10) > 0)
-		ft_update_parent(aux);
+		ft_update_parent(aux, line);
 	close(g_data.pipe[0]);
 	free(aux);
 	if (g_data.exit_status != NULL)
 		free(g_data.exit_status);
 }
 
-void	ft_update_parent(char *aux)
+void	ft_update_parent(char *aux, char *line)
 {
 	char	**spt;
 	int		i;
@@ -102,7 +102,7 @@ void	ft_update_parent(char *aux)
 		i++;
 	}
 	if (ft_strlen(spt[0]) == 4 && ft_strnstr(spt[0], "exit", 4) != NULL)
-		ft_exit_parent(spt, aux);
+		ft_exit_parent(spt, aux, line);
 	ft_clear_split_line(spt);
 	if (spt != NULL)
 		free(spt);
