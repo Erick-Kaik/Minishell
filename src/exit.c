@@ -56,7 +56,7 @@ static void	ft_send_to_parent(char **line, int args)
 	if (ft_atoi(value) == 2)
 		ft_putstr_fd("Minishell: exit: numeric argument required\n",
 			g_data.original_fd[1]);
-	else if (ft_atoi(value) == 2)
+	else if (ft_atoi(value) == 1)
 		ft_putstr_fd("Minishell: exit: too many arguments\n",
 			g_data.original_fd[1]);
 	else if (ft_atoi(value) > 255 || ft_atoi(value) < 0)
@@ -110,13 +110,12 @@ static char	*ft_get_value_exit(char **line)
 	}
 	if (ft_strlen(line[0]) == 4 && ft_strnstr(line[0], "exit", 4) != NULL)
 		arg--;
-	if (arg > 1)
-		return (ft_strdup("1"));
-	else if (arg <= 0)
+	if (arg <= 0)
 		return (ft_strdup("0"));
-	x = -1;
-	if (ft_strisdigit(line[1]) == 1)
+	if (ft_strisdigit(line[1]) == 1 && arg == 1)
 		return (ft_strdup(line[1]));
+	if (ft_strisdigit(line[1]) == 1 && arg > 1)
+		return (ft_strdup("1"));
 	else
 		return (ft_strdup("2"));
 }
