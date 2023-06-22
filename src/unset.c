@@ -17,16 +17,19 @@ static void	ft_send_to_parent(char *value);
 void	ft_unset(char **line, int *index)
 {
 	*index += 1;
+	if (g_data.exit_status != NULL && g_data.pid == 0)
+		free(g_data.exit_status);
+	if (g_data.pid == 0)
+		g_data.exit_status = ft_strdup("0");
 	if (line[*index] != NULL && ft_strlen(line[*index]) == 1
 		&& line[*index][0] == '?' && g_data.pid == 0)
-	{
-		ft_printf("-Minishell: unset: ");
-		ft_printf("'%c': not a valid identifier\n", line[*index][0]);
-	}
+		ft_printf("-Minishell: unset: '?': not a valid identifier\n");
 	while (line[*index] != NULL && ft_its_a_redirector(line[*index],
 			ft_strlen(line[*index])) == 0)
 	{
-		if (ft_check_exist_var(line[*index]) == 1)
+		if (!(ft_strlen(line[*index]) == 1
+				&& ft_strncmp(line[*index], "?", 1) == 0)
+			&& ft_check_exist_var(line[*index]) == 1)
 		{
 			ft_delete_var(line[*index]);
 			if (g_data.pid == 0)
@@ -46,9 +49,11 @@ static void	ft_send_to_parent(char *value)
 	if (g_data.pid == 0)
 	{
 		g_data.exit_status = ft_strdup("0");
-		close(g_data.pipe[0]);
-		ft_putstr_fd("unset;", g_data.pipe[1]);
+		if (close(g_data.pipe[0]) == 0)
+			ft_putstr_fd("unset;", g_data.pipe[1]);
 		ft_putstr_fd(value, g_data.pipe[1]);
+		if (close(g_data.pipe[0]) == -1)
+			ft_putstr_fd(";", g_data.pipe[1]);
 	}
 }
 
@@ -59,7 +64,8 @@ int	ft_check_exist_var(char *name_var)
 	aux = g_data.var;
 	while (aux != NULL)
 	{
-		if (ft_strncmp(aux->name, name_var, ft_strlen(aux->name)) == 0)
+		if (ft_strlen(aux->name) == ft_strlen(name_var)
+			&& ft_strncmp(aux->name, name_var, ft_strlen(aux->name)) == 0)
 			return (1);
 		aux = aux->next;
 	}
@@ -68,16 +74,15 @@ int	ft_check_exist_var(char *name_var)
 
 void	ft_delete_var(char *name_var)
 {
-	t_var	*aux;
 	t_var	*t;
 	t_var	*sup;
 
-	aux = g_data.var;
-	t = aux;
+	t = g_data.var;
 	sup = NULL;
 	while (t != NULL)
 	{
-		if (ft_strncmp(t->next->name, name_var, ft_strlen(t->next->name)) == 0)
+		if (ft_strlen(t->next->name) == ft_strlen(name_var) && ft_strncmp(
+				t->next->name, name_var, ft_strlen(t->next->name)) == 0)
 		{
 			if (t->next == NULL)
 				ft_del_one_var(t);
@@ -92,5 +97,4 @@ void	ft_delete_var(char *name_var)
 		}
 		t = t->next;
 	}
-	g_data.var = aux;
 }

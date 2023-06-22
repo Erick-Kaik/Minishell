@@ -33,6 +33,8 @@ void	ft_clear_struct(void)
 		free(g_data.line);
 	if (g_data.exit_status != NULL)
 		free(g_data.exit_status);
+	if (g_data.heredoc_buf != NULL)
+		free(g_data.heredoc_buf);
 	close(g_data.pipe[0]);
 	close(g_data.pipe[1]);
 }

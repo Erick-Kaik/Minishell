@@ -59,10 +59,9 @@ void	ft_update_status_code(char **spt, int *i)
 
 char	*ft_init_here_doc(char *EOF_s)
 {
-	char	*buffer;
 	char	*aux;
 
-	buffer = ft_strdup("");
+	g_data.heredoc_buf = ft_strdup("");
 	while (1)
 	{
 		rl_on_new_line();
@@ -76,12 +75,12 @@ char	*ft_init_here_doc(char *EOF_s)
 		if (ft_strlen(EOF_s) == ft_strlen(aux)
 			&& ft_strnstr(EOF_s, aux, ft_strlen(EOF_s)) != NULL)
 			break ;
-		buffer = ft_strjoin_mod(buffer, aux);
-		buffer = ft_strjoin_mod(buffer, "\n");
+		g_data.heredoc_buf = ft_strjoin_mod(g_data.heredoc_buf, aux);
+		g_data.heredoc_buf = ft_strjoin_mod(g_data.heredoc_buf, "\n");
 		free(aux);
 	}
 	free(aux);
-	return (buffer);
+	return (ft_strdup(g_data.heredoc_buf));
 }
 
 void	ft_close_default_fd(void)

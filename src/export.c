@@ -129,7 +129,8 @@ void	ft_adding_or_replacing_export(char *name, char *vl)
 	{
 		while (temp != NULL)
 		{
-			if (ft_strncmp(temp->name, name, ft_strlen(temp->name)) == 0)
+			if (ft_strlen(temp->name) == ft_strlen(name) && ft_strncmp(
+					temp->name, name, ft_strlen(temp->name)) == 0)
 			{
 				free(temp->content);
 				temp->content = ft_strdup(vl);

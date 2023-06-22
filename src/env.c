@@ -44,7 +44,8 @@ void	ft_get_print_env(void)
 	aux = g_data.var;
 	while (aux != NULL)
 	{
-		if (ft_strncmp(aux->name, "$?", ft_strlen(aux->name)) == 0)
+		if (ft_strlen(aux->name) == 1
+			&& ft_strncmp(aux->name, "?", ft_strlen(aux->name)) == 0)
 		{
 			aux = aux->next;
 			continue ;

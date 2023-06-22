@@ -71,6 +71,7 @@ typedef struct s_data
 	int			jump_fork;
 	char		*line;
 	char		**broke_line;
+	char		*heredoc_buf;
 	char		path_comand[PATH_MAX];
 	char		*exit_status;
 	int			original_fd[2];

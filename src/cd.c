@@ -18,18 +18,20 @@ void	ft_cd(char **line, int *index)
 {
 	int		value;
 	char	*path;
+	char	*aux;
 
 	value = 0;
-	path = ft_get_path_cd(line, index);
-	if (path != NULL)
-	{
-		if (ft_strlen(path) == 1 && path[0] == '~')
-			value = chdir(getenv("HOME"));
-		else
-			value = chdir(path);
-	}
+	aux = ft_get_path_cd(line, index);
+	if (ft_strlen(aux) == 1 && aux[0] == '~')
+		path = ft_strdup(getenv("HOME"));
+	else if (ft_strlen(aux) > 1 && aux[0] == '~' && aux[1] == '/')
+		path = ft_strjoin(getenv("HOME"), &aux[1]);
+	else
+		path = ft_strdup(aux);
+	value = chdir(path);
 	if (g_data.pid == 0 && value >= 0 && path != NULL)
-		ft_send_to_parent(path);
+		ft_send_to_parent(aux);
+	free(aux);
 	if (value == -1)
 		ft_printf("Minishell: %s: '%s': No such file or directory\n",
 			line[*index], line[*index + 1]);
