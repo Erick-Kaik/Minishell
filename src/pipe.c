@@ -45,6 +45,15 @@ void	ft_pipe(char **line, int *index)
 
 void	ft_check_next_comand(char **line, int *index, int in_pipe)
 {
+	if (in_pipe == 1)
+	{
+		if (g_data.args_exec != NULL)
+			ft_clear_split_line(g_data.args_exec);
+		if (g_data.args_exec != NULL)
+			free(g_data.args_exec);
+		if (g_data.path_exec != NULL)
+			free(g_data.path_exec);
+	}
 	if (ft_its_a_redirector(line[*index], ft_strlen(line[*index])) >= 1)
 		ft_redirector(line, index);
 	else if (ft_its_a_builtins(line[*index]) == 1)

@@ -31,6 +31,8 @@ int	ft_execute_ft_system(char **line, int *index)
 			free(aux);
 		return (-1);
 	}
+	g_data.args_exec = aux;
+	g_data.path_exec = path;
 	ret = ft_execute_execve(aux, line, path, index);
 	free(path);
 	ft_clear_split_line(aux);
@@ -109,6 +111,11 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 	{
 		ft_clear_struct();
 		ret = execve(path, aux, g_data.envp);
+		ft_clear_split_line(aux);
+		free(aux);
+		free(path);
+		ft_close_default_fd();
+		exit(1);
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, WUNTRACED);

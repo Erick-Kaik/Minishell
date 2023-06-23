@@ -65,16 +65,18 @@ typedef struct s_data
 	t_error		error;
 	pid_t		pid;
 	int			pipe[2];
+	int			original_fd[2];
 	int			fd;
 	int			non_blocking;
-	char		**envp;
 	int			jump_fork;
+	char		**envp;
 	char		*line;
 	char		**broke_line;
 	char		*heredoc_buf;
-	char		path_comand[PATH_MAX];
+	char		*path_comand;
 	char		*exit_status;
-	int			original_fd[2];
+	char		*path_exec;
+	char		**args_exec;
 }	t_data;
 
 extern t_data	g_data;
