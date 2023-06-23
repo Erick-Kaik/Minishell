@@ -109,12 +109,11 @@ int	ft_execute_execve(char **aux, char **line, char *path, int *index)
 	ft_start_signal_execve(pid);
 	if (pid == 0 || g_data.jump_fork == 1)
 	{
-		ft_clear_struct();
 		ret = execve(path, aux, g_data.envp);
 		ft_clear_split_line(aux);
 		free(aux);
 		free(path);
-		ft_close_default_fd();
+		ft_print_error(line, index);
 		exit(1);
 	}
 	else if (pid > 0)
