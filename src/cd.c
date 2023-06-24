@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 static void	ft_send_to_parent(char *value);
+static void	ft_close_by_cd(void);
 
 void	ft_cd(char **line, int *index)
 {
@@ -64,6 +65,8 @@ char	*ft_get_path_cd(char **line, int *index)
 		else
 			path = ft_strjoin(path, line[*index + 1]);
 	}
+	if (path == NULL)
+		ft_close_by_cd();
 	return (path);
 }
 
@@ -78,4 +81,15 @@ static void	ft_send_to_parent(char *value)
 		ft_putstr_fd("cd;", g_data.pipe[1]);
 		ft_putstr_fd(value, g_data.pipe[1]);
 	}
+}
+
+static void	ft_close_by_cd(void)
+{
+	if (close(g_data.pipe[0]) == -1)
+		ft_putstr_fd(";", g_data.pipe[1]);
+	ft_putstr_fd("?;", g_data.pipe[1]);
+	ft_putstr_fd(g_data.exit_status, g_data.pipe[1]);
+	ft_clear_struct();
+	ft_close_default_fd();
+	exit(1);
 }
