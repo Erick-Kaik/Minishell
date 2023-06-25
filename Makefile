@@ -12,7 +12,7 @@
 
 NAME	= minishell
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -g3 -Wall -Wextra -Werror
 FT		= ./libft/libft.a
 SRC		= main.c pipe.c utils.c utils2.c utils3.c list_var.c \
 		  checkers.c redirector.c cd.c env.c pwd.c echo.c exit.c \

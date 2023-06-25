@@ -16,25 +16,28 @@ static void	ft_send_to_parent(char *name, char *value);
 
 void	ft_export(char **line, int *index)
 {
-	if (line[*index + 1] != NULL && ft_strchr(line[*index + 1], '=') != NULL)
-		*index += 1;
-	else if (line[*index + 1] == NULL
-		|| ft_strchr(line[*index + 1], '=') == NULL)
+	g_data.exit_status = ft_strdup("1");
+	if (line[*index + 1] == NULL)
 	{
-		g_data.exit_status = ft_strdup("1");
-		while (line[*index] != NULL && ft_strchr(line[*index], '=') == NULL)
-			*index += 1;
-		while (line[*index] != NULL)
+		ft_get_print_env(0);
+		*index += 1;
+		return ;
+	}		
+	else if (ft_strchr(line[*index + 1], '=') == NULL)
+	{
+		*index += 1;
+		while (line[*index] != NULL && (ft_strlen(line[*index]) != 1
+			&& line[*index][0] != '?'))
 		{
-			ft_printf("-Minishell: export: '%s'", line[*index]);
-			ft_printf(": not a valid identifier\n");
+			ft_add_lst_var(&g_data.var, ft_new_lst_var(
+					ft_strdup(line[*index]), NULL));
+			if (g_data.fd == 0)
+				ft_send_to_parent(ft_strdup(line[*index]), NULL);
 			*index += 1;
-			if (line[*index] == NULL)
-				break ;
 		}
 		return ;
 	}
-	if (ft_check_name_var(line, index) == 1)
+	if (ft_check_name_var(line, index, 0) == 1)
 		return ;
 	ft_adding_export(line, index);
 	ft_clear_env();
@@ -72,15 +75,12 @@ void	ft_adding_export(char **line, int *index)
 	free(aux);
 }
 
-int	ft_check_name_var(char **line, int *index)
+int	ft_check_name_var(char **line, int *index, size_t i)
 {
-	size_t	i;
-
-	i = 0;
-	if (ft_strlen(line[*index]) < 2 || (ft_strlen(line[*index]) > 1
+	if (ft_strlen(line[*index]) < 2 || (ft_isalpha(line[*index][i]) == 0
+			&& line[*index][i] != '_') || (ft_strlen(line[*index]) > 1
 			&& line[*index][0] == '=') || ft_strrchr(line[*index], '~') != NULL)
 	{
-		g_data.exit_status = ft_strdup("1");
 		while (line[*index] != NULL)
 		{
 			ft_printf("-Minishell: export: '%s'", line[*index]);
@@ -98,6 +98,7 @@ int	ft_check_name_var(char **line, int *index)
 			return (1);
 		i++;
 	}
+	*index += 1;
 	return (0);
 }
 
@@ -111,11 +112,15 @@ static void	ft_send_to_parent(char *name, char *value)
 		close(g_data.pipe[0]);
 		ft_putstr_fd("export;", g_data.pipe[1]);
 		ft_putstr_fd(name, g_data.pipe[1]);
-		ft_putstr_fd("=", g_data.pipe[1]);
-		ft_putstr_fd(value, g_data.pipe[1]);
+		if (value != NULL)
+		{
+			ft_putstr_fd("=", g_data.pipe[1]);
+			ft_putstr_fd(value, g_data.pipe[1]);
+		}
 	}
 	free(name);
-	free(value);
+	if (value != NULL)
+		free(value);
 }
 
 void	ft_adding_or_replacing_export(char *name, char *vl)

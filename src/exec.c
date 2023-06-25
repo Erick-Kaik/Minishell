@@ -64,7 +64,7 @@ char	*ft_get_path_exec(char *comand)
 			temp = ft_strdup(aux->content);
 		aux = aux->next;
 	}
-	if (aux == NULL)
+	if (temp == NULL)
 		return (NULL);
 	path = ft_validate_path(path_s, comand, temp);
 	return (path);

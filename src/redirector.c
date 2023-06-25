@@ -14,6 +14,9 @@
 
 void	ft_redirector(char **line, int *index)
 {
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
+	g_data.exit_status = ft_strdup("0");
 	if (ft_strlen(line[*index]) == 2)
 	{
 		if (line[*index][0] == '>' && line[*index][1] == '>')
@@ -102,14 +105,12 @@ void	ft_input(char **line, int *index)
 	getcwd(aux_path, sizeof(aux_path));
 	if (aux_path != NULL)
 		chdir(g_data.path_comand);
-	if (ft_strlen(line[*index]) == 1 && line[*index][0] == '<')
-		*index += 1;
+	*index += 1;
 	while (line[*index] != NULL)
 	{
 		g_data.fd = open(line[*index], O_RDONLY, 0777);
-		if (g_data.fd < 0 || line[*index + 1] == NULL
-			|| ft_its_a_redirector(line[*index + 1],
-				ft_strlen(line[*index + 1])) > 0)
+		if (line[*index + 1] != NULL
+			&& open(line[*index + 1], O_RDONLY, 0777) < 0)
 		{
 			*index += 1;
 			break ;
@@ -120,4 +121,6 @@ void	ft_input(char **line, int *index)
 		dup2(g_data.fd, 0);
 	if (aux_path != NULL)
 		chdir(aux_path);
+	if (line[*index] != NULL)
+		ft_check_next_comand(line, index, 0);
 }

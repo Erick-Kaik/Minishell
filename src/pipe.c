@@ -37,7 +37,7 @@ void	ft_pipe(char **line, int *index)
 		close(fd[1]);
 		dup2(fd[0], 0);
 		close(fd[0]);
-		waitpid(pid, NULL, WUNTRACED);
+		waitpid(-1, NULL, WUNTRACED);
 		ft_check_next_comand(line, index, 1);
 		exit(1);
 	}

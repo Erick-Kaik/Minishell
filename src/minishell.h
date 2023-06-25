@@ -47,6 +47,7 @@ typedef struct s_var
 {
 	char			*name;
 	char			*content;
+	int				print_env;
 	struct s_var	*next;
 }	t_var;
 
@@ -103,7 +104,7 @@ void		ft_input(char **line, int *index);
 void		ft_cd(char **line, int *index);
 char		*ft_get_path_cd(char **line, int *index);
 void		ft_env(char **line, int *index);
-void		ft_get_print_env(void);
+void		ft_get_print_env(int env);
 void		ft_clear_env(void);
 void		ft_pwd(char **line, int *index);
 void		ft_clear_pwd(void);
@@ -114,7 +115,7 @@ void		ft_clear_struct(void);
 void		ft_exit(char **line);
 void		ft_export(char **line, int *index);
 void		ft_adding_export(char **line, int *index);
-int			ft_check_name_var(char **line, int *index);
+int			ft_check_name_var(char **line, int *index, size_t i);
 void		ft_unset(char **line, int *index);
 int			ft_check_exist_var(char *name_var);
 void		ft_delete_var(char *name_var);

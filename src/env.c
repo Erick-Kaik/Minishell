@@ -32,25 +32,34 @@ void	ft_env(char **line, int *index)
 			else
 				*index += 1;
 		}
-		ft_get_print_env();
+		ft_get_print_env(1);
 	}
 	g_data.exit_status = ft_strdup("0");
 }
 
-void	ft_get_print_env(void)
+void	ft_get_print_env(int env)
 {
 	t_var	*aux;
 
 	aux = g_data.var;
 	while (aux != NULL)
 	{
-		if (ft_strlen(aux->name) == 1
+		if ((ft_strlen(aux->name) == 1
 			&& ft_strncmp(aux->name, "?", ft_strlen(aux->name)) == 0)
+			|| (aux->content == NULL && env == 1))
 		{
 			aux = aux->next;
 			continue ;
 		}
-		printf("%s=%s\n", aux->name, aux->content);
+		if (env == 1)
+			printf("%s=%s\n", aux->name, aux->content);
+		else
+		{
+			printf("declare -x %s", aux->name);
+			if (aux->content != NULL)
+				printf("=%s", aux->content);
+			printf("\n");
+		}
 		aux = aux->next;
 	}
 }

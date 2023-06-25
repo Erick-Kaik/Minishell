@@ -97,7 +97,7 @@ void	ft_check_final_value(char *line)
 	if ((ft_strlen(line) >= 1 && (line[ft_strlen(line) - 1] == '>'
 				|| line[ft_strlen(line) - 1] == '<')) || (ft_strlen(line) >= 2
 			&& (line[ft_strlen(line) - 1] == '>' && line[ft_strlen(line) - 2]
-				== '>')))
+				== '>')) || line[0] == '|')
 	{
 		printf("-Minishell: syntax error near unexpected token 'newline'\n");
 		free(line);
