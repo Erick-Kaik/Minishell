@@ -41,8 +41,6 @@ void	ft_update_status_code(char **spt, int *i)
 	aux = g_data.var;
 	temp = aux;
 	*i += 1;
-	if (g_data.exit_status != NULL)
-		free(g_data.exit_status);
 	while (temp != NULL)
 	{
 		if (temp->name[0] == '?' && ft_strlen(temp->name) == 1)

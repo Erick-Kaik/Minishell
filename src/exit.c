@@ -84,6 +84,8 @@ void	ft_exit_parent(char **split, char *line, char *input_line)
 		temp = temp->next;
 	}
 	aux = ft_atoi(temp->content);
+	if (g_data.exit_status != NULL)
+		free(g_data.exit_status);
 	printf("logout\n");
 	ft_clear_struct();
 	ft_clear_split_line(split);

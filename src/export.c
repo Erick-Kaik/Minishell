@@ -16,18 +16,16 @@ static void	ft_send_to_parent(char *name, char *value);
 
 void	ft_export(char **line, int *index)
 {
-	g_data.exit_status = ft_strdup("1");
-	if (line[*index + 1] == NULL)
+	*index += 1;
+	if (line[*index] == NULL)
 	{
 		ft_get_print_env(0);
-		*index += 1;
 		return ;
 	}		
-	else if (ft_strchr(line[*index + 1], '=') == NULL)
+	else if (ft_strchr(line[*index], '=') == NULL)
 	{
-		*index += 1;
 		while (line[*index] != NULL && (ft_strlen(line[*index]) != 1
-			&& line[*index][0] != '?'))
+				&& line[*index][0] != '?'))
 		{
 			ft_add_lst_var(&g_data.var, ft_new_lst_var(
 					ft_strdup(line[*index]), NULL));
@@ -40,7 +38,6 @@ void	ft_export(char **line, int *index)
 	if (ft_check_name_var(line, index, 0) == 1)
 		return ;
 	ft_adding_export(line, index);
-	ft_clear_env();
 	while (line[*index] != NULL && ft_its_a_builtins(line[*index]) == 0
 		&& g_data.pid == 0)
 		*index += 1;
@@ -77,8 +74,9 @@ void	ft_adding_export(char **line, int *index)
 
 int	ft_check_name_var(char **line, int *index, size_t i)
 {
-	if (ft_strlen(line[*index]) < 2 || (ft_isalpha(line[*index][i]) == 0
-			&& line[*index][i] != '_') || (ft_strlen(line[*index]) > 1
+	g_data.exit_status = ft_strdup("1");
+	if (ft_strlen(line[*index]) < 2 || (ft_isalpha(line[*index][0]) == 0
+		&& line[*index][i] != '_') || (ft_strlen(line[*index]) > 1
 			&& line[*index][0] == '=') || ft_strrchr(line[*index], '~') != NULL)
 	{
 		while (line[*index] != NULL)
@@ -98,7 +96,6 @@ int	ft_check_name_var(char **line, int *index, size_t i)
 			return (1);
 		i++;
 	}
-	*index += 1;
 	return (0);
 }
 
@@ -148,4 +145,5 @@ void	ft_adding_or_replacing_export(char *name, char *vl)
 	else
 		ft_add_lst_var(&g_data.var, ft_new_lst_var(ft_strdup(name),
 				ft_strdup(vl)));
+	ft_clear_env();
 }

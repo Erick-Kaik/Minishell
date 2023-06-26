@@ -45,16 +45,18 @@ void	ft_get_print_env(int env)
 	while (aux != NULL)
 	{
 		if ((ft_strlen(aux->name) == 1
-			&& ft_strncmp(aux->name, "?", ft_strlen(aux->name)) == 0)
-			|| (aux->content == NULL && env == 1))
+				&& ft_strncmp(aux->name, "?", ft_strlen(aux->name)) == 0))
 		{
 			aux = aux->next;
 			continue ;
 		}
-		if (env == 1)
+		if (env == 1 && aux->content != NULL)
 			printf("%s=%s\n", aux->name, aux->content);
-		else
+		else if (env == 0)
 		{
+			if (g_data.exit_status != NULL)
+				free(g_data.exit_status);
+			g_data.exit_status = ft_strdup("0");
 			printf("declare -x %s", aux->name);
 			if (aux->content != NULL)
 				printf("=%s", aux->content);
